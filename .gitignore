@@ -1,0 +1,4 @@
+# Model output
+*.nc
+*.jld2
+
