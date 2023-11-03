@@ -92,23 +92,22 @@ simulation.output_writers[:simple_output] =
 ├── including: [:grid, :coriolis, :buoyancy, :closure]
 └── max filesize: Inf YiB</code></pre><div class="admonition is-info"><header class="admonition-header">Using multiple output writers</header><div class="admonition-body"><p>Because each output writer is associated with a single output <code>schedule</code>, it often makes sense to use <em>different</em> output writers for different types of output. For example, smaller outputs that consume less disk space may be written more frequently without threatening the capacity of your hard drive. An arbitrary number of output writers may be added to <code>simulation.output_writers</code>.</p></div></div><p>The simulation is set up. Let there be plankton:</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
 Iteration: 0, time: 0 seconds, Δt: 2 minutes
-[ Info:     ... simulation initialization complete (5.747 seconds)
+[ Info:     ... simulation initialization complete (5.678 seconds)
 [ Info: Executing initial time step...
-[ Info:     ... initial time step complete (4.934 seconds).
-Iteration: 100, time: 2.456 hours, Δt: 55.350 seconds
-Iteration: 200, time: 3.726 hours, Δt: 41.607 seconds
-Iteration: 300, time: 4.709 hours, Δt: 31.491 seconds
-Iteration: 400, time: 5.667 hours, Δt: 41.152 seconds
-Iteration: 500, time: 6.716 hours, Δt: 48.648 seconds
-Iteration: 600, time: 8.091 hours, Δt: 51.350 seconds
-Iteration: 700, time: 9.538 hours, Δt: 56.644 seconds
-Iteration: 800, time: 11.160 hours, Δt: 56.418 seconds
-Iteration: 900, time: 12.838 hours, Δt: 1.132 minutes
-Iteration: 1000, time: 14.685 hours, Δt: 1.131 minutes
-Iteration: 1100, time: 16.660 hours, Δt: 1.192 minutes
-Iteration: 1200, time: 18.731 hours, Δt: 1.307 minutes
-Iteration: 1300, time: 21.332 hours, Δt: 1.941 minutes
-[ Info: Simulation is stopping after running for 1.075 minutes.
+[ Info:     ... initial time step complete (4.818 seconds).
+Iteration: 100, time: 2.392 hours, Δt: 53.455 seconds
+Iteration: 200, time: 3.639 hours, Δt: 38.444 seconds
+Iteration: 300, time: 4.677 hours, Δt: 35.657 seconds
+Iteration: 400, time: 5.762 hours, Δt: 46.767 seconds
+Iteration: 500, time: 6.950 hours, Δt: 48.116 seconds
+Iteration: 600, time: 8.418 hours, Δt: 54.023 seconds
+Iteration: 700, time: 9.822 hours, Δt: 1.102 minutes
+Iteration: 800, time: 11.725 hours, Δt: 1.131 minutes
+Iteration: 900, time: 13.822 hours, Δt: 1.506 minutes
+Iteration: 1000, time: 16.361 hours, Δt: 1.623 minutes
+Iteration: 1100, time: 18.993 hours, Δt: 1.528 minutes
+Iteration: 1200, time: 21.599 hours, Δt: 2 minutes
+[ Info: Simulation is stopping after running for 55.842 seconds.
 [ Info: Simulation time 1 day equals or exceeds stop time 1 day.
 </code></pre><p>Notice how the time-step is reduced at early times, when turbulence is strong, and increases again towards the end of the simulation when turbulence fades.</p><h2 id="Visualizing-the-solution"><a class="docs-heading-anchor" href="#Visualizing-the-solution">Visualizing the solution</a><a id="Visualizing-the-solution-1"></a><a class="docs-heading-anchor-permalink" href="#Visualizing-the-solution" title="Permalink"></a></h2><p>We&#39;d like to a make a plankton movie. First we load the output file and build a time-series of the buoyancy flux,</p><pre><code class="language-julia hljs">filepath = simulation.output_writers[:simple_output].filepath
 
@@ -165,4 +164,4 @@ fig</code></pre><p><img src="../convecting_plankton-40.svg" alt/></p><p>And, fin
 record(fig, &quot;convecting_plankton.mp4&quot;, frames, framerate=8) do i
     n[] = i
 end</code></pre><pre><code class="nohighlight hljs">[ Info: Making an animation of convecting plankton...
-</code></pre><p><video src="../convecting_plankton.mp4" controls="true" title><a href="../convecting_plankton.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../internal_wave/">« Internal wave</a><a class="docs-footer-nextpage" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.1.1 on <span class="colophon-date" title="Wednesday 1 November 2023 21:04">Wednesday 1 November 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</code></pre><p><video src="../convecting_plankton.mp4" controls="true" title><a href="../convecting_plankton.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../internal_wave/">« Internal wave</a><a class="docs-footer-nextpage" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.1.1 on <span class="colophon-date" title="Friday 3 November 2023 19:20">Friday 3 November 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

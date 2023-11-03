@@ -43,7 +43,7 @@ scatter!(zspacings(grid, Center()), znodes(grid, Center()))
  0.052335956242943835
  0.0
  0.9986295347545738</code></pre><p>Changing the vertical direction impacts both the <code>gravity_unit_vector</code> for <code>Buoyancy</code> as well as the <code>rotation_axis</code> for Coriolis forces,</p><pre><code class="language-julia hljs">buoyancy = Buoyancy(model = BuoyancyTracer(), gravity_unit_vector = -ĝ)
-coriolis = ConstantCartesianCoriolis(f = 1e-4, rotation_axis = ĝ)</code></pre><pre><code class="nohighlight hljs">ConstantCartesianCoriolis{Float64}: fx = 5.23e-06, fy = 0.00e+00, fz = 9.99e-05</code></pre><p>where we have used a constant Coriolis parameter <span>$$f = 10^{-4} \, \rm{s}^{-1}$</span>. The tilting also affects the kind of density stratified flows we can model. In particular, a constant density stratification in the tilted coordinate system</p><pre><code class="language-julia hljs">@inline constant_stratification(x, z, t, p) = p.N² * (x * p.ĝ[1] + z * p.ĝ[3])</code></pre><pre><code class="nohighlight hljs">constant_stratification (generic function with 1 method)</code></pre><p>is <em>not</em> periodic in <span>$x$</span>. Thus we cannot explicitly model a constant stratification on an <span>$x$</span>-periodic grid such as the one used here. Instead, we simulate periodic <em>perturbations</em> away from the constant density stratification by imposing a constant stratification as a <code>BackgroundField</code>,</p><pre><code class="language-julia hljs">B_field = BackgroundField(constant_stratification, parameters=(; ĝ, N² = 1e-5))</code></pre><pre><code class="nohighlight hljs">BackgroundField{typeof(Main.var&quot;##337&quot;.constant_stratification), NamedTuple{(:ĝ, :N²), Tuple{Vector{Float64}, Float64}}}
+coriolis = ConstantCartesianCoriolis(f = 1e-4, rotation_axis = ĝ)</code></pre><pre><code class="nohighlight hljs">ConstantCartesianCoriolis{Float64}: fx = 5.23e-06, fy = 0.00e+00, fz = 9.99e-05</code></pre><p>where we have used a constant Coriolis parameter <span>$$f = 10^{-4} \, \rm{s}^{-1}$</span>. The tilting also affects the kind of density stratified flows we can model. In particular, a constant density stratification in the tilted coordinate system</p><pre><code class="language-julia hljs">@inline constant_stratification(x, z, t, p) = p.N² * (x * p.ĝ[1] + z * p.ĝ[3])</code></pre><pre><code class="nohighlight hljs">constant_stratification (generic function with 1 method)</code></pre><p>is <em>not</em> periodic in <span>$x$</span>. Thus we cannot explicitly model a constant stratification on an <span>$x$</span>-periodic grid such as the one used here. Instead, we simulate periodic <em>perturbations</em> away from the constant density stratification by imposing a constant stratification as a <code>BackgroundField</code>,</p><pre><code class="language-julia hljs">B_field = BackgroundField(constant_stratification, parameters=(; ĝ, N² = 1e-5))</code></pre><pre><code class="nohighlight hljs">BackgroundField{typeof(Main.var&quot;##335&quot;.constant_stratification), NamedTuple{(:ĝ, :N²), Tuple{Vector{Float64}, Float64}}}
 ├── func: constant_stratification (generic function with 1 method)
 └── parameters: (ĝ = [0.052335956242943835, 0.0, 0.9986295347545738], N² = 1.0e-5)</code></pre><p>where <span>$N² = 10⁻⁵ \rm{s}⁻¹$</span> is the background buoyancy gradient.</p><h2 id="Bottom-drag"><a class="docs-heading-anchor" href="#Bottom-drag">Bottom drag</a><a id="Bottom-drag-1"></a><a class="docs-heading-anchor-permalink" href="#Bottom-drag" title="Permalink"></a></h2><p>We impose bottom drag that follows Monin-Obukhov theory. We include the background flow in the drag calculation, which is the only effect the background flow enters the problem,</p><pre><code class="language-julia hljs">V∞ = 0.1 # m s⁻¹
 z₀ = 0.1 # m (roughness length)
@@ -121,74 +121,74 @@ simulation.output_writers[:fields] = NetCDFOutputWriter(model, outputs;
                                                         filename = joinpath(@__DIR__, &quot;tilted_bottom_boundary_layer.nc&quot;),
                                                         schedule = TimeInterval(20minutes),
                                                         overwrite_existing = true)</code></pre><pre><code class="nohighlight hljs">NetCDFOutputWriter scheduled on TimeInterval(20 minutes):
-├── filepath: /var/lib/buildkite-agent/builds/tartarus-12/clima/oceananigans/docs/src/generated/tilted_bottom_boundary_layer.nc
+├── filepath: /var/lib/buildkite-agent/builds/tartarus-8/clima/oceananigans/docs/src/generated/tilted_bottom_boundary_layer.nc
 ├── dimensions: zC(64), zF(65), xC(64), yF(1), xF(64), yC(1), time(0)
 ├── 5 outputs: (B, w, ωy, V, u)
 └── array type: Array{Float64}</code></pre><p>Now we just run it!</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
-Iteration: 0000, time: 0 seconds, Δt: 4.778 seconds, max|w|: 1.1e-03 m s⁻¹, wall time: 21.870 seconds
-[ Info:     ... simulation initialization complete (14.963 seconds)
+Iteration: 0000, time: 0 seconds, Δt: 4.778 seconds, max|w|: 9.9e-04 m s⁻¹, wall time: 12.307 seconds
+[ Info:     ... simulation initialization complete (6.565 seconds)
 [ Info: Executing initial time step...
-[ Info:     ... initial time step complete (11.774 seconds).
-Iteration: 0200, time: 26.865 minutes, Δt: 7.693 seconds, max|w|: 4.9e-04 m s⁻¹, wall time: 46.730 seconds
-Iteration: 0400, time: 52.114 minutes, Δt: 7.540 seconds, max|w|: 3.4e-04 m s⁻¹, wall time: 50.347 seconds
-Iteration: 0600, time: 1.285 hours, Δt: 7.452 seconds, max|w|: 2.5e-04 m s⁻¹, wall time: 53.931 seconds
-Iteration: 0800, time: 1.695 hours, Δt: 7.394 seconds, max|w|: 2.1e-04 m s⁻¹, wall time: 57.379 seconds
-Iteration: 1000, time: 2.104 hours, Δt: 7.357 seconds, max|w|: 1.9e-04 m s⁻¹, wall time: 1.013 minutes
-Iteration: 1200, time: 2.511 hours, Δt: 7.341 seconds, max|w|: 2.1e-04 m s⁻¹, wall time: 1.069 minutes
-Iteration: 1400, time: 2.917 hours, Δt: 7.327 seconds, max|w|: 4.3e-04 m s⁻¹, wall time: 1.125 minutes
-Iteration: 1600, time: 3.323 hours, Δt: 7.314 seconds, max|w|: 1.6e-03 m s⁻¹, wall time: 1.180 minutes
-Iteration: 1800, time: 3.730 hours, Δt: 7.336 seconds, max|w|: 4.2e-03 m s⁻¹, wall time: 1.236 minutes
-Iteration: 2000, time: 4.135 hours, Δt: 7.369 seconds, max|w|: 6.0e-03 m s⁻¹, wall time: 1.291 minutes
-Iteration: 2200, time: 4.551 hours, Δt: 7.534 seconds, max|w|: 4.8e-03 m s⁻¹, wall time: 1.347 minutes
-Iteration: 2400, time: 4.966 hours, Δt: 7.421 seconds, max|w|: 5.2e-03 m s⁻¹, wall time: 1.402 minutes
-Iteration: 2600, time: 5.376 hours, Δt: 7.367 seconds, max|w|: 4.8e-03 m s⁻¹, wall time: 1.456 minutes
-Iteration: 2800, time: 5.783 hours, Δt: 7.332 seconds, max|w|: 3.7e-03 m s⁻¹, wall time: 1.510 minutes
-Iteration: 3000, time: 6.186 hours, Δt: 7.283 seconds, max|w|: 3.6e-03 m s⁻¹, wall time: 1.565 minutes
-Iteration: 3200, time: 6.590 hours, Δt: 7.273 seconds, max|w|: 3.6e-03 m s⁻¹, wall time: 1.617 minutes
-Iteration: 3400, time: 6.994 hours, Δt: 7.266 seconds, max|w|: 3.1e-03 m s⁻¹, wall time: 1.669 minutes
-Iteration: 3600, time: 7.394 hours, Δt: 7.266 seconds, max|w|: 3.1e-03 m s⁻¹, wall time: 1.721 minutes
-Iteration: 3800, time: 7.796 hours, Δt: 7.261 seconds, max|w|: 3.9e-03 m s⁻¹, wall time: 1.774 minutes
-Iteration: 4000, time: 8.198 hours, Δt: 7.273 seconds, max|w|: 4.6e-03 m s⁻¹, wall time: 1.825 minutes
-Iteration: 4200, time: 8.603 hours, Δt: 7.295 seconds, max|w|: 6.4e-03 m s⁻¹, wall time: 1.876 minutes
-Iteration: 4400, time: 9.006 hours, Δt: 7.282 seconds, max|w|: 7.7e-03 m s⁻¹, wall time: 1.927 minutes
-Iteration: 4600, time: 9.409 hours, Δt: 7.332 seconds, max|w|: 5.0e-03 m s⁻¹, wall time: 1.979 minutes
-Iteration: 4800, time: 9.814 hours, Δt: 7.208 seconds, max|w|: 5.0e-03 m s⁻¹, wall time: 2.031 minutes
-Iteration: 5000, time: 10.215 hours, Δt: 7.293 seconds, max|w|: 6.0e-03 m s⁻¹, wall time: 2.083 minutes
-Iteration: 5200, time: 10.620 hours, Δt: 7.367 seconds, max|w|: 7.9e-03 m s⁻¹, wall time: 2.135 minutes
-Iteration: 5400, time: 11.024 hours, Δt: 7.232 seconds, max|w|: 5.6e-03 m s⁻¹, wall time: 2.187 minutes
-Iteration: 5600, time: 11.423 hours, Δt: 7.185 seconds, max|w|: 4.5e-03 m s⁻¹, wall time: 2.237 minutes
-Iteration: 5800, time: 11.819 hours, Δt: 7.158 seconds, max|w|: 5.7e-03 m s⁻¹, wall time: 2.288 minutes
-Iteration: 6000, time: 12.219 hours, Δt: 7.290 seconds, max|w|: 3.6e-03 m s⁻¹, wall time: 2.339 minutes
-Iteration: 6200, time: 12.623 hours, Δt: 7.315 seconds, max|w|: 4.6e-03 m s⁻¹, wall time: 2.390 minutes
-Iteration: 6400, time: 13.024 hours, Δt: 7.216 seconds, max|w|: 3.8e-03 m s⁻¹, wall time: 2.442 minutes
-Iteration: 6600, time: 13.423 hours, Δt: 7.191 seconds, max|w|: 5.1e-03 m s⁻¹, wall time: 2.493 minutes
-Iteration: 6800, time: 13.821 hours, Δt: 7.227 seconds, max|w|: 6.4e-03 m s⁻¹, wall time: 2.545 minutes
-Iteration: 7000, time: 14.220 hours, Δt: 7.266 seconds, max|w|: 6.6e-03 m s⁻¹, wall time: 2.595 minutes
-Iteration: 7200, time: 14.617 hours, Δt: 7.154 seconds, max|w|: 6.2e-03 m s⁻¹, wall time: 2.647 minutes
-Iteration: 7400, time: 15.016 hours, Δt: 7.130 seconds, max|w|: 6.4e-03 m s⁻¹, wall time: 2.699 minutes
-Iteration: 7600, time: 15.409 hours, Δt: 7.130 seconds, max|w|: 6.3e-03 m s⁻¹, wall time: 2.751 minutes
-Iteration: 7800, time: 15.798 hours, Δt: 7.184 seconds, max|w|: 5.8e-03 m s⁻¹, wall time: 2.802 minutes
-Iteration: 8000, time: 16.199 hours, Δt: 7.251 seconds, max|w|: 5.0e-03 m s⁻¹, wall time: 2.854 minutes
-Iteration: 8200, time: 16.597 hours, Δt: 7.169 seconds, max|w|: 5.7e-03 m s⁻¹, wall time: 2.905 minutes
-Iteration: 8400, time: 16.999 hours, Δt: 7.271 seconds, max|w|: 6.5e-03 m s⁻¹, wall time: 2.956 minutes
-Iteration: 8600, time: 17.400 hours, Δt: 7.224 seconds, max|w|: 6.7e-03 m s⁻¹, wall time: 3.008 minutes
-Iteration: 8800, time: 17.801 hours, Δt: 7.280 seconds, max|w|: 7.0e-03 m s⁻¹, wall time: 3.059 minutes
-Iteration: 9000, time: 18.204 hours, Δt: 7.252 seconds, max|w|: 5.7e-03 m s⁻¹, wall time: 3.110 minutes
-Iteration: 9200, time: 18.606 hours, Δt: 7.238 seconds, max|w|: 6.5e-03 m s⁻¹, wall time: 3.162 minutes
-Iteration: 9400, time: 19.006 hours, Δt: 7.240 seconds, max|w|: 6.3e-03 m s⁻¹, wall time: 3.214 minutes
-Iteration: 9600, time: 19.410 hours, Δt: 7.213 seconds, max|w|: 6.1e-03 m s⁻¹, wall time: 3.267 minutes
-Iteration: 9800, time: 19.812 hours, Δt: 7.292 seconds, max|w|: 6.7e-03 m s⁻¹, wall time: 3.321 minutes
-Iteration: 10000, time: 20.211 hours, Δt: 7.232 seconds, max|w|: 6.2e-03 m s⁻¹, wall time: 3.377 minutes
-Iteration: 10200, time: 20.611 hours, Δt: 7.077 seconds, max|w|: 7.1e-03 m s⁻¹, wall time: 3.434 minutes
-Iteration: 10400, time: 21.006 hours, Δt: 7.226 seconds, max|w|: 6.9e-03 m s⁻¹, wall time: 3.487 minutes
-Iteration: 10600, time: 21.406 hours, Δt: 7.229 seconds, max|w|: 8.7e-03 m s⁻¹, wall time: 3.540 minutes
-Iteration: 10800, time: 21.802 hours, Δt: 7.158 seconds, max|w|: 5.8e-03 m s⁻¹, wall time: 3.592 minutes
-Iteration: 11000, time: 22.196 hours, Δt: 7.160 seconds, max|w|: 5.3e-03 m s⁻¹, wall time: 3.644 minutes
-Iteration: 11200, time: 22.595 hours, Δt: 7.209 seconds, max|w|: 6.5e-03 m s⁻¹, wall time: 3.696 minutes
-Iteration: 11400, time: 22.995 hours, Δt: 7.179 seconds, max|w|: 7.1e-03 m s⁻¹, wall time: 3.748 minutes
-Iteration: 11600, time: 23.391 hours, Δt: 7.159 seconds, max|w|: 8.4e-03 m s⁻¹, wall time: 3.802 minutes
-Iteration: 11800, time: 23.788 hours, Δt: 7.121 seconds, max|w|: 7.4e-03 m s⁻¹, wall time: 3.855 minutes
-[ Info: Simulation is stopping after running for 3.609 minutes.
+[ Info:     ... initial time step complete (7.072 seconds).
+Iteration: 0200, time: 26.883 minutes, Δt: 7.725 seconds, max|w|: 4.0e-04 m s⁻¹, wall time: 26.043 seconds
+Iteration: 0400, time: 52.230 minutes, Δt: 7.513 seconds, max|w|: 2.9e-04 m s⁻¹, wall time: 29.135 seconds
+Iteration: 0600, time: 1.284 hours, Δt: 7.431 seconds, max|w|: 2.4e-04 m s⁻¹, wall time: 32.222 seconds
+Iteration: 0800, time: 1.691 hours, Δt: 7.380 seconds, max|w|: 2.3e-04 m s⁻¹, wall time: 35.335 seconds
+Iteration: 1000, time: 2.100 hours, Δt: 7.354 seconds, max|w|: 2.0e-04 m s⁻¹, wall time: 38.423 seconds
+Iteration: 1200, time: 2.507 hours, Δt: 7.341 seconds, max|w|: 2.2e-04 m s⁻¹, wall time: 41.520 seconds
+Iteration: 1400, time: 2.913 hours, Δt: 7.324 seconds, max|w|: 5.2e-04 m s⁻¹, wall time: 44.620 seconds
+Iteration: 1600, time: 3.319 hours, Δt: 7.310 seconds, max|w|: 1.8e-03 m s⁻¹, wall time: 47.787 seconds
+Iteration: 1800, time: 3.722 hours, Δt: 7.318 seconds, max|w|: 4.9e-03 m s⁻¹, wall time: 50.923 seconds
+Iteration: 2000, time: 4.129 hours, Δt: 7.373 seconds, max|w|: 5.7e-03 m s⁻¹, wall time: 54.045 seconds
+Iteration: 2200, time: 4.545 hours, Δt: 7.544 seconds, max|w|: 5.3e-03 m s⁻¹, wall time: 57.141 seconds
+Iteration: 2400, time: 4.960 hours, Δt: 7.419 seconds, max|w|: 5.0e-03 m s⁻¹, wall time: 1.004 minutes
+Iteration: 2600, time: 5.368 hours, Δt: 7.349 seconds, max|w|: 4.7e-03 m s⁻¹, wall time: 1.056 minutes
+Iteration: 2800, time: 5.772 hours, Δt: 7.291 seconds, max|w|: 3.8e-03 m s⁻¹, wall time: 1.108 minutes
+Iteration: 3000, time: 6.176 hours, Δt: 7.280 seconds, max|w|: 4.2e-03 m s⁻¹, wall time: 1.159 minutes
+Iteration: 3200, time: 6.580 hours, Δt: 7.269 seconds, max|w|: 4.4e-03 m s⁻¹, wall time: 1.210 minutes
+Iteration: 3400, time: 6.981 hours, Δt: 7.250 seconds, max|w|: 4.0e-03 m s⁻¹, wall time: 1.261 minutes
+Iteration: 3600, time: 7.380 hours, Δt: 7.266 seconds, max|w|: 3.4e-03 m s⁻¹, wall time: 1.313 minutes
+Iteration: 3800, time: 7.782 hours, Δt: 7.272 seconds, max|w|: 3.3e-03 m s⁻¹, wall time: 1.366 minutes
+Iteration: 4000, time: 8.184 hours, Δt: 7.280 seconds, max|w|: 3.7e-03 m s⁻¹, wall time: 1.419 minutes
+Iteration: 4200, time: 8.586 hours, Δt: 7.269 seconds, max|w|: 7.0e-03 m s⁻¹, wall time: 1.474 minutes
+Iteration: 4400, time: 8.989 hours, Δt: 7.270 seconds, max|w|: 7.2e-03 m s⁻¹, wall time: 1.528 minutes
+Iteration: 4600, time: 9.392 hours, Δt: 7.288 seconds, max|w|: 6.5e-03 m s⁻¹, wall time: 1.579 minutes
+Iteration: 4800, time: 9.798 hours, Δt: 7.389 seconds, max|w|: 6.1e-03 m s⁻¹, wall time: 1.631 minutes
+Iteration: 5000, time: 10.207 hours, Δt: 7.326 seconds, max|w|: 6.4e-03 m s⁻¹, wall time: 1.683 minutes
+Iteration: 5200, time: 10.611 hours, Δt: 7.242 seconds, max|w|: 6.9e-03 m s⁻¹, wall time: 1.735 minutes
+Iteration: 5400, time: 11.012 hours, Δt: 7.341 seconds, max|w|: 4.9e-03 m s⁻¹, wall time: 1.787 minutes
+Iteration: 5600, time: 11.416 hours, Δt: 7.220 seconds, max|w|: 6.1e-03 m s⁻¹, wall time: 1.839 minutes
+Iteration: 5800, time: 11.815 hours, Δt: 7.214 seconds, max|w|: 4.9e-03 m s⁻¹, wall time: 1.891 minutes
+Iteration: 6000, time: 12.217 hours, Δt: 7.233 seconds, max|w|: 4.0e-03 m s⁻¹, wall time: 1.942 minutes
+Iteration: 6200, time: 12.617 hours, Δt: 7.199 seconds, max|w|: 4.0e-03 m s⁻¹, wall time: 1.995 minutes
+Iteration: 6400, time: 13.018 hours, Δt: 7.217 seconds, max|w|: 3.8e-03 m s⁻¹, wall time: 2.049 minutes
+Iteration: 6600, time: 13.415 hours, Δt: 7.183 seconds, max|w|: 6.0e-03 m s⁻¹, wall time: 2.101 minutes
+Iteration: 6800, time: 13.812 hours, Δt: 7.102 seconds, max|w|: 6.4e-03 m s⁻¹, wall time: 2.153 minutes
+Iteration: 7000, time: 14.212 hours, Δt: 7.258 seconds, max|w|: 7.1e-03 m s⁻¹, wall time: 2.205 minutes
+Iteration: 7200, time: 14.611 hours, Δt: 7.230 seconds, max|w|: 7.0e-03 m s⁻¹, wall time: 2.257 minutes
+Iteration: 7400, time: 15.008 hours, Δt: 7.207 seconds, max|w|: 7.8e-03 m s⁻¹, wall time: 2.309 minutes
+Iteration: 7600, time: 15.406 hours, Δt: 7.087 seconds, max|w|: 6.3e-03 m s⁻¹, wall time: 2.361 minutes
+Iteration: 7800, time: 15.803 hours, Δt: 7.237 seconds, max|w|: 6.8e-03 m s⁻¹, wall time: 2.413 minutes
+Iteration: 8000, time: 16.204 hours, Δt: 7.198 seconds, max|w|: 5.6e-03 m s⁻¹, wall time: 2.466 minutes
+Iteration: 8200, time: 16.601 hours, Δt: 7.229 seconds, max|w|: 5.3e-03 m s⁻¹, wall time: 2.518 minutes
+Iteration: 8400, time: 16.998 hours, Δt: 7.278 seconds, max|w|: 5.2e-03 m s⁻¹, wall time: 2.570 minutes
+Iteration: 8600, time: 17.400 hours, Δt: 7.252 seconds, max|w|: 5.2e-03 m s⁻¹, wall time: 2.622 minutes
+Iteration: 8800, time: 17.801 hours, Δt: 7.219 seconds, max|w|: 4.7e-03 m s⁻¹, wall time: 2.674 minutes
+Iteration: 9000, time: 18.202 hours, Δt: 7.270 seconds, max|w|: 5.0e-03 m s⁻¹, wall time: 2.726 minutes
+Iteration: 9200, time: 18.603 hours, Δt: 7.217 seconds, max|w|: 5.4e-03 m s⁻¹, wall time: 2.778 minutes
+Iteration: 9400, time: 19.002 hours, Δt: 7.218 seconds, max|w|: 4.8e-03 m s⁻¹, wall time: 2.831 minutes
+Iteration: 9600, time: 19.402 hours, Δt: 7.223 seconds, max|w|: 5.5e-03 m s⁻¹, wall time: 2.882 minutes
+Iteration: 9800, time: 19.804 hours, Δt: 7.234 seconds, max|w|: 5.7e-03 m s⁻¹, wall time: 2.936 minutes
+Iteration: 10000, time: 20.204 hours, Δt: 7.244 seconds, max|w|: 5.8e-03 m s⁻¹, wall time: 2.988 minutes
+Iteration: 10200, time: 20.604 hours, Δt: 7.208 seconds, max|w|: 5.1e-03 m s⁻¹, wall time: 3.041 minutes
+Iteration: 10400, time: 21 hours, Δt: 7.194 seconds, max|w|: 5.7e-03 m s⁻¹, wall time: 3.095 minutes
+Iteration: 10600, time: 21.399 hours, Δt: 7.147 seconds, max|w|: 7.1e-03 m s⁻¹, wall time: 3.149 minutes
+Iteration: 10800, time: 21.795 hours, Δt: 7.208 seconds, max|w|: 8.1e-03 m s⁻¹, wall time: 3.202 minutes
+Iteration: 11000, time: 22.195 hours, Δt: 7.226 seconds, max|w|: 5.4e-03 m s⁻¹, wall time: 3.254 minutes
+Iteration: 11200, time: 22.594 hours, Δt: 7.200 seconds, max|w|: 6.2e-03 m s⁻¹, wall time: 3.307 minutes
+Iteration: 11400, time: 22.991 hours, Δt: 7.206 seconds, max|w|: 7.8e-03 m s⁻¹, wall time: 3.362 minutes
+Iteration: 11600, time: 23.387 hours, Δt: 7.164 seconds, max|w|: 1.0e-02 m s⁻¹, wall time: 3.417 minutes
+Iteration: 11800, time: 23.782 hours, Δt: 7.146 seconds, max|w|: 7.2e-03 m s⁻¹, wall time: 3.469 minutes
+[ Info: Simulation is stopping after running for 3.344 minutes.
 [ Info: Simulation time 1 day equals or exceeds stop time 1 day.
 </code></pre><h2 id="Visualize-the-results"><a class="docs-heading-anchor" href="#Visualize-the-results">Visualize the results</a><a id="Visualize-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Visualize-the-results" title="Permalink"></a></h2><p>First we load the required package to load NetCDF output files and define the coordinates for plotting using existing objects:</p><pre><code class="language-julia hljs">using NCDatasets, CairoMakie
 
@@ -225,4 +225,4 @@ fig</code></pre><p><img src="../tilted_bottom_boundary_layer-35.svg" alt/></p><p
 
 record(fig, &quot;tilted_bottom_boundary_layer.mp4&quot;, frames, framerate=12) do i
     n[] = i
-end</code></pre><p><video src="../tilted_bottom_boundary_layer.mp4" controls="true" title><a href="../tilted_bottom_boundary_layer.mp4"></a></video></p><p>Don&#39;t forget to close the NetCDF file!</p><pre><code class="language-julia hljs">close(ds)</code></pre><pre><code class="nohighlight hljs">closed Dataset</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../horizontal_convection/">« Horizontal convection</a><a class="docs-footer-nextpage" href="../../physics/notation/">Coordinate system and notation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.1.1 on <span class="colophon-date" title="Wednesday 1 November 2023 21:02">Wednesday 1 November 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+end</code></pre><p><video src="../tilted_bottom_boundary_layer.mp4" controls="true" title><a href="../tilted_bottom_boundary_layer.mp4"></a></video></p><p>Don&#39;t forget to close the NetCDF file!</p><pre><code class="language-julia hljs">close(ds)</code></pre><pre><code class="nohighlight hljs">closed Dataset</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../horizontal_convection/">« Horizontal convection</a><a class="docs-footer-nextpage" href="../../physics/notation/">Coordinate system and notation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.1.1 on <span class="colophon-date" title="Friday 3 November 2023 19:18">Friday 3 November 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -39,10 +39,10 @@ simulation = Simulation(model, Δt = 0.1 * diffusion_time_scale, stop_iteration 
 │   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
 ├── Output writers: OrderedDict with no entries
 └── Diagnostics: OrderedDict with no entries</code></pre><p><code>simulation</code> will run for 1000 iterations with a time-step that resolves the time-scale at which our temperature field diffuses. All that&#39;s left is to</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
-[ Info:     ... simulation initialization complete (125.151 ms)
+[ Info:     ... simulation initialization complete (125.265 ms)
 [ Info: Executing initial time step...
-[ Info:     ... initial time step complete (6.307 seconds).
-[ Info: Simulation is stopping after running for 7.982 seconds.
+[ Info:     ... initial time step complete (6.301 seconds).
+[ Info: Simulation is stopping after running for 7.954 seconds.
 [ Info: Model iteration 1000 equals or exceeds stop iteration 1000.
 </code></pre><h2 id="Visualizing-the-results"><a class="docs-heading-anchor" href="#Visualizing-the-results">Visualizing the results</a><a id="Visualizing-the-results-1"></a><a class="docs-heading-anchor-permalink" href="#Visualizing-the-results" title="Permalink"></a></h2><p>Let&#39;s look at how <code>model.tracers.T</code> changed during the simulation.</p><pre><code class="language-julia hljs">using Printf
 
@@ -59,10 +59,10 @@ axislegend()</code></pre><p><img src="../one_dimensional_diffusion-21.svg" alt/>
 ├── including: [:grid, :coriolis, :buoyancy, :closure]
 └── max filesize: Inf YiB</code></pre><p>We run the simulation for 10,000 more iterations,</p><pre><code class="language-julia hljs">simulation.stop_iteration += 10000
 run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
-[ Info:     ... simulation initialization complete (46.032 ms)
+[ Info:     ... simulation initialization complete (39.542 ms)
 [ Info: Executing initial time step...
-[ Info:     ... initial time step complete (6.626 ms).
-[ Info: Simulation is stopping after running for 16.955 seconds.
+[ Info:     ... initial time step complete (5.594 ms).
+[ Info: Simulation is stopping after running for 15.522 seconds.
 [ Info: Model iteration 11000 equals or exceeds stop iteration 11000.
 </code></pre><p>Finally, we animate the results by opening the JLD2 file, extract the iterations we ended up saving at, and plot the evolution of the temperature profile in a loop over the iterations.</p><pre><code class="language-julia hljs">T_timeseries = FieldTimeSeries(&quot;one_dimensional_diffusion.jld2&quot;, &quot;T&quot;)
 times = T_timeseries.times
@@ -86,4 +86,4 @@ fig</code></pre><p><img src="../one_dimensional_diffusion-27.svg" alt/></p><p>Fi
 record(fig, &quot;one_dimensional_diffusion.mp4&quot;, frames, framerate=24) do i
     n[] = i
 end</code></pre><pre><code class="nohighlight hljs">[ Info: Making an animation...
-</code></pre><p><video src="../one_dimensional_diffusion.mp4" controls="true" title><a href="../one_dimensional_diffusion.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../quick_start/">« Quick start</a><a class="docs-footer-nextpage" href="../two_dimensional_turbulence/">Two-dimensional turbulence »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.1.1 on <span class="colophon-date" title="Wednesday 1 November 2023 21:02">Wednesday 1 November 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</code></pre><p><video src="../one_dimensional_diffusion.mp4" controls="true" title><a href="../one_dimensional_diffusion.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../quick_start/">« Quick start</a><a class="docs-footer-nextpage" href="../two_dimensional_turbulence/">Two-dimensional turbulence »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.1.1 on <span class="colophon-date" title="Friday 3 November 2023 19:18">Friday 3 November 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
