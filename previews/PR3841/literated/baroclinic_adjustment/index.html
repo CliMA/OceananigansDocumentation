@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Baroclinic adjustment · Oceananigans.jl</title><meta name="title" content="Baroclinic adjustment · Oceananigans.jl"/><meta property="og:title" content="Baroclinic adjustment · Oceananigans.jl"/><meta property="twitter:title" content="Baroclinic adjustment · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/baroclinic_adjustment/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/baroclinic_adjustment/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/literated/baroclinic_adjustment/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../langmuir_turbulence/">Langmuir turbulence</a></li><li class="is-active"><a class="tocitem" href>Baroclinic adjustment</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#Grid"><span>Grid</span></a></li><li><a class="tocitem" href="#Model"><span>Model</span></a></li><li><a class="tocitem" href="#Simulation"><span>Simulation</span></a></li><li><a class="tocitem" href="#Diagnostics/Output"><span>Diagnostics/Output</span></a></li><li><a class="tocitem" href="#Visualization"><span>Visualization</span></a></li></ul></li><li><a class="tocitem" href="../kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Model setup (legacy)</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../model_setup/overview/">Overview</a></li><li><a class="tocitem" href="../../model_setup/setting_initial_conditions/">Setting initial conditions</a></li><li><a class="tocitem" href="../../model_setup/architecture/">Architecture</a></li><li><a class="tocitem" href="../../model_setup/number_type/">Number type</a></li><li><a class="tocitem" href="../../model_setup/legacy_grids/">Grid</a></li><li><a class="tocitem" href="../../model_setup/clock/">Clock</a></li><li><a class="tocitem" href="../../model_setup/coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../../model_setup/tracers/">Tracers</a></li><li><a class="tocitem" href="../../model_setup/buoyancy_and_equation_of_state/">Buoyancy models and equation of state</a></li><li><a class="tocitem" href="../../model_setup/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../model_setup/forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../../model_setup/background_fields/">Background fields</a></li><li><a class="tocitem" href="../../model_setup/turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../../model_setup/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../model_setup/diagnostics/">Diagnostics</a></li><li><a class="tocitem" href="../../model_setup/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../../model_setup/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../model_setup/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-8-3" type="checkbox"/><label class="tocitem" for="menuitem-8-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-4" type="checkbox"/><label class="tocitem" for="menuitem-8-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-5" type="checkbox"/><label class="tocitem" for="menuitem-8-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Baroclinic adjustment</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Baroclinic adjustment</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/examples/baroclinic_adjustment.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Baroclinic-adjustment"><a class="docs-heading-anchor" href="#Baroclinic-adjustment">Baroclinic adjustment</a><a id="Baroclinic-adjustment-1"></a><a class="docs-heading-anchor-permalink" href="#Baroclinic-adjustment" title="Permalink"></a></h1><p>In this example, we simulate the evolution and equilibration of a baroclinically unstable front.</p><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie&quot;</code></pre><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units</code></pre><h2 id="Grid"><a class="docs-heading-anchor" href="#Grid">Grid</a><a id="Grid-1"></a><a class="docs-heading-anchor-permalink" href="#Grid" title="Permalink"></a></h2><p>We use a three-dimensional channel that is periodic in the <code>x</code> direction:</p><pre><code class="language-julia hljs">Lx = 1000kilometers # east-west extent [m]
+Ly = 1000kilometers # north-south extent [m]
+Lz = 1kilometers    # depth [m]
+
+grid = RectilinearGrid(size = (48, 48, 8),
+                       x = (0, Lx),
+                       y = (-Ly/2, Ly/2),
+                       z = (-Lz, 0),
+                       topology = (Periodic, Bounded, Bounded))</code></pre><pre><code class="nohighlight hljs">48×48×8 RectilinearGrid{Float64, Periodic, Bounded, Bounded} on CPU with 3×3×3 halo
+├── Periodic x ∈ [0.0, 1.0e6)          regularly spaced with Δx=20833.3
+├── Bounded  y ∈ [-500000.0, 500000.0] regularly spaced with Δy=20833.3
+└── Bounded  z ∈ [-1000.0, 0.0]        regularly spaced with Δz=125.0</code></pre><h2 id="Model"><a class="docs-heading-anchor" href="#Model">Model</a><a id="Model-1"></a><a class="docs-heading-anchor-permalink" href="#Model" title="Permalink"></a></h2><p>We built a <code>HydrostaticFreeSurfaceModel</code> with an <code>ImplicitFreeSurface</code> solver. Regarding Coriolis, we use a beta-plane centered at 45° South.</p><pre><code class="language-julia hljs">model = HydrostaticFreeSurfaceModel(; grid,
+                                    coriolis = BetaPlane(latitude = -45),
+                                    buoyancy = BuoyancyTracer(),
+                                    tracers = :b,
+                                    momentum_advection = WENO(),
+                                    tracer_advection = WENO())</code></pre><pre><code class="nohighlight hljs">HydrostaticFreeSurfaceModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── grid: 48×48×8 RectilinearGrid{Float64, Periodic, Bounded, Bounded} on CPU with 3×3×3 halo
+├── timestepper: QuasiAdamsBashforth2TimeStepper
+├── tracers: b
+├── closure: Nothing
+├── buoyancy: BuoyancyTracer with ĝ = NegativeZDirection()
+├── free surface: ImplicitFreeSurface with gravitational acceleration 9.80665 m s⁻²
+│   └── solver: FFTImplicitFreeSurfaceSolver
+├── advection scheme: 
+│   ├── momentum: WENO reconstruction order 5
+│   └── b: WENO reconstruction order 5
+└── coriolis: BetaPlane{Float64}</code></pre><p>We start our simulation from rest with a baroclinically unstable buoyancy distribution. We use <code>ramp(y, Δy)</code>, defined below, to specify a front with width <code>Δy</code> and horizontal buoyancy gradient <code>M²</code>. We impose the front on top of a vertical buoyancy gradient <code>N²</code> and a bit of noise.</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    ramp(y, Δy)
+
+Linear ramp from 0 to 1 between -Δy/2 and +Δy/2.
+
+For example:
+```
+            y &lt; -Δy/2 =&gt; ramp = 0
+    -Δy/2 &lt; y &lt; -Δy/2 =&gt; ramp = y / Δy
+            y &gt;  Δy/2 =&gt; ramp = 1
+```
+&quot;&quot;&quot;
+ramp(y, Δy) = min(max(0, y/Δy + 1/2), 1)
+
+N² = 1e-5 # [s⁻²] buoyancy frequency / stratification
+M² = 1e-7 # [s⁻²] horizontal buoyancy gradient
+
+Δy = 100kilometers # width of the region of the front
+Δb = Δy * M²       # buoyancy jump associated with the front
+ϵb = 1e-2 * Δb     # noise amplitude
+
+bᵢ(x, y, z) = N² * z + Δb * ramp(y, Δy) + ϵb * randn()
+
+set!(model, b=bᵢ)</code></pre><p>Let&#39;s visualize the initial buoyancy distribution.</p><pre><code class="language-julia hljs">using CairoMakie
+
+# Build coordinates with units of kilometers
+x, y, z = 1e-3 .* nodes(grid, (Center(), Center(), Center()))
+
+b = model.tracers.b
+
+fig, ax, hm = heatmap(view(b, 1, :, :),
+                      colormap = :deep,
+                      axis = (xlabel = &quot;y [km]&quot;,
+                              ylabel = &quot;z [km]&quot;,
+                              title = &quot;b(x=0, y, z, t=0)&quot;,
+                              titlesize = 24))
+
+Colorbar(fig[1, 2], hm, label = &quot;[m s⁻²]&quot;)
+
+fig</code></pre><p><img src="../baroclinic_adjustment-14.svg" alt/></p><h2 id="Simulation"><a class="docs-heading-anchor" href="#Simulation">Simulation</a><a id="Simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Simulation" title="Permalink"></a></h2><p>Now let&#39;s build a <code>Simulation</code>.</p><pre><code class="language-julia hljs">simulation = Simulation(model, Δt=20minutes, stop_time=20days)</code></pre><pre><code class="nohighlight hljs">Simulation of HydrostaticFreeSurfaceModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── Next time step: 20 minutes
+├── Elapsed wall time: 0 seconds
+├── Wall time per iteration: NaN days
+├── Stop time: 20 days
+├── Stop iteration : Inf
+├── Wall time limit: Inf
+├── Callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+├── Output writers: OrderedDict with no entries
+└── Diagnostics: OrderedDict with no entries</code></pre><p>We add a <code>TimeStepWizard</code> callback to adapt the simulation&#39;s time-step,</p><pre><code class="language-julia hljs">conjure_time_step_wizard!(simulation, IterationInterval(20), cfl=0.2, max_Δt=20minutes)</code></pre><p>Also, we add a callback to print a message about how the simulation is going,</p><pre><code class="language-julia hljs">using Printf
+
+wall_clock = Ref(time_ns())
+
+function print_progress(sim)
+    u, v, w = model.velocities
+    progress = 100 * (time(sim) / sim.stop_time)
+    elapsed = (time_ns() - wall_clock[]) / 1e9
+
+    @printf(&quot;[%05.2f%%] i: %d, t: %s, wall time: %s, max(u): (%6.3e, %6.3e, %6.3e) m/s, next Δt: %s\n&quot;,
+            progress, iteration(sim), prettytime(sim), prettytime(elapsed),
+            maximum(abs, u), maximum(abs, v), maximum(abs, w), prettytime(sim.Δt))
+
+    wall_clock[] = time_ns()
+
+    return nothing
+end
+
+add_callback!(simulation, print_progress, IterationInterval(100))</code></pre><h2 id="Diagnostics/Output"><a class="docs-heading-anchor" href="#Diagnostics/Output">Diagnostics/Output</a><a id="Diagnostics/Output-1"></a><a class="docs-heading-anchor-permalink" href="#Diagnostics/Output" title="Permalink"></a></h2><p>Here, we save the buoyancy, <span>$b$</span>, at the edges of our domain as well as the zonal (<span>$x$</span>) average of buoyancy.</p><pre><code class="language-julia hljs">u, v, w = model.velocities
+ζ = ∂x(v) - ∂y(u)
+B = Average(b, dims=1)
+U = Average(u, dims=1)
+V = Average(v, dims=1)
+
+filename = &quot;baroclinic_adjustment&quot;
+save_fields_interval = 0.5day
+
+slicers = (east = (grid.Nx, :, :),
+           north = (:, grid.Ny, :),
+           bottom = (:, :, 1),
+           top = (:, :, grid.Nz))
+
+for side in keys(slicers)
+    indices = slicers[side]
+
+    simulation.output_writers[side] = JLD2OutputWriter(model, (; b, ζ);
+                                                       filename = filename * &quot;_$(side)_slice&quot;,
+                                                       schedule = TimeInterval(save_fields_interval),
+                                                       overwrite_existing = true,
+                                                       indices)
+end
+
+simulation.output_writers[:zonal] = JLD2OutputWriter(model, (; b=B, u=U, v=V);
+                                                     filename = filename * &quot;_zonal_average&quot;,
+                                                     schedule = TimeInterval(save_fields_interval),
+                                                     overwrite_existing = true)</code></pre><pre><code class="nohighlight hljs">JLD2OutputWriter scheduled on TimeInterval(12 hours):
+├── filepath: ./baroclinic_adjustment_zonal_average.jld2
+├── 3 outputs: (b, u, v)
+├── array type: Array{Float64}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+├── file_splitting: NoFileSplitting
+└── file size: 30.7 KiB</code></pre><p>Now we&#39;re ready to <em>run</em>.</p><pre><code class="language-julia hljs">@info &quot;Running the simulation...&quot;
+
+run!(simulation)
+
+@info &quot;Simulation completed in &quot; * prettytime(simulation.run_wall_time)</code></pre><pre><code class="nohighlight hljs">[ Info: Running the simulation...
+[ Info: Initializing simulation...
+[00.00%] i: 0, t: 0 seconds, wall time: 27.169 seconds, max(u): (0.000e+00, 0.000e+00, 0.000e+00) m/s, next Δt: 20 minutes
+[ Info:     ... simulation initialization complete (29.697 seconds)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (23.348 seconds).
+[06.94%] i: 100, t: 1.389 days, wall time: 41.640 seconds, max(u): (1.271e-01, 1.210e-01, 1.579e-03) m/s, next Δt: 20 minutes
+[13.89%] i: 200, t: 2.778 days, wall time: 1.209 seconds, max(u): (2.242e-01, 1.951e-01, 1.775e-03) m/s, next Δt: 20 minutes
+[20.83%] i: 300, t: 4.167 days, wall time: 1.116 seconds, max(u): (3.028e-01, 2.606e-01, 1.799e-03) m/s, next Δt: 20 minutes
+[27.78%] i: 400, t: 5.556 days, wall time: 1.126 seconds, max(u): (3.562e-01, 3.351e-01, 1.733e-03) m/s, next Δt: 20 minutes
+[34.72%] i: 500, t: 6.944 days, wall time: 1.167 seconds, max(u): (4.438e-01, 5.226e-01, 1.931e-03) m/s, next Δt: 20 minutes
+[41.67%] i: 600, t: 8.333 days, wall time: 1.209 seconds, max(u): (6.222e-01, 7.755e-01, 2.963e-03) m/s, next Δt: 20 minutes
+[48.61%] i: 700, t: 9.722 days, wall time: 1.119 seconds, max(u): (8.950e-01, 1.183e+00, 3.904e-03) m/s, next Δt: 20 minutes
+[55.56%] i: 800, t: 11.111 days, wall time: 1.098 seconds, max(u): (1.387e+00, 1.163e+00, 4.437e-03) m/s, next Δt: 20 minutes
+[62.50%] i: 900, t: 12.500 days, wall time: 1.092 seconds, max(u): (1.390e+00, 1.060e+00, 4.956e-03) m/s, next Δt: 20 minutes
+[69.44%] i: 1000, t: 13.889 days, wall time: 1.348 seconds, max(u): (1.328e+00, 9.847e-01, 3.881e-03) m/s, next Δt: 20 minutes
+[76.39%] i: 1100, t: 15.278 days, wall time: 1.451 seconds, max(u): (1.275e+00, 8.912e-01, 2.879e-03) m/s, next Δt: 20 minutes
+[83.33%] i: 1200, t: 16.667 days, wall time: 1.227 seconds, max(u): (1.284e+00, 9.594e-01, 2.058e-03) m/s, next Δt: 20 minutes
+[90.28%] i: 1300, t: 18.056 days, wall time: 1.410 seconds, max(u): (1.154e+00, 9.914e-01, 2.688e-03) m/s, next Δt: 20 minutes
+[97.22%] i: 1400, t: 19.444 days, wall time: 1.217 seconds, max(u): (1.303e+00, 1.004e+00, 2.738e-03) m/s, next Δt: 20 minutes
+[ Info: Simulation is stopping after running for 1.239 minutes.
+[ Info: Simulation time 20 days equals or exceeds stop time 20 days.
+[ Info: Simulation completed in 1.239 minutes
+</code></pre><h2 id="Visualization"><a class="docs-heading-anchor" href="#Visualization">Visualization</a><a id="Visualization-1"></a><a class="docs-heading-anchor-permalink" href="#Visualization" title="Permalink"></a></h2><p>All that&#39;s left is to make a pretty movie. Actually, we make two visualizations here. First, we illustrate how to make a 3D visualization with <code>Makie</code>&#39;s <code>Axis3</code> and <code>Makie.surface</code>. Then we make a movie in 2D. We use <code>CairoMakie</code> in this example, but note that <code>using GLMakie</code> is more convenient on a system with OpenGL, as figures will be displayed on the screen.</p><pre><code class="language-julia hljs">using CairoMakie</code></pre><h3 id="Three-dimensional-visualization"><a class="docs-heading-anchor" href="#Three-dimensional-visualization">Three-dimensional visualization</a><a id="Three-dimensional-visualization-1"></a><a class="docs-heading-anchor-permalink" href="#Three-dimensional-visualization" title="Permalink"></a></h3><p>We load the saved buoyancy output on the top, north, and east surface as <code>FieldTimeSeries</code>es.</p><pre><code class="language-julia hljs">filename = &quot;baroclinic_adjustment&quot;
+
+sides = keys(slicers)
+
+slice_filenames = NamedTuple(side =&gt; filename * &quot;_$(side)_slice.jld2&quot; for side in sides)
+
+b_timeserieses = (east   = FieldTimeSeries(slice_filenames.east, &quot;b&quot;),
+                  north  = FieldTimeSeries(slice_filenames.north, &quot;b&quot;),
+                  top    = FieldTimeSeries(slice_filenames.top, &quot;b&quot;))
+
+B_timeseries = FieldTimeSeries(filename * &quot;_zonal_average.jld2&quot;, &quot;b&quot;)
+
+times = B_timeseries.times
+grid = B_timeseries.grid</code></pre><pre><code class="nohighlight hljs">48×48×8 RectilinearGrid{Float64, Periodic, Bounded, Bounded} on CPU with 3×3×3 halo
+├── Periodic x ∈ [0.0, 1.0e6)          regularly spaced with Δx=20833.3
+├── Bounded  y ∈ [-500000.0, 500000.0] regularly spaced with Δy=20833.3
+└── Bounded  z ∈ [-1000.0, 0.0]        regularly spaced with Δz=125.0</code></pre><p>We build the coordinates. We rescale horizontal coordinates to kilometers.</p><pre><code class="language-julia hljs">xb, yb, zb = nodes(b_timeserieses.east)
+
+xb = xb ./ 1e3 # convert m -&gt; km
+yb = yb ./ 1e3 # convert m -&gt; km
+
+Nx, Ny, Nz = size(grid)
+
+x_xz = repeat(x, 1, Nz)
+y_xz_north = y[end] * ones(Nx, Nz)
+z_xz = repeat(reshape(z, 1, Nz), Nx, 1)
+
+x_yz_east = x[end] * ones(Ny, Nz)
+y_yz = repeat(y, 1, Nz)
+z_yz = repeat(reshape(z, 1, Nz), grid.Ny, 1)
+
+x_xy = x
+y_xy = y
+z_xy_top = z[end] * ones(grid.Nx, grid.Ny)</code></pre><p>Then we create a 3D axis. We use <code>zonal_slice_displacement</code> to control where the plot of the instantaneous zonal average flow is located.</p><pre><code class="language-julia hljs">fig = Figure(size = (1600, 800))
+
+zonal_slice_displacement = 1.2
+
+ax = Axis3(fig[2, 1],
+           aspect=(1, 1, 1/5),
+           xlabel = &quot;x (km)&quot;,
+           ylabel = &quot;y (km)&quot;,
+           zlabel = &quot;z (m)&quot;,
+           xlabeloffset = 100,
+           ylabeloffset = 100,
+           zlabeloffset = 100,
+           limits = ((x[1], zonal_slice_displacement * x[end]), (y[1], y[end]), (z[1], z[end])),
+           elevation = 0.45,
+           azimuth = 6.8,
+           xspinesvisible = false,
+           zgridvisible = false,
+           protrusions = 40,
+           perspectiveness = 0.7)</code></pre><pre><code class="nohighlight hljs">Axis3()</code></pre><p>We use data from the final savepoint for the 3D plot. Note that this plot can easily be animated by using Makie&#39;s <code>Observable</code>. To dive into <code>Observable</code>s, check out <a href="https://makie.juliaplots.org/stable/documentation/nodes/index.html">Makie.jl&#39;s Documentation</a>.</p><pre><code class="language-julia hljs">n = length(times)</code></pre><pre><code class="nohighlight hljs">41</code></pre><p>Now let&#39;s make a 3D plot of the buoyancy and in front of it we&#39;ll use the zonally-averaged output to plot the instantaneous zonal-average of the buoyancy.</p><pre><code class="language-julia hljs">b_slices = (east   = interior(b_timeserieses.east[n], 1, :, :),
+            north  = interior(b_timeserieses.north[n], :, 1, :),
+            top    = interior(b_timeserieses.top[n], :, :, 1))
+
+# Zonally-averaged buoyancy
+B = interior(B_timeseries[n], 1, :, :)
+
+clims = 1.1 .* extrema(b_timeserieses.top[n][:])
+
+kwargs = (colorrange=clims, colormap=:deep, shading=NoShading)
+
+surface!(ax, x_yz_east, y_yz, z_yz;  color = b_slices.east, kwargs...)
+surface!(ax, x_xz, y_xz_north, z_xz; color = b_slices.north, kwargs...)
+surface!(ax, x_xy, y_xy, z_xy_top;   color = b_slices.top, kwargs...)
+
+sf = surface!(ax, zonal_slice_displacement .* x_yz_east, y_yz, z_yz; color = B, kwargs...)
+
+contour!(ax, y, z, B; transformation = (:yz, zonal_slice_displacement * x[end]),
+         levels = 15, linewidth = 2, color = :black)
+
+Colorbar(fig[2, 2], sf, label = &quot;m s⁻²&quot;, height = Relative(0.4), tellheight=false)
+
+title = &quot;Buoyancy at t = &quot; * string(round(times[n] / day, digits=1)) * &quot; days&quot;
+fig[1, 1:2] = Label(fig, title; fontsize = 24, tellwidth = false, padding = (0, 0, -120, 0))
+
+rowgap!(fig.layout, 1, Relative(-0.2))
+colgap!(fig.layout, 1, Relative(-0.1))
+
+save(&quot;baroclinic_adjustment_3d.png&quot;, fig)</code></pre><p><img src="../baroclinic_adjustment_3d.png" alt/></p><h3 id="Two-dimensional-movie"><a class="docs-heading-anchor" href="#Two-dimensional-movie">Two-dimensional movie</a><a id="Two-dimensional-movie-1"></a><a class="docs-heading-anchor-permalink" href="#Two-dimensional-movie" title="Permalink"></a></h3><p>We make a 2D movie that shows buoyancy <span>$b$</span> and vertical vorticity <span>$ζ$</span> at the surface, as well as the zonally-averaged zonal and meridional velocities <span>$U$</span> and <span>$V$</span> in the <span>$(y, z)$</span> plane. First we load the <code>FieldTimeSeries</code> and extract the additional coordinates we&#39;ll need for plotting</p><pre><code class="language-julia hljs">ζ_timeseries = FieldTimeSeries(slice_filenames.top, &quot;ζ&quot;)
+U_timeseries = FieldTimeSeries(filename * &quot;_zonal_average.jld2&quot;, &quot;u&quot;)
+B_timeseries = FieldTimeSeries(filename * &quot;_zonal_average.jld2&quot;, &quot;b&quot;)
+V_timeseries = FieldTimeSeries(filename * &quot;_zonal_average.jld2&quot;, &quot;v&quot;)
+
+xζ, yζ, zζ = nodes(ζ_timeseries)
+yv = ynodes(V_timeseries)
+
+xζ = xζ ./ 1e3 # convert m -&gt; km
+yζ = yζ ./ 1e3 # convert m -&gt; km
+yv = yv ./ 1e3 # convert m -&gt; km</code></pre><pre><code class="nohighlight hljs">49-element Vector{Float64}:
+ -500.0
+ -479.1666666666667
+ -458.3333333333333
+ -437.5
+ -416.6666666666667
+ -395.8333333333333
+ -375.0
+ -354.1666666666667
+ -333.3333333333333
+ -312.5
+ -291.6666666666667
+ -270.8333333333333
+ -250.0
+ -229.16666666666666
+ -208.33333333333334
+ -187.5
+ -166.66666666666666
+ -145.83333333333334
+ -125.0
+ -104.16666666666667
+  -83.33333333333333
+  -62.5
+  -41.666666666666664
+  -20.833333333333332
+    0.0
+   20.833333333333332
+   41.666666666666664
+   62.5
+   83.33333333333333
+  104.16666666666667
+  125.0
+  145.83333333333334
+  166.66666666666666
+  187.5
+  208.33333333333334
+  229.16666666666666
+  250.0
+  270.8333333333333
+  291.6666666666667
+  312.5
+  333.3333333333333
+  354.1666666666667
+  375.0
+  395.8333333333333
+  416.6666666666667
+  437.5
+  458.3333333333333
+  479.1666666666667
+  500.0</code></pre><p>Next, we set up a plot with 4 panels. The top panels are large and square, while the bottom panels get a reduced aspect ratio through <code>rowsize!</code>.</p><pre><code class="language-julia hljs">set_theme!(Theme(fontsize=24))
+
+fig = Figure(size=(1800, 1000))
+
+axb = Axis(fig[1, 2], xlabel=&quot;x (km)&quot;, ylabel=&quot;y (km)&quot;, aspect=1)
+axζ = Axis(fig[1, 3], xlabel=&quot;x (km)&quot;, ylabel=&quot;y (km)&quot;, aspect=1, yaxisposition=:right)
+
+axu = Axis(fig[2, 2], xlabel=&quot;y (km)&quot;, ylabel=&quot;z (m)&quot;)
+axv = Axis(fig[2, 3], xlabel=&quot;y (km)&quot;, ylabel=&quot;z (m)&quot;, yaxisposition=:right)
+
+rowsize!(fig.layout, 2, Relative(0.3))</code></pre><p>To prepare a plot for animation, we index the timeseries with an <code>Observable</code>,</p><pre><code class="language-julia hljs">n = Observable(1)
+
+b_top = @lift interior(b_timeserieses.top[$n], :, :, 1)
+ζ_top = @lift interior(ζ_timeseries[$n], :, :, 1)
+U = @lift interior(U_timeseries[$n], 1, :, :)
+V = @lift interior(V_timeseries[$n], 1, :, :)
+B = @lift interior(B_timeseries[$n], 1, :, :)</code></pre><pre><code class="nohighlight hljs">Observable([-0.009380818952711699 -0.00813659027634024 -0.0068805072754311416 -0.005601382559122095 -0.004371304160034243 -0.0031298647801383896 -0.0018847522774084562 -0.000630466674542346; -0.009380455645368248 -0.008130770328982786 -0.006862653210377522 -0.0056370993778877875 -0.0043750667364733055 -0.003122394824457192 -0.0018961223487467078 -0.0006115399383630932; -0.009367751964396815 -0.008105842308578378 -0.006873115651659732 -0.005610650749844075 -0.004375742934995476 -0.0031168285742694344 -0.0018605511604532058 -0.0006259925260689488; -0.009376314152607182 -0.008121752088921581 -0.006857165180401299 -0.00563397053784527 -0.004357956952989942 -0.0031331304827527297 -0.0018714292560212565 -0.000643472691046516; -0.009382828854341396 -0.008096420372669914 -0.0069076937989554525 -0.005624457385103536 -0.004372161483434269 -0.0031097545641084468 -0.0018709916596878287 -0.0006227957988712003; -0.009343462006033927 -0.008128152609954784 -0.0068784020668077135 -0.005644722810219417 -0.004389422351752187 -0.003099626171779439 -0.001870647432173139 -0.0006251446117358004; -0.009372284077254768 -0.008135325157060903 -0.006842326989238247 -0.005620374929056049 -0.004363686718990731 -0.003110707828969314 -0.0018417139236631408 -0.0006134264532209428; -0.009375640604444473 -0.008128204793839277 -0.00689750845763214 -0.0056404298659002775 -0.004383157378179394 -0.0031288211414703345 -0.0018758411850383664 -0.0006309750569211604; -0.00934229424576316 -0.008125358179590834 -0.006868574194994277 -0.005617704383452896 -0.0043836988142047515 -0.0031143551359737107 -0.001865023007469164 -0.0006205290523199402; -0.009371779355868779 -0.008129468811163798 -0.006861711549173898 -0.005637103908934467 -0.004381633864727864 -0.003110149283202275 -0.001859197830694664 -0.0006221005204420604; -0.009382124123312107 -0.00812393035423274 -0.006894877551800019 -0.0056122705939833165 -0.004349489110357451 -0.0031301833993793416 -0.0018852229760976805 -0.0006301588659525051; -0.009387026593032869 -0.008147197400732515 -0.0068710105653517276 -0.005657161059637608 -0.004367372773581434 -0.0031248067310194957 -0.0019061452328040344 -0.0006622204684911054; -0.009372500753854563 -0.008134634681845257 -0.006853547203269381 -0.0056058549679461845 -0.004396566073547151 -0.0030994132428196126 -0.0018725807950745247 -0.0006237339396309079; -0.00937059484942313 -0.008104431514615146 -0.006857785558644976 -0.005643650553893639 -0.004382614545775509 -0.0031032406331521355 -0.0018589034692334538 -0.0006033866940990657; -0.009354224527678508 -0.008122994740683247 -0.006887449681302351 -0.005613519562696252 -0.004402143067501374 -0.0031234019975295304 -0.0018768879244958564 -0.0005861586437571001; -0.009377188640930217 -0.008112882946169929 -0.006893680018081012 -0.00565344017140582 -0.004379878840914648 -0.0031223701697945003 -0.0018643055479981268 -0.0006353940446279125; -0.009344514194040894 -0.008118460139190506 -0.006874499955971937 -0.005613801452950114 -0.004358846377550537 -0.0031115113853626714 -0.001904201820799205 -0.0006070032809329169; -0.009389960152904492 -0.008132260491863984 -0.006864278343397781 -0.005614631498037342 -0.004378791519759219 -0.0031210980117158064 -0.001907606838076967 -0.0006161593633924441; -0.009390377589940258 -0.008112124814009532 -0.006856778389382745 -0.005612342795848259 -0.004374328855178391 -0.0031315371251282136 -0.0018773079162407915 -0.0006200085472392674; -0.009368321781911854 -0.00810323016041503 -0.006890817260132035 -0.005626645672312122 -0.004374812950171814 -0.003121881485352012 -0.001900762532099796 -0.0006216360136853076; -0.009371594764309078 -0.008105625043401931 -0.006864032413077453 -0.005618393087355359 -0.004399597589152443 -0.0031369411333848885 -0.0018763655999870666 -0.0006207508314120244; -0.009381979468470972 -0.008103535264978487 -0.006866898652066306 -0.005632798549080599 -0.004386593322861805 -0.0031485242681921384 -0.0018756655857246937 -0.0006366513155777972; -0.007494465206557467 -0.006254625737596257 -0.00500226499113177 -0.0037331332213239522 -0.002513318730004634 -0.001229705432632723 -5.425447907805792e-6 0.0012746029436597145; -0.00540875435686312 -0.004162650195055855 -0.0029305081920290555 -0.0016685632145110793 -0.0004073139041241977 0.0008428085893312639 0.0020822292015916163 0.003326754420000934; -0.0033236954605651695 -0.002063584504636045 -0.0008262177941065098 0.00043612742790148374 0.0016595772503558096 0.002932038714781366 0.0041603522069080185 0.005395092244332874; -0.0012472632451049615 2.036731725722438e-6 0.001251160116580978 0.0025032088160661325 0.0037264326063432703 0.00502379764597394 0.006211460890736482 0.007513727917042729; 0.0006014452386140261 0.0018709988753511416 0.003143641398000059 0.004363919862048618 0.005645639980955293 0.006857700095121102 0.008135504308349905 0.009356712172912836; 0.0006130425015593058 0.001845659312965045 0.0031234246915317135 0.00436644495701428 0.00560468651030455 0.006875637525724484 0.008101224366904348 0.009380647565067941; 0.0006492529453022275 0.0018745419362664398 0.003111993004030391 0.0043904663164803836 0.005626107042396797 0.006869782270489303 0.008106718615370509 0.009361311103856207; 0.0006100989039322282 0.0018728036360156873 0.003112190292125837 0.004373462184676698 0.005623151521924295 0.006870759713215314 0.008104707579444929 0.00937598800149724; 0.0006354026096107392 0.0018915439446150388 0.003119274158306819 0.0043475786480108155 0.0056127376586343125 0.006867707147647781 0.008141618242823634 0.009393571950586188; 0.0006441773489377637 0.0018622742060419306 0.0031032688499941855 0.004350004364227494 0.005630474248088493 0.006861457221692365 0.00812016169447677 0.009366639736115907; 0.000623250442929104 0.001858426048448594 0.003127758584763536 0.0043730339320233284 0.0056252442524283046 0.006869797195729836 0.008132587092456187 0.00936285117589113; 0.0006174245647881585 0.001886593252007955 0.003111331137477425 0.004371435894370645 0.005629505161135866 0.006868538776685348 0.008126695361908987 0.009367042241494487; 0.0006233431224713801 0.0018953218017258233 0.003120368112486201 0.004352781077701121 0.005613379483509605 0.006881702651671126 0.00809987490942239 0.009353239021008299; 0.000637652402806627 0.0018677060150138036 0.003111556303885291 0.004370820870095109 0.005614657614524504 0.006861411652761389 0.008151209422272406 0.009371975418381983; 0.0006232157437783369 0.0018968450525828856 0.0031198886758325626 0.004374083710145298 0.00564188526692919 0.006887456758531446 0.008120226327670376 0.009393978588377955; 0.000610819633454235 0.0018553845175365985 0.0031410609808805237 0.004374394399423223 0.005636747074407908 0.0068886004198194925 0.008117665022257763 0.009386343336104592; 0.000621113732170734 0.0018569245364276974 0.0031191554898677924 0.0043803201115435765 0.005615018909198462 0.006857155846848206 0.008139640025527502 0.009391378489743736; 0.0006217847380588339 0.0018683288673316787 0.0031338121352160134 0.004359425760770042 0.005609695443509223 0.00691611581723349 0.008125804329033516 0.009386500720350022; 0.0006375276867191378 0.001863172108421211 0.0031208837740452655 0.0043739241224120375 0.005606304241809301 0.006873184733653277 0.008125327259527299 0.009403142136613784; 0.0006104151812567919 0.0018916204096362443 0.0031381267127662256 0.0043821400006256285 0.005611058281248489 0.006885410889625646 0.008144903959851154 0.009413371732935908; 0.0006357124541479774 0.0018744009469748863 0.0030941085795215865 0.004388110499903036 0.005614659982031302 0.006871108198121346 0.008119125900354397 0.009389242563262533; 0.000647857396898835 0.0018688591509715663 0.0031040286788309355 0.0043634599249616724 0.005620330343188842 0.006881252136440841 0.00810943731614579 0.009391163445450412; 0.0006341547745809093 0.0018859431973310837 0.0031445857608829405 0.004399281723447948 0.005615316309690779 0.006907342396256654 0.008115500815868027 0.00939607962067638; 0.000631305611318075 0.0018609785898423712 0.0031249168017566157 0.004400240560058802 0.005634752092860437 0.006872279358507188 0.00810926798439957 0.009397387514302748; 0.000602207118911731 0.0018976409796500557 0.003125194438313248 0.004356328854510955 0.005630958009598619 0.006881428213344064 0.008126006776373226 0.009383439260890865; 0.0006071538562242713 0.0018566657074806636 0.0031213762059921824 0.004376816866567445 0.005638597857333417 0.0068758062015724765 0.008120331787168427 0.009357929321415827])
+</code></pre><p>and then build our plot:</p><pre><code class="language-julia hljs">hm = heatmap!(axb, xb, yb, b_top, colorrange=(0, Δb), colormap=:thermal)
+Colorbar(fig[1, 1], hm, flipaxis=false, label=&quot;Surface b(x, y) (m s⁻²)&quot;)
+
+hm = heatmap!(axζ, xζ, yζ, ζ_top, colorrange=(-5e-5, 5e-5), colormap=:balance)
+Colorbar(fig[1, 4], hm, label=&quot;Surface ζ(x, y) (s⁻¹)&quot;)
+
+hm = heatmap!(axu, yb, zb, U; colorrange=(-5e-1, 5e-1), colormap=:balance)
+Colorbar(fig[2, 1], hm, flipaxis=false, label=&quot;Zonally-averaged U(y, z) (m s⁻¹)&quot;)
+contour!(axu, yb, zb, B; levels=15, color=:black)
+
+hm = heatmap!(axv, yv, zb, V; colorrange=(-1e-1, 1e-1), colormap=:balance)
+Colorbar(fig[2, 4], hm, label=&quot;Zonally-averaged V(y, z) (m s⁻¹)&quot;)
+contour!(axv, yb, zb, B; levels=15, color=:black)</code></pre><p>Finally, we&#39;re ready to record the movie.</p><pre><code class="language-julia hljs">frames = 1:length(times)
+
+record(fig, filename * &quot;.mp4&quot;, frames, framerate=8) do i
+    n[] = i
+end</code></pre><p><video src="../baroclinic_adjustment.mp4" controls="true" title><a href="../baroclinic_adjustment.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../langmuir_turbulence/">« Langmuir turbulence</a><a class="docs-footer-nextpage" href="../kelvin_helmholtz_instability/">Kelvin-Helmholtz instability »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Monday 21 October 2024 11:25">Monday 21 October 2024</span>. Using Julia version 1.10.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
