@@ -20,7 +20,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: gh-pages
       - name: Delete preview and history + push changes
@@ -30,4 +30,4 @@ jobs:
           git rm -rf previews/*
           git commit -m "delete previews directory"
           git branch gh-pages-new $(echo "delete history" | git commit-tree HEAD^{tree})
-          git push --force origin gh-pages-new:gh-pages
+          git push --force-with-lease origin gh-pages-new:gh-pages
