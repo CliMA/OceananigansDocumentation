@@ -1,0 +1,58 @@
+name: Old Versions Cleanup
+
+on:
+  schedule:
+    - cron: "30 17 * * 4"
+  workflow_dispatch:
+
+# Ensure that only one cleanup workflow is force pushing at a time
+concurrency:
+  group: doc-cleanup
+  cancel-in-progress: false
+
+jobs:
+  old-versions-cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+      - name: Remove old versions
+        shell: julia --color=yes {0}
+        run: |
+          docs_dir = pwd()
+
+          # All versioned directories
+          all_versions = filter(x -> tryparse(VersionNumber, basename(x)) isa VersionNumber, readdir(docs_dir; join=true))
+          # All directories which are symlinks to other directories
+          links = filter(islink, all_versions)
+          # All directories which are not symlinks, with paths fully resolved
+          non_links = realpath.(filter(!islink, all_versions))
+          # The directories the symlinks point to
+          linked = realpath.(links)
+          # Find all the directories which are not symlinks and no symlinks point to them: these are
+          # old patch versions which can now be cleaned up.
+          old_versions = setdiff(non_links, linked)
+
+          @info "Old versions to be deleted" old_versions
+
+          # Simple sanity check: make sure we didn't find too many versions to delete, that'd be
+          # suspicious, and a hint that something went wrong
+          if length(old_versions) > 5
+              error("We found more than old versions to delete, it's possible something is wrong, I'm bailing out")
+          end
+
+          for ver in old_versions
+              @info "Deleting $(ver)..."
+              rm(ver; force=true, recursive=true)
+          end
+      - name: Push changes
+        run: |
+          git config user.name "${{github.actor}}"
+          git config user.email "${{github.actor_id}}+${{github.actor}}@users.noreply.github.com"
+          git commit -m "Remove old versions directories"
+          git branch gh-pages-new $(echo "delete history" | git commit-tree HEAD^{tree})
+          git push --force-with-lease origin gh-pages-new:gh-pages
