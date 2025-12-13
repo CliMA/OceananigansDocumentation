@@ -20,6 +20,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: gh-pages
+      - uses: julia-actions/setup-julia@v2
       - name: Remove old versions
         shell: julia --color=yes {0}
         run: |
