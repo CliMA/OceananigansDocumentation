@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: "30 17 * * 4"
   workflow_dispatch:
-  pull_request:
 
 # Ensure that only one cleanup workflow is force pushing at a time
 concurrency:
@@ -52,10 +51,10 @@ jobs:
               @info "Deleting $(ver)..."
               rm(ver; force=true, recursive=true)
           end
-      # - name: Push changes
-      #   run: |
-      #     git config user.name "${{github.actor}}"
-      #     git config user.email "${{github.actor_id}}+${{github.actor}}@users.noreply.github.com"
-      #     git commit -m "Remove old versions directories"
-      #     git branch gh-pages-new $(echo "delete history" | git commit-tree HEAD^{tree})
-      #     git push --force-with-lease origin gh-pages-new:gh-pages
+      - name: Push changes
+        run: |
+          git config user.name "${{github.actor}}"
+          git config user.email "${{github.actor_id}}+${{github.actor}}@users.noreply.github.com"
+          git commit -m "Remove old versions directories"
+          git branch gh-pages-new $(echo "delete history" | git commit-tree HEAD^{tree})
+          git push --force-with-lease origin gh-pages-new:gh-pages
