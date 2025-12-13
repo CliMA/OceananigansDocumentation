@@ -28,10 +28,23 @@ jobs:
 
           # All versioned directories
           all_versions = filter(x -> tryparse(VersionNumber, basename(x)) isa VersionNumber, readdir(docs_dir; join=true))
+
           # All directories which are symlinks to other directories
           links = filter(islink, all_versions)
+          # Simple sanity check before continuing: all symlinks should be directories in the format
+          # vX.Y, if that's not the case there's something wrong!
+          if sort(links) != sort(filter(x -> length(split(basename(x), '.')) == 2, all_versions))
+              error("We expect all symlink directories to be directories with name vX.Y, but that doesn't appear to be the case, I'm bailing out")
+          end
+
           # All directories which are not symlinks, with paths fully resolved
           non_links = realpath.(filter(!islink, all_versions))
+          # Another sanity check before continuing: all non-symlinks should be directories in the
+          # format vX.Y.Z, if that's not the case there's something else wrong!
+          if sort(non_links) != sort(filter(x -> length(split(basename(x), '.')) == 3, all_versions))
+              error("We expect all non-symlink directories to be directories with name vX.Y.Z, but that doesn't appear to be the case, I'm bailing out")
+          end
+
           # The directories the symlinks point to
           linked = realpath.(links)
           # Find all the directories which are not symlinks and no symlinks point to them: these are
