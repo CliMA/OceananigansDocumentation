@@ -41,8 +41,9 @@ jobs:
 
           # Simple sanity check: make sure we didn't find too many versions to delete, that'd be
           # suspicious, and a hint that something went wrong
-          if length(old_versions) > 5
-              error("We found more than old versions to delete, it's possible something is wrong, I'm bailing out")
+          old_versions_threshold = 5
+          if length(old_versions) > old_versions_threshold
+              error("We found more than $(old_versions_threshold) old versions to delete, it's possible something is wrong, I'm bailing out")
           end
 
           for ver in old_versions
