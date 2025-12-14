@@ -5,9 +5,9 @@ on:
     - cron: "30 5 * * 1"
   workflow_dispatch:
 
-# Ensure that only one "Doc Previews Cleanup" workflow is force pushing at a time
+# Ensure that only one cleanup workflow is force pushing at a time
 concurrency:
-  group: doc-preview-cleanup
+  group: doc-cleanup
   cancel-in-progress: false
 
 jobs:
