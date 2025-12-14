@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: "30 5 * * 1"
   workflow_dispatch:
-    inputs:
-      lookback:
-        default: 3
 
 # Ensure that only one "Doc Previews Cleanup" workflow is force pushing at a time
 concurrency:
