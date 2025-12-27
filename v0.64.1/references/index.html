@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>References · Oceananigans.jl</title><script data-outdated-warner src="../assets/warner.js"></script><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/references/"/><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">Oceananigans.jl</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../installation_instructions/">Installation instructions</a></li><li><a class="tocitem" href="../using_gpus/">Using GPUs</a></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../generated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../generated/geostrophic_adjustment/">Geostrophic adjustment</a></li><li><a class="tocitem" href="../generated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../generated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../generated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../generated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../generated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../generated/eady_turbulence/">Eady turbulence</a></li><li><a class="tocitem" href="../generated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../generated/shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../generated/horizontal_convection/">Horizontal convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-4" type="checkbox"/><label class="tocitem" for="menuitem-5-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../numerical_implementation/poisson_solvers/">Poisson solvers</a></li><li><a class="tocitem" href="../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Model setup</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../model_setup/overview/">Overview</a></li><li><a class="tocitem" href="../model_setup/architecture/">Architecture</a></li><li><a class="tocitem" href="../model_setup/number_type/">Number type</a></li><li><a class="tocitem" href="../model_setup/grids/">Grid</a></li><li><a class="tocitem" href="../model_setup/clock/">Clock</a></li><li><a class="tocitem" href="../model_setup/coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../model_setup/tracers/">Tracers</a></li><li><a class="tocitem" href="../model_setup/buoyancy_and_equation_of_state/">Buoyancy models and equation of state</a></li><li><a class="tocitem" href="../model_setup/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../model_setup/forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../model_setup/background_fields/">Background fields</a></li><li><a class="tocitem" href="../model_setup/turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../model_setup/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../model_setup/diagnostics/">Diagnostics</a></li><li><a class="tocitem" href="../model_setup/output_writers/">Output writers</a></li><li><a class="tocitem" href="../model_setup/checkpointing/">Checkpointing</a></li><li><a class="tocitem" href="../model_setup/setting_initial_conditions/">Setting initial conditions</a></li></ul></li><li><a class="tocitem" href="../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../gallery/">Gallery</a></li><li class="is-active"><a class="tocitem" href>References</a></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../appendix/library/">Library</a></li><li><a class="tocitem" href="../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>References</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>References</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/Oceananigans.jl/blob/master/docs/src/references.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h1><dl><dt>Vallis17</dt>
+<dd>
+  <div id="Vallis17">Geoffrey K Vallis, Atmospheric and oceanic fluid dynamics, Cambridge University Press, 2017.</div>
+</dd><dt>Kundu15</dt>
+<dd>
+  <div id="Kundu15">Pijush K. Kundu, Ira M. Cohen, David R Dowling, Fluid mechanics, Academic Press, 2015.</div>
+</dd><dt>Lamb45</dt>
+<dd>
+  <div id="Lamb45">Horace Lamb, Hydrodynamics, Dover Publications, 1945.</div>
+</dd><dt>Batchelor00</dt>
+<dd>
+  <div id="Batchelor00">G. K. Batchelor, <a href='https://doi.org/10.1017/CBO9780511800955'>An introduction to fluid dynamics</a>, Cambridge University Press, 2000.</div>
+</dd><dt>Landau87</dt>
+<dd>
+  <div id="Landau87">L. D. Landau, E. M. Lifshitz, Fluid mechanics: Volume 6 (Course of theoretical physics), Butterworth-Heinemann, 1987.</div>
+</dd><dt>Patankar80</dt>
+<dd>
+  <div id="Patankar80">Suhas Patankar, Numerical heat transfer and fluid flow, CRC Press, 1980.</div>
+</dd><dt>Pope00</dt>
+<dd>
+  <div id="Pope00">S. B. Pope, Turbulent flows, Cambridge University Press, 2000.</div>
+</dd><dt>sagaut06</dt>
+<dd>
+  <div id="sagaut06">P. Sagaut, C. Meneveau, Large eddy simulation for incompressible flows: An introduction, Springer, 2006.</div>
+</dd><dt>Hesthaven07</dt>
+<dd>
+  <div id="Hesthaven07">Jan S Hesthaven, Tim Warburton, Nodal discontinuous Galerkin methods: algorithms, analysis, and applications, Springer Science \& Business Media, 2007.</div>
+</dd><dt>Marshall97FV</dt>
+<dd>
+  <div id="Marshall97FV">John Marshall, Alistair Adcroft, Chris Hill, Lev Perelman, Curt Heisey, <a href='https://doi.org/10.1029/96JC02775'>A finite-volume, incompressible Navier Stokes model for studies of the ocean on parallel computers</a>, Journal of Geophysical Research: Oceans, 102(C3), 5753–5766, 1997.</div>
+</dd><dt>Marshall97HY</dt>
+<dd>
+  <div id="Marshall97HY">John Marshall, Chris Hill, Lev Perelman, Alistair Adcroft, <a href='https://doi.org/10/bqd6gx'>Hydrostatic, quasi-hydrostatic, and nonhydrostatic ocean modeling</a>, Journal of Geophysical Research: Oceans, 102(C3), 5733–5752, 1997.</div>
+</dd><dt>Bezanson17</dt>
+<dd>
+  <div id="Bezanson17">Jeff Bezanson, Alan Edelman, Stefan Karpinski, Viral B. Shah, <a href='https://doi.org/10/f9wkpj'>Julia: A fresh approach to numerical computing</a>, SIAM Review, 59, 65–98, 2017.</div>
+</dd><dt>Besard16</dt>
+<dd>
+  <div id="Besard16">Tim Besard, Pieter Verstraete, Bjorn De Sutter, High-level GPU programming in Julia, arXiv:1604.03410 [cs], 0, 2016.</div>
+</dd><dt>Besard19GPU</dt>
+<dd>
+  <div id="Besard19GPU">Tim Besard, Christophe Foket, Bjorn De Sutter, <a href='https://doi.org/10.1109/TPDS.2018.2872064'>Effective extensible programming: Unleashing Julia on GPUs</a>, IEEE Transactions on Parallel and Distributed Systems, 30(4), 827–841, 2019.</div>
+</dd><dt>Besard19Prototype</dt>
+<dd>
+  <div id="Besard19Prototype">Tim Besard, Valentin Churavy, Alan Edelman, Bjorn De Sutter, <a href='https://doi.org/10.1016/j.advengsoft.2019.02.002'>Rapid software prototyping for heterogeneous and distributed platforms</a>, Advances in Engineering Software, 132, 29–46, 2019.</div>
+</dd><dt>Revels18</dt>
+<dd>
+  <div id="Revels18">Jarrett Revels, Tim Besard, Valentin Churavy, Bjorn De Sutter, Juan Pablo Vielma, Dynamic automatic differentiation of GPU broadcast kernels, arXiv:1810.08297 [cs], 0, 2018.</div>
+</dd><dt>Innes19</dt>
+<dd>
+  <div id="Innes19">Mike Innes, Alan Edelman, Keno Fischer, Chris Rackauckas, Elliot Saba, Viral B. Shah, Will Tebbutt, A differentiable programming system to bridge machine learning and scientific computing, arXiv:1907.07587 [cs], 0, 2019.</div>
+</dd><dt>Boussinesq1903</dt>
+<dd>
+  <div id="Boussinesq1903">Joseph Boussinesq, Th{\=o}rie analytique de la chaleur, Gauthier-Villars, Tome, Paris, 1903.</div>
+</dd><dt>Boussinesq1877</dt>
+<dd>
+  <div id="Boussinesq1877">J. Boussinesq, Essai sur la th{\'e}orie des eaux courantes, Impr. Nationale, 1877.</div>
+</dd><dt>Oberbeck1879</dt>
+<dd>
+  <div id="Oberbeck1879">A. Oberbeck, <a href='https://doi.org/10.1002/andp.18792430606'>{Über die Wärmeleitung der Flüssigkeiten bei Berücksichtigung der Strömungen infolge vor Temperaturdifferenzen}</a>, Annalen der Physik, 243(6), 271–292, 1879.</div>
+</dd><dt>White05</dt>
+<dd>
+  <div id="White05">A. A. White, B. J. Hoskins, I. Roulstone, A. Staniforth, <a href='https://doi.org/10/dzkjv9'>Consistent approximate models of the global atmosphere: shallow, deep, hydrostatic, quasi-hydrostatic and non-hydrostatic</a>, Quarterly Journal of the Royal Meteorological Society, 131(609), 2081–2107, 2005.</div>
+</dd><dt>Orszag86</dt>
+<dd>
+  <div id="Orszag86">Steven A. Orszag, Moshe Israeli, Michel O. Deville, <a href='https://doi.org/10/cz7cqj'>Boundary conditions for incompressible flows</a>, Journal of Scientific Computing, 1(1), 75–111, 1986.</div>
+</dd><dt>Brown01</dt>
+<dd>
+  <div id="Brown01">David L. Brown, Ricardo Cortez, Michael L. Minion, <a href='https://doi.org/10/djz53c'>Accurate projection methods for the incompressible Navier–Stokes equations</a>, Journal of Computational Physics, 168(2), 464–499, 2001.</div>
+</dd><dt>Arakawa77</dt>
+<dd>
+  <div id="Arakawa77">Akio Arakawa, Vivian R. Lamb, <a href='https://doi.org/10.1016/B978-0-12-460817-7.50009-4'>Computational design of the basic dynamical processes of the UCLA General Circulation Model</a>, In Methods in Computational Physics: Advances in Research and Applications, editors, 173–265. Elsevier, 1977.</div>
+</dd><dt>Harlow65</dt>
+<dd>
+  <div id="Harlow65">Francis H. Harlow, J. Eddie Welch, <a href='https://doi.org/10/bbr7hb'>Numerical calculation of time-dependent viscous incompressible flow of fluid with free surface</a>, Physics of Fluids, 8(12), 2182–89, 1965.</div>
+</dd><dt>Kumar16</dt>
+<dd>
+  <div id="Kumar16">N. Kumar, J.H.M. Boonkkamp, B. Koren, Local BVP methods for the computation of cell-face velocities in the incompressible Navier-Stokes equations, Technische Universiteit Eindhoven, 2016.</div>
+</dd><dt>Sani81</dt>
+<dd>
+  <div id="Sani81">R. L. Sani, P. M. Gresho, R. L. Lee, D. F. Griffiths, <a href='https://doi.org/10.1002/fld.1650010104'>The cause and cure (?) of the spurious pressures generated by certain FEM solutions of the incompressible Navier-Stokes equations: Part 1</a>, International Journal for Numerical Methods in Fluids, 1(1), 17–43, 1981.</div>
+</dd><dt>Ascher95</dt>
+<dd>
+  <div id="Ascher95">U. Ascher, S. Ruuth, B. Wetton, <a href='https://doi.org/10.1137/0732037'>Implicit-explicit methods for time-dependent partial differential equations</a>, SIAM Journal on Numerical Analysis, 32(3), 797–823, 1995.</div>
+</dd><dt>Buzbee70</dt>
+<dd>
+  <div id="Buzbee70">B. Buzbee, G. Golub, C. Nielson, <a href='https://doi.org/10.1137/0707049'>On direct methods for solving Poisson’s equations</a>, SIAM Journal on Numerical Analysis, 7(4), 627–656, 1970.</div>
+</dd><dt>DellarJFM2011</dt>
+<dd>
+  <div id="DellarJFM2011">Paul J Dellar, Variations on a beta-plane: derivation of non-traditional beta-plane equations from Hamilton's principle on a sphere, Journal of Fluid Mechanics, 674, 174, 2011.</div>
+</dd><dt>Hockney65</dt>
+<dd>
+  <div id="Hockney65">R. W. Hockney, <a href='https://doi.org/10/fvv8tk'>A fast direct solution of Poisson's equation using Fourier analysis</a>, Journal of the ACM, 12, 95–113, 1965.</div>
+</dd><dt>Schumann88</dt>
+<dd>
+  <div id="Schumann88">Ulrich Schumann, Roland A Sweet, <a href='https://doi.org/10/fdkvqq'>Fast Fourier transforms for direct solution of poisson's equation with staggered boundary conditions</a>, Journal of Computational Physics, 75, 123–137, 1988.</div>
+</dd><dt>Hockney69</dt>
+<dd>
+  <div id="Hockney69">R. W. Hockney, The potential calculation and some applications, In Methods of Computational Physics, editors, B. Adler, S. Fernback, M. Rotenberg, 136–211. Academic Press, New York and London, 1969.</div>
+</dd><dt>Swarztrauber77</dt>
+<dd>
+  <div id="Swarztrauber77">Paul N. Swarztrauber, <a href='https://doi.org/10/bnxtr7'>The methods of cyclic reduction, Fourier analysis and the FACR algorithm for the discrete solution of Poisson’s equation on a rectangle</a>, SIAM Review, 19(3), 490–501, 1977.</div>
+</dd><dt>Temperton79</dt>
+<dd>
+  <div id="Temperton79">Clive Temperton, <a href='https://doi.org/10/dnbhsw'>Direct methods for the solution of the discrete Poisson equation: Some comparisons</a>, Journal of Computational Physics, 31, 1–20, 1979.</div>
+</dd><dt>Temperton80</dt>
+<dd>
+  <div id="Temperton80">Clive Temperton, <a href='https://doi.org/10/fs55st'>On the FACR$(\ell)$ algorithm for the discrete Poisson equation</a>, Journal of Computational Physics, 34(3), 314–329, 1980.</div>
+</dd><dt>Frigo05</dt>
+<dd>
+  <div id="Frigo05">M. Frigo, S.G. Johnson, <a href='https://doi.org/10.1109/JPROC.2004.840301'>The design and implementation of FFTW3</a>, Proceedings of the IEEE, 93(2), 216–231, 2005.</div>
+</dd><dt>Frigo98</dt>
+<dd>
+  <div id="Frigo98">M. Frigo, S.G. Johnson, <a href='https://doi.org/10.1109/ICASSP.1998.681704'>FFTW: an adaptive software architecture for the FFT</a>,  In Proceedings of the 1998 IEEE International Conference on Acoustics, Speech and Signal Processing, ICASSP '98 (Cat. No.98CH36181), 1381–1384, Seattle, WA, USA, 1998. IEEE.</div>
+</dd><dt>Makhoul80</dt>
+<dd>
+  <div id="Makhoul80">J. Makhoul, <a href='https://doi.org/10/ffwxmd'>A fast cosine transform in one and two dimensions</a>, IEEE Transactions on Acoustics, Speech, and Signal Processing, 28, 27–34, 1980.</div>
+</dd><dt>Shu09</dt>
+<dd>
+  <div id="Shu09">Chi-Wang Shu, <a href='https://doi.org/10.1137/070679065'>High order weighted essentially nonoscillatory schemes for convection dominated problems</a>, SIAM Review, 51, 82–126, 2009.</div>
+</dd><dt>Shu98</dt>
+<dd>
+  <div id="Shu98">Chi-Wang Shu, <a href='https://doi.org/https://doi.org/10.1007/BFb0096355'>Essentially non-oscillatory and weighted essentially non-oscillatory schemes for hyperbolic conservation laws</a>, In Advanced Numerical Approximation of Nonlinear Hyperbolic Equations, editors, Alfio Quarteroni, 325–432. Springer Berlin Heidelberg, Berlin, Heidelberg, 1998.</div>
+</dd><dt>Liu94</dt>
+<dd>
+  <div id="Liu94">Xu-Dong Liu, Stanley Osher, Tony Chan, <a href='https://doi.org/10/dpcvnf'>Weighted essentially non-oscillatory schemes</a>, Journal of Computational Physics, 115, 200–212, 1994.</div>
+</dd><dt>Jiang96</dt>
+<dd>
+  <div id="Jiang96">Guang-Shan Jiang, Chi-Wang Shu, <a href='https://doi.org/10/ftw8z6'>Efficient implementation of weighted ENO schemes</a>, Journal of Computational Physics, 126, 202–228, 1996.</div>
+</dd><dt>Levy99</dt>
+<dd>
+  <div id="Levy99">Doron Levy, Gabriella Puppo, Giovanni Russo, <a href='https://doi.org/10/bdgkts'>Central WENO schemes for hyperbolic systems of conservation laws</a>, ESAIM: Mathematical Modelling and Numerical Analysis, 33(3), 547–571, 1999.</div>
+</dd><dt>Bianco99</dt>
+<dd>
+  <div id="Bianco99">F. Bianco, G. Puppo, G. Russo, <a href='https://doi.org/10/b7dm6f'>High-order central schemes for hyperbolic systems of conservation laws</a>, SIAM Journal on Scientific Computing, 21, 294–322, 1999.</div>
+</dd><dt>Schroeder06</dt>
+<dd>
+  <div id="Schroeder06">Guido Schroeder, K. Heinke Schlünzen, Frank Schimmel, <a href='https://doi.org/10/d6gcqk'>Use of (weighted) essentially non-oscillatory advection schemes in a mesoscale model</a>, Quarterly Journal of the Royal Meteorological Society, 132(618), 1509–1526, 2006.</div>
+</dd><dt>Pressel15</dt>
+<dd>
+  <div id="Pressel15">Kyle G. Pressel, Colleen M. Kaul, Tapio Schneider, Zhihong Tan, Siddhartha Mishra, <a href='https://doi.org/10/f7v6tg'>Large-eddy simulation in an anelastic framework with closed water and entropy balances</a>, Journal of Advances in Modeling Earth Systems, 7(3), 1425–1456, 2015.</div>
+</dd><dt>Reynolds1895</dt>
+<dd>
+  <div id="Reynolds1895">Osborne Reynolds, <a href='https://doi.org/10.1098/rsta.1895.0004'>On the dynamical theory of incompressible viscous fluids and the determination of the criterion</a>, Philosophical Transactions of the Royal Society of London A, 186, 123–164, 1895.</div>
+</dd><dt>Kolmogorov41</dt>
+<dd>
+  <div id="Kolmogorov41">A. Kolmogorov, The local structure of turbulence in incompressible viscous fluid for very large Reynolds' numbers, C. R. Akademiia U.R.S.S. (Doklady), 30, 301–305, 1941.</div>
+</dd><dt>Chou45</dt>
+<dd>
+  <div id="Chou45">P. Y. Chou, <a href='https://doi.org/10.1090/qam/11999'>On velocity correlations and the solutions of the equations of turbulent fluctuation</a>, Quarterly of Applied Mathematics, 3, 38–54, 1945.</div>
+</dd><dt>Corrsin61</dt>
+<dd>
+  <div id="Corrsin61">S. Corrsin, <a href='http://www.jstor.org.libproxy.mit.edu/stable/27827853'>Turbulent flow</a>, American Scientist, 49(3), 300–325, 1961.</div>
+</dd><dt>Leonard75</dt>
+<dd>
+  <div id="Leonard75">A. Leonard, <a href='https://doi.org/10.1016/S0065-2687(08)60464-1'>Energy cascade in large-eddy simulations of turbulent fluid flows</a>, In Advances in Geophysics, editors, 237–248. Elsevier, 1975.</div>
+</dd><dt>Smagorinsky63</dt>
+<dd>
+  <div id="Smagorinsky63">J. Smagorinsky, <a href='https://doi.org/10/bhd6ks'>General circulation experiments with the primitive equations I. The basic experiment</a>, Monthly Weather Review, 91(3), 99–164, 1963.</div>
+</dd><dt>Lilly66</dt>
+<dd>
+  <div id="Lilly66">D K Lilly, The representation of small-scale turbulence in numerical simulation experiments., NCAR Manuscript No. 281, 0, 1966.</div>
+</dd><dt>Deardorff70</dt>
+<dd>
+  <div id="Deardorff70">J. W. Deardorff, <a href='https://doi.org/10.1017/S0022112070000691'>A numerical study of three-dimensional turbulent channel flow at large Reynolds numbers</a>, Journal of Fluid Mechanics, 41(2), 453–480, 1970.</div>
+</dd><dt>Deardorff74</dt>
+<dd>
+  <div id="Deardorff74">J. W. Deardorff, <a href='https://doi.org/10.1007/BF00224974'>Three-dimensional numerical study of the height and mean structure of a heated planetary boundary layer</a>, Boundary-Layer Meteorology, 7, 81–106, 1974.</div>
+</dd><dt>Pope04</dt>
+<dd>
+  <div id="Pope04">Stephen B Pope, <a href='https://doi.org/10/b68fj9'>Ten questions concerning the large-eddy simulation of turbulent flows</a>, New Journal of Physics, 6, 35–35, 2004.</div>
+</dd><dt>Rozema15</dt>
+<dd>
+  <div id="Rozema15">Wybe Rozema, Hyun J. Bae, Parviz Moin, Roel Verstappen, <a href='https://doi.org/10/f7qckv'>Minimum-dissipation models for large-eddy simulation</a>, Physics of Fluids, 27(8), 085107, 2015.</div>
+</dd><dt>Abkar16</dt>
+<dd>
+  <div id="Abkar16">Mahdi Abkar, Hyun J. Bae, Parviz Moin, <a href='https://doi.org/10/gf6nb8'>Minimum-dissipation scalar transport model for large-eddy simulation of turbulent flows</a>, Physical Review Fluids, 1(4), 2016.</div>
+</dd><dt>Abkar17</dt>
+<dd>
+  <div id="Abkar17">Mahdi Abkar, Parviz Moin, <a href='https://doi.org/10/gck7wz'>Large-eddy simulation of thermally stratified atmospheric boundary-layer flow using a minimum dissipation model</a>, Boundary-Layer Meteorology, 165(3), 405–419, 2017.</div>
+</dd><dt>Verstappen18</dt>
+<dd>
+  <div id="Verstappen18">Roel Verstappen, <a href='https://doi.org/10.1016/j.compfluid.2016.12.016'>How much eddy dissipation is needed to counterbalance the nonlinear production of small, unresolved scales in a large-eddy simulation of turbulence?</a>, Computers \& Fluids, 176, 276–284, 2018.</div>
+</dd><dt>Burggraf66</dt>
+<dd>
+  <div id="Burggraf66">Odus R. Burggraf, <a href='https://doi.org/10.1017/S0022112066000545'>Analytical and numerical studies of the structure of steady separated flows</a>, Journal of Fluid Mechanics, 24, 113–151, 1966.</div>
+</dd><dt>Bruneau06</dt>
+<dd>
+  <div id="Bruneau06">Charles-Henri Bruneau, Mazen Saad, <a href='https://doi.org/10/fvshbk'>The 2D lid-driven cavity problem revisited</a>, Computers \& Fluids, 35(3), 326–348, 2006.</div>
+</dd><dt>Botella98</dt>
+<dd>
+  <div id="Botella98">O. Botella, R. Peyret, <a href='https://doi.org/10/chbd5b'>Benchmark spectral results on the lid-driven cavity flow</a>, Computers \& Fluids, 27(4), 421–433, 1998.</div>
+</dd><dt>Erturk05</dt>
+<dd>
+  <div id="Erturk05">E. Erturk, T. C. Corke, C. Gökçöl, <a href='https://doi.org/10/dxb23c'>Numerical solutions of 2-D steady incompressible driven cavity flow at high Reynolds numbers</a>, International Journal for Numerical Methods in Fluids, 48(7), 747–774, 2005.</div>
+</dd><dt>Ghia82</dt>
+<dd>
+  <div id="Ghia82">U Ghia, K.N Ghia, C.T Shin, <a href='https://doi.org/10/b2t98j'>High-Re solutions for incompressible flow using the Navier-Stokes equations and a multigrid method</a>, Journal of Computational Physics, 48(3), 387–411, 1982.</div>
+</dd><dt>Vreugdenhil18</dt>
+<dd>
+  <div id="Vreugdenhil18">Catherine A. Vreugdenhil, John R. Taylor, <a href='https://doi.org/10.1063/1.5037039'>Large-eddy simulations of stratified plane Couette flow using the anisotropic minimum-dissipation model</a>, Physics of Fluids, 30(8), 085104, 2018.</div>
+</dd><dt>Deusebio15</dt>
+<dd>
+  <div id="Deusebio15">Enrico Deusebio, C. P. Caulfield, J. R. Taylor, <a href='https://doi.org/10/f7rvqh'>The intermittency boundary in stratified plane Couette flow</a>, Journal of Fluid Mechanics, 781, 298–329, 2015.</div>
+</dd><dt>Zhou17</dt>
+<dd>
+  <div id="Zhou17">Qi Zhou, John R. Taylor, C. P. Caulfield, <a href='https://doi.org/10.1017/jfm.2017.200'>Self-similar mixing in stratified plane Couette flow for varying Prandtl number</a>, Journal of Fluid Mechanics, 820, 86–120, 2017.</div>
+</dd><dt>Kato69</dt>
+<dd>
+  <div id="Kato69">H. Kato, O. M. Phillips, <a href='https://doi.org/10.1017/S0022112069000784'>On the penetration of a turbulent layer into stratified fluid</a>, Journal of Fluid Mechanics, 37(4), 643–655, 1969.</div>
+</dd><dt>vanRoekel18</dt>
+<dd>
+  <div id="vanRoekel18">Luke Van Roekel, Alistair J. Adcroft, Gokhan Danabasoglu, Stephen M. Griffies, Brian Kauffman, William Large, Michael Levy, Brandon G. Reichl, Todd Ringler, Martin Schmidt, <a href='https://doi.org/10.1029/2018MS001336'>The KPP boundary layer scheme for the ocean: Revisiting its formulation and benchmarking one-dimensional simulations relative to LES</a>, Journal of Advances in Modeling Earth Systems, 10(11), 2647–2685, 2018.</div>
+</dd><dt>Taylor37</dt>
+<dd>
+  <div id="Taylor37">Geoffrey Ingram Taylor, Albert Edward Green, <a href='https://doi.org/10.1098/rspa.1937.0036'>Mechanism of the production of small eddies from large ones</a>, Proceedings of the Royal Society of London. Series A - Mathematical and Physical Sciences, 158(895), 499–521, 1937.</div>
+</dd><dt>Chaplygin1903</dt>
+<dd>
+  <div id="Chaplygin1903">S. A. Chaplygin, One case of vortex motion in fluid, Trans. Phys. Sect. Imperial Moscow Soc. Friends of Natural Sciences, 11(2), 11–14, 1903.</div>
+</dd><dt>Meleshko94</dt>
+<dd>
+  <div id="Meleshko94">V.V. Meleshko, G.J.F.van Heijst, <a href='https://doi.org/10.1017/S0022112094004428'>On Chaplygin's investigations of two-dimensional vortex structures in an inviscid fluid</a>, Journal of Fluid Mechanics, 272, 157–182, 1994.</div>
+</dd><dt>Sod78</dt>
+<dd>
+  <div id="Sod78">Gary A Sod, <a href='https://doi.org/10.1016/0021-9991(78)90023-2'>A survey of several finite difference methods for systems of nonlinear hyperbolic conservation laws</a>, Journal of Computational Physics, 27, 1–31, 1978.</div>
+</dd><dt>Hill1894</dt>
+<dd>
+  <div id="Hill1894">Micaiah John Muller Hill, <a href='https://doi.org/10/bqp7mk'>On a spherical vortex</a>, Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences, 185, 213–245, 1894.</div>
+</dd><dt>Taylor22</dt>
+<dd>
+  <div id="Taylor22">Geoffrey Ingram Taylor, <a href='https://doi.org/10.1098/rspa.1922.0079'>The motion of a sphere in a rotating liquid</a>, Proceedings of the Royal Society of London. Series A, Containing Papers of a Mathematical and Physical Character, 102(715), 180–189, 1922.</div>
+</dd><dt>Scase18</dt>
+<dd>
+  <div id="Scase18">M. M. Scase, H. L. Terry, <a href='https://doi.org/10.1017/jfm.2018.334'>Spherical vortices in rotating fluids</a>, Journal of Fluid Mechanics, 846, R4, 2018.</div>
+</dd><dt>Flierl83</dt>
+<dd>
+  <div id="Flierl83">Glenn R. Flierl, Melvin E. Stern, John A. Whitehead, <a href='https://doi.org/10.1016/0377-0265(83)90007-6'>The physical significance of modons: Laboratory experiments and general integral constraints</a>, Dynamics of Atmospheres and Oceans, 7(4), 233–263, 1983.</div>
+</dd><dt>Flierl87</dt>
+<dd>
+  <div id="Flierl87">G R Flierl, <a href='https://doi.org/10.1146/annurev.fl.19.010187.002425'>Isolated eddy models in geophysics</a>, Annual Review of Fluid Mechanics, 19, 493–530, 1987.</div>
+</dd><dt>Kerr96</dt>
+<dd>
+  <div id="Kerr96">Robert M. Kerr, <a href='https://doi.org/10/drzq2n'>Rayleigh number scaling in numerical convection</a>, Journal of Fluid Mechanics, 310, 139–179, 1996.</div>
+</dd><dt>Roquet15Idealized</dt>
+<dd>
+  <div id="Roquet15Idealized">Fabien Roquet, Gurvan Madec, Laurent Brodeau, J. Nycander, <a href='https://doi.org/10.1175/JPO-D-15-0080.1'>Defining a simplified yet “realistic” equation of state for seawater</a>, Journal of Physical Oceanography, 45(10), 2564–2579, 2015.</div>
+</dd><dt>Roquet15TEOS</dt>
+<dd>
+  <div id="Roquet15TEOS">F. Roquet, G. Madec, Trevor J. McDougall, Paul M. Barker, <a href='https://doi.org/10/f7dx6m'>Accurate polynomial expressions for the density and specific volume of seawater using the TEOS-10 standard</a>, Ocean Modelling, 90, 29–43, 2015.</div>
+</dd>
+</dl></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../gallery/">« Gallery</a><a class="docs-footer-nextpage" href="../appendix/staggered_grid/">Staggered grid »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.10 on <span class="colophon-date" title="Friday 5 November 2021 03:51">Friday 5 November 2021</span>. Using Julia version 1.6.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Performance benchmarks · Oceananigans.jl</title><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/benchmarks/"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">Oceananigans.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../installation_instructions/">Installation instructions</a></li><li><a class="tocitem" href="../using_gpus/">Using GPUs</a></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../generated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../generated/geostrophic_adjustment/">Geostrophic adjustment</a></li><li><a class="tocitem" href="../generated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../generated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../generated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../generated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../generated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../generated/eady_turbulence/">Eady turbulence</a></li><li><a class="tocitem" href="../generated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">Model setup</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../model_setup/overview/">Overview</a></li><li><a class="tocitem" href="../model_setup/architecture/">Architecture</a></li><li><a class="tocitem" href="../model_setup/number_type/">Number type</a></li><li><a class="tocitem" href="../model_setup/grids/">Grid</a></li><li><a class="tocitem" href="../model_setup/clock/">Clock</a></li><li><a class="tocitem" href="../model_setup/coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../model_setup/tracers/">Tracers</a></li><li><a class="tocitem" href="../model_setup/buoyancy_and_equation_of_state/">Buoyancy and equation of state</a></li><li><a class="tocitem" href="../model_setup/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../model_setup/forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../model_setup/background_fields/">Background fields</a></li><li><a class="tocitem" href="../model_setup/turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../model_setup/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../model_setup/diagnostics/">Diagnostics</a></li><li><a class="tocitem" href="../model_setup/output_writers/">Output writers</a></li><li><a class="tocitem" href="../model_setup/checkpointing/">Checkpointing</a></li><li><a class="tocitem" href="../model_setup/setting_initial_conditions/">Setting initial conditions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/navier_stokes_and_tracer_conservation/">Navier-Stokes and tracer conservation equations</a></li><li><a class="tocitem" href="../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../physics/buoyancy_and_equations_of_state/">Buoyancy model and equations of state</a></li><li><a class="tocitem" href="../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../numerical_implementation/poisson_solvers/">Poisson solvers</a></li><li><a class="tocitem" href="../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Validation experiments</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../validation/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../validation/lid_driven_cavity/">Lid-driven cavity</a></li><li><a class="tocitem" href="../validation/stratified_couette_flow/">Stratified Couette flow</a></li></ul></li><li><a class="tocitem" href="../gallery/">Gallery</a></li><li class="is-active"><a class="tocitem" href>Performance benchmarks</a><ul class="internal"><li><a class="tocitem" href="#Static-ocean"><span>Static ocean</span></a></li><li><a class="tocitem" href="#Channel"><span>Channel</span></a></li><li><a class="tocitem" href="#Tracers"><span>Tracers</span></a></li><li><a class="tocitem" href="#Turbulence-closures"><span>Turbulence closures</span></a></li></ul></li><li><a class="tocitem" href="../contributing/">Contributor&#39;s guide</a></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../appendix/fractional_step/">Fractional step method</a></li></ul></li><li><a class="tocitem" href="../references/">References</a></li><li><a class="tocitem" href="../library/">Library</a></li><li><a class="tocitem" href="../function_index/">Function index</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Performance benchmarks</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Performance benchmarks</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/Oceananigans.jl/blob/master/docs/src/benchmarks.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="performance_benchmarks"><a class="docs-heading-anchor" href="#performance_benchmarks">Performance benchmarks</a><a id="performance_benchmarks-1"></a><a class="docs-heading-anchor-permalink" href="#performance_benchmarks" title="Permalink"></a></h1><p>The performance benchmarking scripts in the <a href="https://github.com/CliMA/Oceananigans.jl/tree/master/benchmark"><code>benchmarks</code></a> directory of the git repository can be run to benchmark Oceananigans.jl on your machine. They use <a href="https://github.com/KristofferC/TimerOutputs.jl">TimerOutputs.jl</a> to nicely format the benchmark results.</p><h2 id="Static-ocean"><a class="docs-heading-anchor" href="#Static-ocean">Static ocean</a><a id="Static-ocean-1"></a><a class="docs-heading-anchor-permalink" href="#Static-ocean" title="Permalink"></a></h2><p>This is a benchmark of a simple &quot;static ocean&quot; configuration. The time stepping and Poisson solver still takes the same amount of time whether the ocean is static or active, so it is quite indicative of actual performance. It tests the performance of a bare-bones horizontally-periodic model with <code>topology = (Periodic, Periodic, Bounded)</code>.</p><pre><code class="language-none">Oceananigans v0.34.0 (DEVELOPMENT BRANCH)
+Julia Version 1.4.2
+Commit 44fa15b150* (2020-05-23 18:35 UTC)
+Platform Info:
+  OS: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz
+  WORD_SIZE: 64
+  LIBM: libopenlibm
+  LLVM: libLLVM-8.0.1 (ORCJIT, skylake)
+  GPU: TITAN V
+
+ ──────────────────────────────────────────────────────────────────────────────────────
+        Static ocean benchmarks                Time                   Allocations      
+                                       ──────────────────────   ───────────────────────
+           Tot / % measured:                 291s / 29.6%           27.7GiB / 0.50%    
+
+ Section                       ncalls     time   %tot     avg     alloc   %tot      avg
+ ──────────────────────────────────────────────────────────────────────────────────────
+  16× 16× 16  [CPU, Float32]       10   15.6ms  0.02%  1.56ms   2.61MiB  1.84%   267KiB
+  16× 16× 16  [CPU, Float64]       10   16.9ms  0.02%  1.69ms   2.61MiB  1.84%   267KiB
+  16× 16× 16  [GPU, Float32]       10   53.4ms  0.06%  5.34ms   11.5MiB  8.14%  1.15MiB
+  16× 16× 16  [GPU, Float64]       10   69.7ms  0.08%  6.97ms   11.5MiB  8.14%  1.15MiB
+  32× 32× 32  [CPU, Float32]       10   54.6ms  0.06%  5.46ms   2.61MiB  1.84%   267KiB
+  32× 32× 32  [CPU, Float64]       10   57.1ms  0.07%  5.71ms   2.61MiB  1.84%   267KiB
+  32× 32× 32  [GPU, Float32]       10   57.5ms  0.07%  5.75ms   11.6MiB  8.15%  1.16MiB
+  32× 32× 32  [GPU, Float64]       10   75.0ms  0.09%  7.50ms   11.6MiB  8.16%  1.16MiB
+  64× 64× 64  [CPU, Float32]       10    424ms  0.49%  42.4ms   2.61MiB  1.84%   267KiB
+  64× 64× 64  [CPU, Float64]       10    425ms  0.49%  42.5ms   2.61MiB  1.84%   267KiB
+  64× 64× 64  [GPU, Float32]       10   61.7ms  0.07%  6.17ms   11.6MiB  8.16%  1.16MiB
+  64× 64× 64  [GPU, Float64]       10   82.4ms  0.10%  8.24ms   11.6MiB  8.17%  1.16MiB
+ 128×128×128  [CPU, Float32]       10    3.67s  4.26%   367ms   2.61MiB  1.84%   267KiB
+ 128×128×128  [CPU, Float64]       10    3.64s  4.23%   364ms   2.61MiB  1.84%   267KiB
+ 128×128×128  [GPU, Float32]       10   74.8ms  0.09%  7.48ms   11.6MiB  8.16%  1.16MiB
+ 128×128×128  [GPU, Float64]       10   94.0ms  0.11%  9.40ms   11.6MiB  8.17%  1.16MiB
+ 256×256×256  [CPU, Float32]       10    38.5s  44.8%   3.85s   2.61MiB  1.84%   267KiB
+ 256×256×256  [CPU, Float64]       10    37.9s  44.1%   3.79s   2.61MiB  1.84%   267KiB
+ 256×256×256  [GPU, Float32]       10    350ms  0.41%  35.0ms   11.6MiB  8.18%  1.16MiB
+ 256×256×256  [GPU, Float64]       10    352ms  0.41%  35.2ms   11.6MiB  8.17%  1.16MiB
+ ──────────────────────────────────────────────────────────────────────────────────────
+
+CPU Float64 -&gt; Float32 speedup:
+ 16× 16× 16 : 1.084
+ 32× 32× 32 : 1.046
+ 64× 64× 64 : 1.000
+128×128×128 : 0.993
+256×256×256 : 0.986
+
+GPU Float64 -&gt; Float32 speedup:
+ 16× 16× 16 : 1.304
+ 32× 32× 32 : 1.303
+ 64× 64× 64 : 1.335
+128×128×128 : 1.257
+256×256×256 : 1.004
+
+CPU -&gt; GPU speedup:
+ 16× 16× 16  [Float32]: 0.291
+ 16× 16× 16  [Float64]: 0.242
+ 32× 32× 32  [Float32]: 0.949
+ 32× 32× 32  [Float64]: 0.762
+ 64× 64× 64  [Float32]: 6.876
+ 64× 64× 64  [Float64]: 5.152
+128×128×128  [Float32]: 49.036
+128×128×128  [Float64]: 38.730
+256×256×256  [Float32]: 109.868
+256×256×256  [Float64]: 107.863</code></pre><h2 id="Channel"><a class="docs-heading-anchor" href="#Channel">Channel</a><a id="Channel-1"></a><a class="docs-heading-anchor-permalink" href="#Channel" title="Permalink"></a></h2><p>This benchmark tests the channel model (<code>topology = (Periodic, Bounded, Bounded)</code>) configuration which can be slower due to the use of a more complicated algorithm (involving 2D cosine transforms) for the pressure solver in the current version of Oceananigans.</p><pre><code class="language-none">Oceananigans v0.34.0 (DEVELOPMENT BRANCH)
+Julia Version 1.4.2
+Commit 44fa15b150* (2020-05-23 18:35 UTC)
+Platform Info:
+  OS: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz
+  WORD_SIZE: 64
+  LIBM: libopenlibm
+  LLVM: libLLVM-8.0.1 (ORCJIT, skylake)
+  GPU: TITAN V
+
+ ──────────────────────────────────────────────────────────────────────────────────────
+           Channel benchmarks                  Time                   Allocations      
+                                       ──────────────────────   ───────────────────────
+           Tot / % measured:                 453s / 19.5%           26.3GiB / 0.48%    
+
+ Section                       ncalls     time   %tot     avg     alloc   %tot      avg
+ ──────────────────────────────────────────────────────────────────────────────────────
+  32× 32× 32  [CPU, Float32]       10   58.5ms  0.07%  5.85ms   2.84MiB  2.22%   291KiB
+  32× 32× 32  [CPU, Float64]       10   60.8ms  0.07%  6.08ms   2.85MiB  2.22%   291KiB
+  32× 32× 32  [GPU, Float32]       10   68.7ms  0.08%  6.87ms   12.6MiB  9.85%  1.26MiB
+  32× 32× 32  [GPU, Float64]       10   88.2ms  0.10%  8.82ms   12.6MiB  9.85%  1.26MiB
+  64× 64× 64  [CPU, Float32]       10    459ms  0.52%  45.9ms   2.84MiB  2.22%   291KiB
+  64× 64× 64  [CPU, Float64]       10    442ms  0.50%  44.2ms   2.85MiB  2.22%   291KiB
+  64× 64× 64  [GPU, Float32]       10   91.0ms  0.10%  9.10ms   12.8MiB  10.0%  1.28MiB
+  64× 64× 64  [GPU, Float64]       10    108ms  0.12%  10.8ms   12.8MiB  10.0%  1.28MiB
+ 128×128×128  [CPU, Float32]       10    3.87s  4.38%   387ms   2.84MiB  2.22%   291KiB
+ 128×128×128  [CPU, Float64]       10    3.92s  4.44%   392ms   2.85MiB  2.22%   291KiB
+ 128×128×128  [GPU, Float32]       10    145ms  0.16%  14.5ms   13.2MiB  10.3%  1.32MiB
+ 128×128×128  [GPU, Float64]       10    163ms  0.18%  16.3ms   13.2MiB  10.3%  1.32MiB
+ 256×256×256  [CPU, Float32]       10    38.6s  43.6%   3.86s   2.85MiB  2.22%   292KiB
+ 256×256×256  [CPU, Float64]       10    38.7s  43.8%   3.87s   2.85MiB  2.22%   292KiB
+ 256×256×256  [GPU, Float32]       10    805ms  0.91%  80.5ms   14.0MiB  10.9%  1.40MiB
+ 256×256×256  [GPU, Float64]       10    805ms  0.91%  80.5ms   14.0MiB  10.9%  1.40MiB
+ ──────────────────────────────────────────────────────────────────────────────────────
+
+CPU Float64 -&gt; Float32 speedup:
+ 32× 32× 32 : 1.040
+ 64× 64× 64 : 0.963
+128×128×128 : 1.015
+256×256×256 : 1.004
+
+GPU Float64 -&gt; Float32 speedup:
+ 32× 32× 32 : 1.283
+ 64× 64× 64 : 1.188
+128×128×128 : 1.120
+256×256×256 : 0.999
+
+CPU -&gt; GPU speedup:
+ 32× 32× 32  [Float32]: 0.851
+ 32× 32× 32  [Float64]: 0.689
+ 64× 64× 64  [Float32]: 5.044
+ 64× 64× 64  [Float64]: 4.088
+128×128×128  [Float32]: 26.602
+128×128×128  [Float64]: 24.097
+256×256×256  [Float32]: 47.891
+256×256×256  [Float64]: 48.116</code></pre><h2 id="Tracers"><a class="docs-heading-anchor" href="#Tracers">Tracers</a><a id="Tracers-1"></a><a class="docs-heading-anchor-permalink" href="#Tracers" title="Permalink"></a></h2><p>This benchmark tests the performance impacts of running with various amounts of active and passive tracers.</p><pre><code class="language-none">Oceananigans v0.34.0 (DEVELOPMENT BRANCH)
+Julia Version 1.4.2
+Commit 44fa15b150* (2020-05-23 18:35 UTC)
+Platform Info:
+  OS: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz
+  WORD_SIZE: 64
+  LIBM: libopenlibm
+  LLVM: libLLVM-8.0.1 (ORCJIT, skylake)
+  GPU: TITAN V
+
+ ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+                      Tracer benchmarks                             Time                   Allocations      
+                                                            ──────────────────────   ───────────────────────
+                      Tot / % measured:                           168s / 1.29%           18.6GiB / 0.77%    
+
+ Section                                            ncalls     time   %tot     avg     alloc   %tot      avg
+ ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+  32× 32× 32 0 active +  0 passive [CPU, Float64]       10   42.4ms  1.96%  4.24ms   1.89MiB  1.29%   194KiB
+  32× 32× 32 0 active +  1 passive [CPU, Float64]       10   48.3ms  2.23%  4.83ms   2.17MiB  1.49%   223KiB
+  32× 32× 32 0 active +  2 passive [CPU, Float64]       10   53.5ms  2.46%  5.35ms   2.61MiB  1.78%   267KiB
+  32× 32× 32 1 active +  0 passive [CPU, Float64]       10   48.9ms  2.25%  4.89ms   2.17MiB  1.49%   223KiB
+  32× 32× 32 2 active +  0 passive [CPU, Float64]       10   56.0ms  2.58%  5.60ms   2.61MiB  1.78%   267KiB
+  32× 32× 32 2 active +  3 passive [CPU, Float64]       10   77.0ms  3.55%  7.70ms   3.73MiB  2.55%   382KiB
+  32× 32× 32 2 active +  5 passive [CPU, Float64]       10   90.4ms  4.16%  9.04ms   4.46MiB  3.05%   457KiB
+  32× 32× 32 2 active + 10 passive [CPU, Float64]       10    127ms  5.86%  12.7ms   6.36MiB  4.35%   651KiB
+ 256×256×128 0 active +  0 passive [GPU, Float64]       10    146ms  6.75%  14.6ms   8.48MiB  5.80%   868KiB
+ 256×256×128 0 active +  1 passive [GPU, Float64]       10    162ms  7.45%  16.2ms   9.92MiB  6.78%  0.99MiB
+ 256×256×128 0 active +  2 passive [GPU, Float64]       10    174ms  8.03%  17.4ms   11.6MiB  7.92%  1.16MiB
+ 256×256×128 1 active +  0 passive [GPU, Float64]       10    160ms  7.39%  16.0ms   9.90MiB  6.77%  0.99MiB
+ 256×256×128 2 active +  0 passive [GPU, Float64]       10    177ms  8.18%  17.7ms   11.6MiB  7.93%  1.16MiB
+ 256×256×128 2 active +  3 passive [GPU, Float64]       10    222ms  10.2%  22.2ms   17.0MiB  11.6%  1.70MiB
+ 256×256×128 2 active +  5 passive [GPU, Float64]       10    255ms  11.8%  25.5ms   20.6MiB  14.1%  2.06MiB
+ 256×256×128 2 active + 10 passive [GPU, Float64]       10    328ms  15.1%  32.8ms   31.3MiB  21.4%  3.13MiB
+ ───────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre><h2 id="Turbulence-closures"><a class="docs-heading-anchor" href="#Turbulence-closures">Turbulence closures</a><a id="Turbulence-closures-1"></a><a class="docs-heading-anchor-permalink" href="#Turbulence-closures" title="Permalink"></a></h2><p>This benchmark tests the performance impacts of various turbulent diffusivity closures and large eddy simulation (LES) models.</p><pre><code class="language-none">Oceananigans v0.34.0 (DEVELOPMENT BRANCH)
+Julia Version 1.4.2
+Commit 44fa15b150* (2020-05-23 18:35 UTC)
+Platform Info:
+  OS: Linux (x86_64-pc-linux-gnu)
+  CPU: Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz
+  WORD_SIZE: 64
+  LIBM: libopenlibm
+  LLVM: libLLVM-8.0.1 (ORCJIT, skylake)
+  GPU: TITAN V
+
+ ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                         Turbulence closure benchmarks                                Time                   Allocations      
+                                                                              ──────────────────────   ───────────────────────
+                               Tot / % measured:                                    257s / 34.3%           25.0GiB / 0.47%    
+
+ Section                                                              ncalls     time   %tot     avg     alloc   %tot      avg
+ ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  32× 32× 32 AnisotropicDiffusivity [CPU, Float64]                        10   52.0ms  0.06%  5.20ms   2.62MiB  2.16%   268KiB
+  32× 32× 32 AnisotropicDiffusivity [GPU, Float64]                        10   52.3ms  0.06%  5.23ms   11.6MiB  9.60%  1.16MiB
+  32× 32× 32 IsotropicDiffusivity [CPU, Float64]                          10   52.7ms  0.06%  5.27ms   2.61MiB  2.15%   267KiB
+  32× 32× 32 IsotropicDiffusivity [GPU, Float64]                          10   49.7ms  0.06%  4.97ms   11.6MiB  9.55%  1.16MiB
+  32× 32× 32 SmagorinskyLilly [CPU, Float64]                              10   88.3ms  0.10%  8.83ms   2.73MiB  2.25%   280KiB
+  32× 32× 32 SmagorinskyLilly [GPU, Float64]                              10   57.1ms  0.06%  5.71ms   12.5MiB  10.3%  1.25MiB
+  32× 32× 32 VerstappenAnisotropicMinimumDissipation [CPU, Float64]       10   85.8ms  0.10%  8.58ms   2.93MiB  2.42%   300KiB
+  32× 32× 32 VerstappenAnisotropicMinimumDissipation [GPU, Float64]       10   67.6ms  0.08%  6.76ms   14.0MiB  11.5%  1.40MiB
+ 256×256×128 AnisotropicDiffusivity [CPU, Float64]                        10    16.7s  19.0%   1.67s   2.62MiB  2.16%   268KiB
+ 256×256×128 AnisotropicDiffusivity [GPU, Float64]                        10    180ms  0.21%  18.0ms   11.7MiB  9.62%  1.17MiB
+ 256×256×128 IsotropicDiffusivity [CPU, Float64]                          10    16.5s  18.7%   1.65s   2.61MiB  2.15%   267KiB
+ 256×256×128 IsotropicDiffusivity [GPU, Float64]                          10    179ms  0.20%  17.9ms   11.6MiB  9.59%  1.16MiB
+ 256×256×128 SmagorinskyLilly [CPU, Float64]                              10    27.4s  31.1%   2.74s   2.73MiB  2.26%   280KiB
+ 256×256×128 SmagorinskyLilly [GPU, Float64]                              10    268ms  0.30%  26.8ms   12.5MiB  10.3%  1.25MiB
+ 256×256×128 VerstappenAnisotropicMinimumDissipation [CPU, Float64]       10    26.0s  29.5%   2.60s   2.93MiB  2.42%   300KiB
+ 256×256×128 VerstappenAnisotropicMinimumDissipation [GPU, Float64]       10    289ms  0.33%  28.9ms   14.0MiB  11.6%  1.40MiB
+ ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../gallery/">« Gallery</a><a class="docs-footer-nextpage" href="../contributing/">Contributor&#39;s guide »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 22 February 2021 17:04">Monday 22 February 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

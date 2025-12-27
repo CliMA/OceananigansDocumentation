@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Internal wave · Oceananigans.jl</title><meta name="title" content="Internal wave · Oceananigans.jl"/><meta property="og:title" content="Internal wave · Oceananigans.jl"/><meta property="twitter:title" content="Internal wave · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/internal_wave/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/internal_wave/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/literated/internal_wave/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li class="is-active"><a class="tocitem" href>Internal wave</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#The-physical-domain"><span>The physical domain</span></a></li><li><a class="tocitem" href="#Internal-wave-parameters"><span>Internal wave parameters</span></a></li><li><a class="tocitem" href="#A-Gaussian-wavepacket"><span>A Gaussian wavepacket</span></a></li><li><a class="tocitem" href="#A-wave-packet-on-the-loose"><span>A wave packet on the loose</span></a></li><li><a class="tocitem" href="#Animating-a-propagating-packet"><span>Animating a propagating packet</span></a></li></ul></li><li><a class="tocitem" href="../internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../models/models_overview/">Overview</a></li><li><a class="tocitem" href="../../models/coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../../models/buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../../models/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../models/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../models/forcing_functions/">Forcings</a></li><li><a class="tocitem" href="../../models/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../models/background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../simulations/simulations_overview/">Overview</a></li><li><a class="tocitem" href="../../simulations/schedules/">Schedules</a></li><li><a class="tocitem" href="../../simulations/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../simulations/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Internal wave</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Internal wave</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/examples/internal_wave.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Internal-wave-example"><a class="docs-heading-anchor" href="#Internal-wave-example">Internal wave example</a><a id="Internal-wave-example-1"></a><a class="docs-heading-anchor-permalink" href="#Internal-wave-example" title="Permalink"></a></h1><p>In this example, we initialize an internal wave packet in two-dimensions and watch it propagate. This example illustrates how to set up a two-dimensional model, set initial conditions, and how to use <code>BackgroundField</code>s.</p><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie&quot;</code></pre><h2 id="The-physical-domain"><a class="docs-heading-anchor" href="#The-physical-domain">The physical domain</a><a id="The-physical-domain-1"></a><a class="docs-heading-anchor-permalink" href="#The-physical-domain" title="Permalink"></a></h2><p>First, we pick a resolution and domain size. We use a two-dimensional domain that&#39;s periodic in <span>$(x, z)$</span> and is <code>Flat</code> in <span>$y$</span>:</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(size=(128, 128), x=(-π, π), z=(-π, π), topology=(Periodic, Flat, Periodic))</code></pre><pre><code class="nohighlight hljs">128×1×128 RectilinearGrid{Float64, Periodic, Flat, Periodic} on CPU with 3×0×3 halo
+├── Periodic x ∈ [-3.14159, 3.14159) regularly spaced with Δx=0.0490874
+├── Flat y                           
+└── Periodic z ∈ [-3.14159, 3.14159) regularly spaced with Δz=0.0490874</code></pre><h2 id="Internal-wave-parameters"><a class="docs-heading-anchor" href="#Internal-wave-parameters">Internal wave parameters</a><a id="Internal-wave-parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Internal-wave-parameters" title="Permalink"></a></h2><p>Inertia-gravity waves propagate in fluids that are both <em>(i)</em> rotating, and <em>(ii)</em> density-stratified. We use Oceananigans&#39; Coriolis abstraction to implement a background rotation rate:</p><pre><code class="language-julia hljs">coriolis = FPlane(f=0.2)</code></pre><pre><code class="nohighlight hljs">FPlane{Float64}(f=0.2)</code></pre><p>On an <code>FPlane</code>, the domain is idealized as rotating at a constant rate with rotation period <code>2π/f</code>. <code>coriolis</code> is passed to <code>NonhydrostaticModel</code> below. Our units are arbitrary.</p><p>We use Oceananigans&#39; <code>background_fields</code> abstraction to define a background buoyancy field <code>B(z) = N^2 * z</code>, where <code>z</code> is the vertical coordinate and <code>N</code> is the &quot;buoyancy frequency&quot;. This means that the modeled buoyancy field perturbs the basic state <code>B(z)</code>.</p><pre><code class="language-julia hljs"># Background fields are functions of `x, y, z, t`, and optional parameters.
+# Here we have one parameter, the buoyancy frequency
+
+N = 1       # buoyancy frequency [s⁻¹]
+B_func(x, z, t, N) = N^2 * z
+B = BackgroundField(B_func, parameters=N)</code></pre><pre><code class="nohighlight hljs">BackgroundField{typeof(Main.var&quot;##2229&quot;.B_func), Int64}
+├── func: B_func (generic function with 1 method)
+└── parameters: 1</code></pre><p>We are now ready to instantiate our model. We pass <code>grid</code>, <code>coriolis</code>, and <code>B</code> to the <code>NonhydrostaticModel</code> constructor. We add a small amount of <code>IsotropicDiffusivity</code> to keep the model stable during time-stepping, and specify that we&#39;re using a single tracer called <code>b</code> that we identify as buoyancy by setting <code>buoyancy=BuoyancyTracer()</code>.</p><pre><code class="language-julia hljs">model = NonhydrostaticModel(; grid, coriolis,
+                            advection = Centered(order=4),
+                            closure = ScalarDiffusivity(ν=1e-6, κ=1e-6),
+                            tracers = :b,
+                            buoyancy = BuoyancyTracer(),
+                            background_fields = (; b=B)) # `background_fields` is a `NamedTuple`</code></pre><pre><code class="nohighlight hljs">NonhydrostaticModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── grid: 128×1×128 RectilinearGrid{Float64, Periodic, Flat, Periodic} on CPU with 3×0×3 halo
+├── timestepper: RungeKutta3TimeStepper
+├── advection scheme: Centered(order=4)
+├── tracers: b
+├── closure: ScalarDiffusivity{ExplicitTimeDiscretization}(ν=1.0e-6, κ=(b=1.0e-6,))
+├── buoyancy: BuoyancyTracer with ĝ = NegativeZDirection()
+└── coriolis: FPlane{Float64}(f=0.2)</code></pre><h2 id="A-Gaussian-wavepacket"><a class="docs-heading-anchor" href="#A-Gaussian-wavepacket">A Gaussian wavepacket</a><a id="A-Gaussian-wavepacket-1"></a><a class="docs-heading-anchor-permalink" href="#A-Gaussian-wavepacket" title="Permalink"></a></h2><p>Next, we set up an initial condition that excites an internal wave that propagates through our rotating, stratified fluid. This internal wave has the pressure field</p><p class="math-container">\[p(x, z, t) = a(x, z) \, \cos(k x + m z - ω t) \, .\]</p><p>where <span>$m$</span> is the vertical wavenumber, <span>$k$</span> is the horizontal wavenumber, <span>$ω$</span> is the wave frequency, and <span>$a(x, z)$</span> is a Gaussian envelope. The internal wave dispersion relation links the wave numbers <span>$k$</span> and <span>$m$</span>, the Coriolis parameter <span>$f$</span>, and the buoyancy frequency <span>$N$</span>:</p><p>Non-dimensional internal wave parameters</p><pre><code class="language-julia hljs">m = 16      # vertical wavenumber
+k = 8       # horizontal wavenumber
+f = coriolis.f
+
+# Dispersion relation for inertia-gravity waves
+ω² = (N^2 * k^2 + f^2 * m^2) / (k^2 + m^2)
+
+ω = sqrt(ω²)</code></pre><p>We define a Gaussian envelope for the wave packet so that we can observe wave propagation.</p><pre><code class="language-julia hljs"># Some Gaussian parameters
+gaussian_amplitude = 1e-9
+gaussian_width = grid.Lx / 15
+
+# A Gaussian envelope centered at `(x, z) = (0, 0)`
+a(x, z) = gaussian_amplitude * exp( -( x^2 + z^2 ) / 2gaussian_width^2 )</code></pre><p>An inertia-gravity wave is a linear solution to the Boussinesq equations. In order that our initial condition excites an inertia-gravity wave, we initialize the velocity and buoyancy perturbation fields to be consistent with the pressure field <span>$p = a \, \cos(kx + mx - ωt)$</span> at <span>$t=0$</span>. These relations are sometimes called the &quot;polarization relations&quot;. At <span>$t=0$</span>, the polarization relations yield</p><pre><code class="language-julia hljs">u₀(x, z) = a(x, z) * k * ω   / (ω^2 - f^2) * cos(k * x + m * z)
+v₀(x, z) = a(x, z) * k * f   / (ω^2 - f^2) * sin(k * x + m * z)
+w₀(x, z) = a(x, z) * m * ω   / (ω^2 - N^2) * cos(k * x + m * z)
+b₀(x, z) = a(x, z) * m * N^2 / (ω^2 - N^2) * sin(k * x + m * z)
+
+set!(model, u=u₀, v=v₀, w=w₀, b=b₀)</code></pre><p>Recall that the buoyancy <code>b</code> is a perturbation, so that the total buoyancy field is <span>$N^2 z + b$</span>.</p><h2 id="A-wave-packet-on-the-loose"><a class="docs-heading-anchor" href="#A-wave-packet-on-the-loose">A wave packet on the loose</a><a id="A-wave-packet-on-the-loose-1"></a><a class="docs-heading-anchor-permalink" href="#A-wave-packet-on-the-loose" title="Permalink"></a></h2><p>We&#39;re ready to release the packet. We build a simulation with a constant time-step,</p><pre><code class="language-julia hljs">simulation = Simulation(model, Δt = 0.1 * 2π/ω, stop_iteration = 20)</code></pre><pre><code class="nohighlight hljs">Simulation of NonhydrostaticModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── Next time step: 1.304 seconds
+├── run_wall_time: 0 seconds
+├── run_wall_time / iteration: NaN days
+├── stop_time: Inf days
+├── stop_iteration: 20.0
+├── wall_time_limit: Inf
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+└── output_writers: OrderedDict with no entries</code></pre><p>and add an output writer that saves the vertical velocity field every two iterations:</p><pre><code class="language-julia hljs">filename = &quot;internal_wave.jld2&quot;
+simulation.output_writers[:velocities] = JLD2Writer(model, model.velocities; filename,
+                                                    schedule = IterationInterval(1),
+                                                    overwrite_existing = true)</code></pre><pre><code class="nohighlight hljs">JLD2Writer scheduled on IterationInterval(1):
+├── filepath: internal_wave.jld2
+├── 3 outputs: (u, v, w)
+├── array_type: Array{Float32}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+├── file_splitting: NoFileSplitting
+└── file size: 35.6 KiB</code></pre><p>With initial conditions set and an output writer at the ready, we run the simulation</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (2.004 seconds)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (2.113 seconds).
+[ Info: Simulation is stopping after running for 4.331 seconds.
+[ Info: Model iteration 20 equals or exceeds stop iteration 20.
+</code></pre><h2 id="Animating-a-propagating-packet"><a class="docs-heading-anchor" href="#Animating-a-propagating-packet">Animating a propagating packet</a><a id="Animating-a-propagating-packet-1"></a><a class="docs-heading-anchor-permalink" href="#Animating-a-propagating-packet" title="Permalink"></a></h2><p>To animate a the propagating wavepacket we just simulated, we load CairoMakie and make a Figure and an Axis for the animation,</p><pre><code class="language-julia hljs">using CairoMakie
+set_theme!(Theme(fontsize = 20))
+
+fig = Figure(size = (600, 600))
+
+ax = Axis(fig[2, 1]; xlabel = &quot;x&quot;, ylabel = &quot;z&quot;,
+          limits = ((-π, π), (-π, π)), aspect = AxisAspect(1))
+</code></pre><p>Next, we load <code>w</code> data with <code>FieldTimeSeries</code> of <code>w</code> and make contour plots of vertical velocity. We use Makie&#39;s <code>Observable</code> to animate the data. To dive into how <code>Observable</code>s work, refer to <a href="https://docs.makie.org/stable/explanations/observables">Makie.jl&#39;s Documentation</a>.</p><pre><code class="language-julia hljs">n = Observable(1)
+
+w_timeseries = FieldTimeSeries(filename, &quot;w&quot;)
+w = @lift w_timeseries[$n]
+w_lim = 1e-8
+
+contourf!(ax, w;
+          levels = range(-w_lim, stop=w_lim, length=10),
+          colormap = :balance,
+          extendlow = :auto,
+          extendhigh = :auto)
+
+title = @lift &quot;ωt = &quot; * string(round(w_timeseries.times[$n] * ω, digits=2))
+fig[1, 1] = Label(fig, title, fontsize=24, tellwidth=false)</code></pre><pre><code class="nohighlight hljs">Label()</code></pre><p>And, finally, we record a movie.</p><pre><code class="language-julia hljs">using Printf
+
+frames = 1:length(w_timeseries.times)
+
+@info &quot;Animating a propagating internal wave...&quot;
+
+record(fig, &quot;internal_wave.mp4&quot;, frames, framerate=8) do i
+    n[] = i
+end</code></pre><pre><code class="nohighlight hljs">[ Info: Animating a propagating internal wave...
+</code></pre><p><video src="../internal_wave.mp4" controls="true" title><a href="../internal_wave.mp4"></a></video></p><hr/><h3 id="Julia-version-and-environment-information"><a class="docs-heading-anchor" href="#Julia-version-and-environment-information">Julia version and environment information</a><a id="Julia-version-and-environment-information-1"></a><a class="docs-heading-anchor-permalink" href="#Julia-version-and-environment-information" title="Permalink"></a></h3><p>This example was executed with the following version of Julia:</p><pre><code class="language-julia hljs">using InteractiveUtils: versioninfo
+versioninfo()</code></pre><pre><code class="nohighlight hljs">Julia Version 1.12.2
+Commit ca9b6662be4 (2025-11-20 16:25 UTC)
+Build Info:
+  Official https://julialang.org release
+Platform Info:
+  OS: Linux (x86_64-linux-gnu)
+  CPU: 128 × AMD EPYC 9374F 32-Core Processor
+  WORD_SIZE: 64
+  LLVM: libLLVM-18.1.7 (ORCJIT, znver4)
+  GC: Built with stock GC
+Threads: 1 default, 1 interactive, 1 GC (on 128 virtual cores)
+Environment:
+  LD_LIBRARY_PATH = 
+  JULIA_PKG_SERVER_REGISTRY_PREFERENCE = eager
+  JULIA_DEPOT_PATH = /var/lib/buildkite-agent/.julia-oceananigans
+  JULIA_PROJECT = /var/lib/buildkite-agent/Oceananigans.jl-27792/docs/
+  JULIA_VERSION = 1.12.2
+  JULIA_LOAD_PATH = @:@v#.#:@stdlib
+  JULIA_VERSION_ENZYME = 1.10.10
+  JULIA_PYTHONCALL_EXE = /var/lib/buildkite-agent/Oceananigans.jl-27792/docs/.CondaPkg/.pixi/envs/default/bin/python
+  JULIA_DEBUG = Literate
+</code></pre><p>These were the top-level packages installed in the environment:</p><pre><code class="language-julia hljs">import Pkg
+Pkg.status()</code></pre><pre><code class="nohighlight hljs">Status `~/Oceananigans.jl-27792/docs/Project.toml`
+  [79e6a3ab] Adapt v4.4.0
+  [052768ef] CUDA v5.9.5
+  [13f3f980] CairoMakie v0.15.8
+  [e30172f5] Documenter v1.16.1
+  [daee34ce] DocumenterCitations v1.4.1
+  [033835bb] JLD2 v0.6.3
+  [98b081ad] Literate v2.21.0
+  [da04e1cc] MPI v0.20.23
+  [85f8d34a] NCDatasets v0.14.10
+  [9e8cae18] Oceananigans v0.103.0 `~/Oceananigans.jl-27792`
+  [f27b6e38] Polynomials v4.1.0
+  [6038ab10] Rotations v1.7.1
+  [d496a93d] SeawaterPolynomials v0.3.10
+  [09ab397b] StructArrays v0.7.2
+  [bdfc003b] TimesDates v0.3.3
+  [2e0b0046] XESMF v0.1.6
+  [b77e0a4c] InteractiveUtils v1.11.0
+  [37e2e46d] LinearAlgebra v1.12.0
+  [44cfe95a] Pkg v1.12.0
+</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../two_dimensional_turbulence/">« Two-dimensional turbulence</a><a class="docs-footer-nextpage" href="../internal_tide/">Internal tide by a seamount »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Saturday 27 December 2025 05:26">Saturday 27 December 2025</span>. Using Julia version 1.12.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

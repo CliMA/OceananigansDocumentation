@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Overview · Oceananigans.jl</title><meta name="title" content="Overview · Oceananigans.jl"/><meta property="og:title" content="Overview · Oceananigans.jl"/><meta property="twitter:title" content="Overview · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../literated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../../literated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../../literated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../../literated/internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../../literated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../../literated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../../literated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../../literated/baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../../literated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../../literated/lock_exchange/">Lock exchange</a></li><li><a class="tocitem" href="../../literated/shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../../literated/horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../../literated/tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../models/models_overview/">Overview</a></li><li><a class="tocitem" href="../../models/coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../../models/buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../../models/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../models/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../models/forcing_functions/">Forcings</a></li><li><a class="tocitem" href="../../models/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../models/background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox" checked/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li class="is-active"><a class="tocitem" href>Overview</a><ul class="internal"><li><a class="tocitem" href="#A-simple-simulation"><span>A simple simulation</span></a></li><li><a class="tocitem" href="#Stop-criteria-and-time-step-control"><span>Stop criteria and time-step control</span></a></li><li><a class="tocitem" href="#Introduction-to-writing-output"><span>Introduction to writing output</span></a></li><li><a class="tocitem" href="#Putting-it-together"><span>Putting it together</span></a></li></ul></li><li><a class="tocitem" href="../schedules/">Schedules</a></li><li><a class="tocitem" href="../output_writers/">Output writers</a></li><li><a class="tocitem" href="../checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/coordinate_systems/">Coordinate systems</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Simulations</a></li><li class="is-active"><a href>Overview</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Overview</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/docs/src/simulations/simulations_overview.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="simulation_overview"><a class="docs-heading-anchor" href="#simulation_overview">Simulations: managing model time-stepping</a><a id="simulation_overview-1"></a><a class="docs-heading-anchor-permalink" href="#simulation_overview" title="Permalink"></a></h1><p><a href="../../appendix/library/#Oceananigans.Simulations.Simulation-Tuple{Any}"><code>Simulation</code></a> orchestrates model time-stepping loops that include stop conditions, writing output, and the execution of &quot;callbacks&quot; that can do everything from monitoring simulation progress to editing the model state.</p><p>Scripts for numerical experiments can be broken into four parts:</p><ol><li>Definition of the &quot;grid&quot; and physical domain for the numerical experiment</li><li>Configuration of physics and model construction</li><li>Building a <code>Simulation</code> time-stepping loop with callbacks and output writers</li><li>Calling <a href="../../appendix/library/#Oceananigans.Simulations.run!-Tuple{Any}"><code>run!</code></a> to integrate the model forward in time.</li></ol><p><code>Simulation</code> is the final boss object that users interact with in order in the process of performing a numerical experiment.</p><h2 id="A-simple-simulation"><a class="docs-heading-anchor" href="#A-simple-simulation">A simple simulation</a><a id="A-simple-simulation-1"></a><a class="docs-heading-anchor-permalink" href="#A-simple-simulation" title="Permalink"></a></h2><p>A minimal example illustrates how <code>Simulation</code> works:</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(size=(4, 4, 4), extent=(1, 1, 1))
+model = NonhydrostaticModel(; grid)
+simulation = Simulation(model; Δt=7, stop_iteration=6)
+run!(simulation)
+
+simulation</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Simulation of NonhydrostaticModel{CPU, RectilinearGrid}(time = 42 seconds, iteration = 6)
+├── Next time step: 7 seconds
+├── run_wall_time: 4.123 seconds
+├── run_wall_time / iteration: 687.169 ms
+├── stop_time: Inf days
+├── stop_iteration: 6.0
+├── wall_time_limit: Inf
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+└── output_writers: OrderedDict with no entries</code></pre><p>A more complicated setup might invoke multiple callbacks:</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(size=(4, 4, 4), extent=(1, 1, 1))
+model = NonhydrostaticModel(; grid)
+simulation = Simulation(model; Δt=7, stop_time=14)
+
+print_progress(sim) = @info string(&quot;Iteration: &quot;, iteration(sim), &quot;, time: &quot;, time(sim))
+add_callback!(simulation, print_progress, IterationInterval(2))
+
+declare_time(sim) = @info string(&quot;The simulation has been running for &quot;, prettytime(sim.run_wall_time), &quot;!&quot;)
+add_callback!(simulation, declare_time, TimeInterval(10))
+
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iteration: 0, time: 0.0
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>The simulation has been running for 0 seconds!
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (41.012 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (5.274 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iteration: 2, time: 10.0
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>The simulation has been running for 46.541 ms!
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 47.157 ms.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 14 seconds equals or exceeds stop time 14 seconds.</code></pre><p><code>Simulation</code> book-keeps the total iterations performed, the next <code>Δt</code>, and the lists of <code>callbacks</code> and <code>output_writers</code>. <code>Simulation</code>s can be continued, which is helpful for interactive work:</p><pre><code class="language-julia hljs">simulation.stop_time = 42
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (113.410 μs)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iteration: 4, time: 21.0
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (562.914 μs).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>The simulation has been running for 800.952 μs!
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iteration: 6, time: 31.0
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>The simulation has been running for 1.779 ms!
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iteration: 8, time: 41.0
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 2.701 ms.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 42 seconds equals or exceeds stop time 42 seconds.</code></pre><h2 id="Stop-criteria-and-time-step-control"><a class="docs-heading-anchor" href="#Stop-criteria-and-time-step-control">Stop criteria and time-step control</a><a id="Stop-criteria-and-time-step-control-1"></a><a class="docs-heading-anchor-permalink" href="#Stop-criteria-and-time-step-control" title="Permalink"></a></h2><p>The <code>Simulation</code> constructor accepts three stopping conditions:</p><ul><li><code>stop_iteration</code>: maximum number of steps</li><li><code>stop_time</code>: maximum model clock time (same units as the model&#39;s clock)</li><li><code>wall_time_limit</code>: maximum wall-clock seconds before the run aborts</li></ul><pre><code class="language-julia hljs">simulation = Simulation(model; Δt=0.1, stop_time=10, stop_iteration=10000, wall_time_limit=30)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Simulation of NonhydrostaticModel{CPU, RectilinearGrid}(time = 42 seconds, iteration = 9)
+├── Next time step: 100 ms
+├── run_wall_time: 0 seconds
+├── run_wall_time / iteration: 0 seconds
+├── stop_time: 10 seconds
+├── stop_iteration: 10000.0
+├── wall_time_limit: 30.0
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+└── output_writers: OrderedDict with no entries</code></pre><h3 id="Callback-basics"><a class="docs-heading-anchor" href="#Callback-basics">Callback basics</a><a id="Callback-basics-1"></a><a class="docs-heading-anchor-permalink" href="#Callback-basics" title="Permalink"></a></h3><p><a href="../../appendix/library/#Oceananigans.Simulations.Callback">Callback</a> executes arbitrary code on a <a href="../schedules/#callback_schedules">schedule</a>. Callbacks can be used to monitor simulation progress, compute diagnostics, and adjust the course of a simulation. To illustrate a hierarchy of callbacks we use a simulation with a forced passive tracer:</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(size=(4, 4, 4), extent=(1, 1, 1))
+
+c_source(x, y, z, t, c) = 0.1 * c
+c_forcing = Forcing(c_source, field_dependencies=:c)
+model = NonhydrostaticModel(; grid, tracers=:c, forcing=(; c=c_forcing))
+simulation = Simulation(model; Δt=0.1, stop_time=10)
+
+# Add a callback that prints progress
+print_progress(sim) = @info &quot;Iter $(iteration(sim)): $(prettytime(sim))&quot;
+add_callback!(simulation, print_progress, IterationInterval(25), name=:progress)
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iter 0: 0 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (756.114 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (2.144 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iter 25: 2.500 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iter 50: 5.000 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iter 75: 7.500 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iter 100: 10.000 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 3.092 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 10 seconds equals or exceeds stop time 10 seconds.</code></pre><div class="admonition is-info" id="Naming-callbacks-83facfc6019aa183"><header class="admonition-header">Naming callbacks<a class="admonition-anchor" href="#Naming-callbacks-83facfc6019aa183" title="Permalink"></a></header><div class="admonition-body"><p>Callbacks can optionally be assigned a <code>name</code> via <code>add_callback!</code> or by adding the callback manually to the <code>callbacks</code> dictionary: <code>simulation.callbacks[:mine] = my_callback</code>. Names can be used to identify, modify, or delete callbacks from <code>Simulation</code>.</p></div></div><h3 id="Callbacks:-for-stopping-a-simulation"><a class="docs-heading-anchor" href="#Callbacks:-for-stopping-a-simulation">Callbacks: for stopping a simulation</a><a id="Callbacks:-for-stopping-a-simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Callbacks:-for-stopping-a-simulation" title="Permalink"></a></h3><p>To spark your imagination, consider that callbacks can be used to implement arbitrary stopping criteria. As an example we consider a stopping criteria based on the magnitude of a tracer:</p><pre><code class="language-julia hljs">using Printf
+
+set!(model, c=1)
+
+function stop_simulation(sim)
+    if maximum(sim.model.tracers.c) &gt;= 2
+        sim.running = false
+        @info &quot;The simulation is stopping because max(c) &gt;= 2.&quot;
+    end
+    return nothing
+end
+
+# The default schedule is IterationInterval(1)
+add_callback!(simulation, stop_simulation)
+
+function print_progress(sim)
+    max_c = maximum(sim.model.tracers.c)
+    @info @sprintf(&quot;Iter %d: t = %s, max(c): %.2f&quot;,
+                   iteration(sim), prettytime(sim), max_c)
+    return nothing
+end
+
+add_callback!(simulation, stop_simulation, IterationInterval(10), name=:progress)
+simulation.stop_time += 10
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (9.280 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (571.107 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>The simulation is stopping because max(c) &gt;= 2.</code></pre><div class="admonition is-info" id="Callback-execution-order-602b3caf21baac69"><header class="admonition-header">Callback execution order<a class="admonition-anchor" href="#Callback-execution-order-602b3caf21baac69" title="Permalink"></a></header><div class="admonition-body"><p>Callbacks are executed in the order they appear within the <code>callbacks</code> <code>OrderedDict</code>, which in turn corresponds to the order they are added.</p></div></div><h3 id="Adaptive-time-stepping-with-TimeStepWizard"><a class="docs-heading-anchor" href="#Adaptive-time-stepping-with-TimeStepWizard">Adaptive time-stepping with <code>TimeStepWizard</code></a><a id="Adaptive-time-stepping-with-TimeStepWizard-1"></a><a class="docs-heading-anchor-permalink" href="#Adaptive-time-stepping-with-TimeStepWizard" title="Permalink"></a></h3><p>The time-step can be changed by modifying <code>simulation.Δt</code>. To decrease the computational cost of simulations of flows that significantly grow or decay in time, users may invoke a special callback called <a href="../../appendix/library/#Oceananigans.Simulations.TimeStepWizard"><code>TimeStepWizard</code></a> (which is associated with a special helper function <a href="../../appendix/library/#Oceananigans.Simulations.conjure_time_step_wizard!"><code>conjure_time_step_wizard!</code></a>). <code>TimeStepWizard</code> monitors the <a href="https://en.wikipedia.org/wiki/Courant%E2%80%93Friedrichs%E2%80%93Lewy_condition">advective and diffusive Courant numbers</a>, increasing or decreasing <code>simulation.Δt</code> to keep the time-step near its maximum stable value while respecting bounds such as <code>max_change</code> or <code>max_Δt</code>.</p><pre><code class="language-julia hljs">ϵ(x, y, z) = 1e-2
+set!(model, c=1, u=ϵ, v=ϵ, w=ϵ)
+
+conjure_time_step_wizard!(simulation, cfl=0.7)
+simulation</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Simulation of NonhydrostaticModel{CPU, RectilinearGrid}(time = 17.000 seconds, iteration = 171)
+├── Next time step: 100 ms
+├── run_wall_time: 694.497 ms
+├── run_wall_time / iteration: 4.061 ms
+├── stop_time: 20 seconds
+├── stop_iteration: Inf
+├── wall_time_limit: Inf
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 7 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   ├── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+│   ├── progress =&gt; Callback of stop_simulation on IterationInterval(10)
+│   ├── callback1 =&gt; Callback of stop_simulation on IterationInterval(1)
+│   └── time_step_wizard =&gt; Callback of TimeStepWizard(cfl=0.7, max_Δt=Inf, min_Δt=0.0) on IterationInterval(10)
+└── output_writers: OrderedDict with no entries</code></pre><p>A <code>TimeStepWizard</code> has been added to the list of <code>simulation.callbacks</code>. <code>TimeStepWizard</code> is authorized to modify the time-step as the simulation progresses (every 10 iterations by default, but this can be modified):</p><pre><code class="language-julia hljs">print_progress(sim) = @info string(&quot;Iter: &quot;, iteration(sim), &quot;: Δt = &quot;, prettytime(sim.Δt))
+add_callback!(simulation, print_progress, IterationInterval(10), name=:progress)
+simulation.stop_time += 1
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (378.007 μs)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (1.038 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iter: 180: Δt = 100 ms
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iter: 190: Δt = 110.000 ms
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Iter: 200: Δt = 121.000 ms
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 350.474 ms.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 21 seconds equals or exceeds stop time 21 seconds.</code></pre><h3 id="Time-step-alignment-with-scheduled-events"><a class="docs-heading-anchor" href="#Time-step-alignment-with-scheduled-events">Time-step alignment with scheduled events</a><a id="Time-step-alignment-with-scheduled-events-1"></a><a class="docs-heading-anchor-permalink" href="#Time-step-alignment-with-scheduled-events" title="Permalink"></a></h3><p>By default, <code>Simulation</code> &quot;aligns&quot; <code>Δt</code> so that events which are <em>scheduled by time</em> (such as <code>TimeInterval</code> and <code>SpecifiedTimes</code>) occur exactly on schedule. Time-step alignment may be disabled by setting <code>align_time_step = false</code> in the <code>Simulation</code> constructor.</p><pre><code class="language-julia hljs">print_progress(sim) = @info &quot;At t = $(time(sim)), iter = $(iteration(sim))&quot;
+add_callback!(simulation, print_progress, TimeInterval(0.2), name=:progress)
+simulation.stop_time += 0.6
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (10.805 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (7.139 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>At t = 21.2, iter = 208
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>At t = 21.4, iter = 210
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 56.195 ms.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 21.600 seconds equals or exceeds stop time 21.600 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>At t = 21.6, iter = 212</code></pre><div class="admonition is-info" id="Minimum-relative-step-f18f48ed9abfee2f"><header class="admonition-header">Minimum relative step<a class="admonition-anchor" href="#Minimum-relative-step-f18f48ed9abfee2f" title="Permalink"></a></header><div class="admonition-body"><p>Due to round-off error, time-step alignment can produce very small <code>Δt</code> close to machine epsilon –- for example, when <code>TimeInterval</code> is a constant multiple of a fixed <code>Δt</code>. In some cases, <code>Δt</code> close to machine epsilon is undesirable: for example, with <code>NonhydrostaticModel</code> a machine epsilon <code>Δt</code> will produce a pressure field that is polluted by numerical error due to its pressure correction algorithm. To mitigate issues associated with very small time-steps, the <code>Simulation</code> constructor accepts a <code>minimum_relative_step</code> argument (a typical choice is 1e-9). When <code>minimum_relative_step &gt; 0</code>, a time-step will be skipped (instead, the clock is simply reset) if an aligned  time-step is less than <code>minimum_relative_step * previous_Δt</code>.</p></div></div><h3 id="Callback-&quot;callsites&quot;"><a class="docs-heading-anchor" href="#Callback-&quot;callsites&quot;">Callback &quot;callsites&quot;</a><a id="Callback-&quot;callsites&quot;-1"></a><a class="docs-heading-anchor-permalink" href="#Callback-&quot;callsites&quot;" title="Permalink"></a></h3><p>The <code>callsite</code> keyword lets callbacks hook into different parts of the time-stepping cycle. For example, use <code>callsite = TendencyCallsite()</code> to modify tendencies before a step, or <code>UpdateStateCallsite()</code> to react after auxiliary variables update. See the <a href="../callbacks/#callbacks">Callbacks page</a> for more customization patterns, including parameterized callbacks and state callbacks.</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans: TendencyCallsite
+
+model = NonhydrostaticModel(grid=RectilinearGrid(size=(1, 1, 1), extent=(1, 1, 1)))
+simulation = Simulation(model, Δt=1, stop_iteration=10)
+
+function modify_tendency!(model, params)
+    model.timestepper.Gⁿ[params.c] .+= params.δ
+    return nothing
+end
+
+simulation.callbacks[:modify_u] = Callback(modify_tendency!, IterationInterval(1),
+                                           callsite = TendencyCallsite(),
+                                           parameters = (c = :u, δ = 1))
+
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (8.840 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (142.428 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 226.074 ms.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Model iteration 10 equals or exceeds stop iteration 10.</code></pre><h2 id="Introduction-to-writing-output"><a class="docs-heading-anchor" href="#Introduction-to-writing-output">Introduction to writing output</a><a id="Introduction-to-writing-output-1"></a><a class="docs-heading-anchor-permalink" href="#Introduction-to-writing-output" title="Permalink"></a></h2><p>Output writers live in the ordered dictionary <code>simulation.output_writers</code>. Each writer pairs outputs with a schedule describing <em>when</em> to export them and a backend (NetCDF, JLD2, or Checkpointer) describing <em>how</em> to serialize them. Time-step alignment ensures the writer&#39;s schedule is honored without user intervention.</p><pre><code class="language-julia hljs">using NCDatasets
+
+fields = Dict(&quot;u&quot; =&gt; simulation.model.velocities.u)
+
+simulation.output_writers[:surface_slice] = NetCDFWriter(simulation.model, fields;
+                                                         filename = &quot;demo.nc&quot;,
+                                                         schedule = TimeInterval(30),
+                                                         indices = (:, :, grid.Nz))
+simulation.output_writers</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">OrderedCollections.OrderedDict{Symbol, Oceananigans.AbstractOutputWriter} with 1 entry:
+  :surface_slice =&gt; NetCDFWriter scheduled on TimeInterval(30 seconds):…</code></pre><p>During <code>run!</code>, Oceananigans calls each writer whenever its schedule actuates. More comprehensive information may be found on the <a href="../output_writers/#output_writers">output writers page</a>.</p><h2 id="Putting-it-together"><a class="docs-heading-anchor" href="#Putting-it-together">Putting it together</a><a id="Putting-it-together-1"></a><a class="docs-heading-anchor-permalink" href="#Putting-it-together" title="Permalink"></a></h2><p>Combining callbacks, output writers, and adaptive time-stepping turns a few lines of model code into a robust workflow:</p><pre><code class="language-julia hljs">using Oceananigans.Units: hours, minutes
+
+model = NonhydrostaticModel(; grid, tracers=:T)
+simulation = Simulation(model, Δt=20, stop_time=2hours)
+
+progress(sim) = @info &quot;t = $(prettytime(sim)), Δt = $(prettytime(sim.Δt))&quot;
+add_callback!(simulation, progress, IterationInterval(10))
+conjure_time_step_wizard!(simulation, cfl=0.8)
+
+simulation.output_writers[:snapshots] = JLD2Writer(simulation.model, simulation.model.velocities;
+                                                   filename = &quot;snapshots.jld2&quot;,
+                                                   schedule = TimeInterval(30minutes))
+
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 0 seconds, Δt = 20 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (1.326 seconds)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (486.049 ms).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 3.667 minutes, Δt = 22 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 7.700 minutes, Δt = 24.200 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 12.137 minutes, Δt = 26.620 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 17.017 minutes, Δt = 29.282 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 22.385 minutes, Δt = 32.210 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 28.291 minutes, Δt = 35.431 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 34.547 minutes, Δt = 38.974 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 41.692 minutes, Δt = 42.872 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 49.552 minutes, Δt = 47.159 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 58.198 minutes, Δt = 51.875 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 1.127 hours, Δt = 57.062 seconds
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 1.301 hours, Δt = 1.046 minutes
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 1.493 hours, Δt = 1.151 minutes
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 1.690 hours, Δt = 1.266 minutes
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>t = 1.922 hours, Δt = 1.392 minutes
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 2.026 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 2 hours equals or exceeds stop time 2 hours.</code></pre><p>For more recipes continue with the page on <a href="@ref schedules">schedules</a>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../models/background_fields/">« Background fields</a><a class="docs-footer-nextpage" href="../schedules/">Schedules »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Saturday 27 December 2025 00:27">Saturday 27 December 2025</span>. Using Julia version 1.12.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

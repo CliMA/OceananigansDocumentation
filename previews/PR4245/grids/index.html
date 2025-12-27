@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Grids · Oceananigans.jl</title><meta name="title" content="Grids · Oceananigans.jl"/><meta property="og:title" content="Grids · Oceananigans.jl"/><meta property="twitter:title" content="Grids · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/grids/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/grids/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/grids/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script><link href="../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../literated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../literated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../literated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../literated/internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../literated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../literated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../literated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../literated/baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../literated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../literated/shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../literated/horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../literated/tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li class="is-active"><a class="tocitem" href>Grids</a><ul class="internal"><li><a class="tocitem" href="#Grid-types:-squares,-shells,-and-mountains"><span>Grid types: squares, shells, and mountains</span></a></li><li><a class="tocitem" href="#Once-more-with-feeling"><span>Once more with feeling</span></a></li><li><a class="tocitem" href="#A-complicated-example:-three-dimensional-RectilinearGrid-with-variable-spacing-via-functions"><span>A complicated example: three-dimensional <code>RectilinearGrid</code> with variable spacing via functions</span></a></li><li><a class="tocitem" href="#Inspecting-LatitudeLongitudeGrid-cell-spacings"><span>Inspecting <code>LatitudeLongitudeGrid</code> cell spacings</span></a></li><li><a class="tocitem" href="#LatitudeLongitudeGrid-with-variable-spacing"><span><code>LatitudeLongitudeGrid</code> with variable spacing</span></a></li><li><a class="tocitem" href="#Coordinate-helper-utilities"><span>Coordinate helper utilities</span></a></li><li><a class="tocitem" href="#Single-precision-grids"><span>Single-precision grids</span></a></li><li><a class="tocitem" href="#Distributed-grids"><span>Distributed grids</span></a></li></ul></li><li><a class="tocitem" href="../fields/">Fields</a></li><li><a class="tocitem" href="../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../models/models_overview/">Overview</a></li><li><a class="tocitem" href="../models/coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../models/buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../models/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../models/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../models/forcing_functions/">Forcings</a></li><li><a class="tocitem" href="../models/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../models/background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../simulations/simulations_overview/">Overview</a></li><li><a class="tocitem" href="../simulations/schedules/">Schedules</a></li><li><a class="tocitem" href="../simulations/output_writers/">Output writers</a></li><li><a class="tocitem" href="../simulations/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../gallery/">Gallery</a></li><li><a class="tocitem" href="../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../appendix/library/">Library</a></li><li><a class="tocitem" href="../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Grids</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Grids</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/docs/src/grids.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="grids_tutorial"><a class="docs-heading-anchor" href="#grids_tutorial">Grids</a><a id="grids_tutorial-1"></a><a class="docs-heading-anchor-permalink" href="#grids_tutorial" title="Permalink"></a></h1><p>Oceananigans simulates the dynamics of ocean-flavored fluids by solving equations that conserve momentum, mass, and energy on a grid of finite volumes or &quot;cells&quot;. The first decision we make when setting up a simulation is: on what <em>grid</em> are we going to run our simulation? The &quot;grid&quot; captures the</p><ol><li>The geometry of the physical domain;</li><li>The way that domain is divided into a mesh of finite volumes;</li><li>The machine architecture (CPU, GPU, lots of CPUs or lots of GPUs); and</li><li>The precision of floating point numbers (double precision or single precision).</li></ol><p>We start by making a simple grid that divides a three-dimensional rectangular domain – &quot;a box&quot; – into evenly-spaced cells,</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(topology = (Periodic, Periodic, Bounded),
+                       size = (16, 8, 4),
+                       x = (0, 64),
+                       y = (0, 32),
+                       z = (0, 8))
+
+# output
+16×8×4 RectilinearGrid{Float64, Periodic, Periodic, Bounded} on CPU with 3×3×3 halo
+├── Periodic x ∈ [0.0, 64.0) regularly spaced with Δx=4.0
+├── Periodic y ∈ [0.0, 32.0) regularly spaced with Δy=4.0
+└── Bounded  z ∈ [0.0, 8.0]  regularly spaced with Δz=2.0</code></pre><p>This simple grid</p><ul><li>Has a domain that&#39;s &quot;periodic&quot; in <span>$x, y$</span>, but bounded in <span>$z$</span>.</li><li>Has <code>16</code> cells in <code>x</code>, <code>8</code> cells in <code>y</code>, and <code>4</code> cells in <code>z</code>. That means there are <span>$16 \times 8 \times 4 = 512$</span> cells in all.</li><li>Has an <code>x</code> dimension that spans from <code>x=0</code>, to <code>x=64</code>. And <code>y</code> spans <code>y=0</code> to <code>y=32</code>, and <code>z</code> spans <code>z=0</code> to <code>z=8</code>.</li><li>Has cells that are all the same size, dividing the box in 512 that each has dimension <span>$4 \times 4 \times 2$</span>. Note that length units are whatever is used to construct the grid, so it&#39;s up to the user to make sure that all inputs use consistent units.</li></ul><p>In building our first grid, we did not specify whether it should be constructed on the <a href="../appendix/library/#Oceananigans.Architectures.CPU"><code>CPU</code></a> or <a href="../appendix/library/#Oceananigans.Architectures.GPU"><code>GPU</code></a>. As a result, the grid was constructed by default on the CPU. Next we build a grid on the <em>GPU</em> that&#39;s two-dimensional in <span>$x, z$</span> and has variably-spaced cell interfaces in the <code>z</code>-direction,</p><pre><code class="language-julia hljs">using CUDA
+architecture = GPU()
+z_faces = [0, 1, 3, 6, 10]
+
+grid = RectilinearGrid(architecture,
+                       topology = (Periodic, Flat, Bounded),
+                       size = (10, 4),
+                       x = (0, 20),
+                       z = z_faces)
+
+# output
+10×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CUDAGPU with 3×0×3 halo
+├── Periodic x ∈ [0.0, 20.0) regularly spaced with Δx=2.0
+├── Flat y
+└── Bounded  z ∈ [0.0, 10.0] variably spaced with min(Δz)=1.0, max(Δz)=4.0</code></pre><div class="admonition is-info" id="GPU-architecture-requires-a-CUDA-,-ROC-or-Metal-enabled-device-fbf09ed26d7d8405"><header class="admonition-header">GPU architecture requires a CUDA-, ROC- or Metal-enabled device<a class="admonition-anchor" href="#GPU-architecture-requires-a-CUDA-,-ROC-or-Metal-enabled-device-fbf09ed26d7d8405" title="Permalink"></a></header><div class="admonition-body"><p>Running this example and creating a grid on the GPU requires a device that supports CUDA, ROC, or Metal. In other words, you must have an Nvidia, AMD, or Apple-compatible GPU available. For more information about CUDA, see the <a href="https://cuda.juliagpu.org/stable/"><code>CUDA.jl</code> documentation</a>.</p></div></div><p>The <span>$y$</span>-dimension is &quot;missing&quot; because it&#39;s marked <code>Flat</code> in <code>topology = (Periodic, Flat, Bounded)</code>. So nothing varies in <span>$y$</span>: <code>y</code>-derivatives are 0. Also, the keyword argument (or &quot;kwarg&quot; for short) that specifies the <span>$y$</span>-domains may be omitted, and <code>size</code> has only two elements rather than 3 as in the first example. In the stretched cell interfaces specified by <code>z_interfaces</code>, the number of vertical cell interfaces is <code>Nz + 1 = length(z_interfaces) = 5</code>, where <code>Nz = 4</code> is the number of cells in the vertical.</p><p>A bit later in this tutorial, we&#39;ll give examples that illustrate how to build a grid that&#39;s <a href="../appendix/library/#Distributed"><code>Distributed</code></a> across <em>multiple</em> CPUs and GPUs.</p><h2 id="Grid-types:-squares,-shells,-and-mountains"><a class="docs-heading-anchor" href="#Grid-types:-squares,-shells,-and-mountains">Grid types: squares, shells, and mountains</a><a id="Grid-types:-squares,-shells,-and-mountains-1"></a><a class="docs-heading-anchor-permalink" href="#Grid-types:-squares,-shells,-and-mountains" title="Permalink"></a></h2><p>The shape of the physical domain determines what grid type should be used:</p><ol><li><a href="../appendix/library/#Oceananigans.Grids.RectilinearGrid"><code>RectilinearGrid</code></a> can be fashioned into lines, rectangles and boxes.</li><li><a href="../appendix/library/#Oceananigans.Grids.LatitudeLongitudeGrid"><code>LatitudeLongitudeGrid</code></a> represents sectors of thin spherical shells, with cells bounded by lines of constant latitude and longitude.</li><li><a href="../appendix/library/#Oceananigans.Grids.OrthogonalSphericalShellGrid"><code>OrthogonalSphericalShellGrid</code></a> represents sectors of thin spherical shells divided with mesh lines that intersect at right angles (thus, orthogonal) but are otherwise arbitrary.</li></ol><div class="admonition is-info" id="OrthogonalSphericalShellGrids-c20e013b6842d171"><header class="admonition-header">OrthogonalSphericalShellGrids<a class="admonition-anchor" href="#OrthogonalSphericalShellGrids-c20e013b6842d171" title="Permalink"></a></header><div class="admonition-body"><p>See the auxiliary module <a href="../appendix/library/#OrthogonalSphericalShellGrids"><code>OrthogonalSphericalShellGrids</code></a> for recipes that implement some useful <code>OrthogonalSphericalShellGrid</code>s, including the <a href="https://www.sciencedirect.com/science/article/abs/pii/S0021999196901369">&quot;tripolar&quot; grid</a>.</p></div></div><p>For example, to make a <code>LatitudeLongitudeGrid</code> that wraps around the sphere, extends for 60 degrees latitude on either side of the equator, and has 5 vertical levels down to 1000 meters, we write</p><pre><code class="language-julia hljs">architecture = CPU()
+
+grid = LatitudeLongitudeGrid(architecture,
+                             size = (180, 10, 5),
+                             longitude = (-180, 180),
+                             latitude = (-60, 60),
+                             z = (-1000, 0))
+
+# output
+180×10×5 LatitudeLongitudeGrid{Float64, Periodic, Bounded, Bounded} on CPU with 3×3×3 halo
+├── longitude: Periodic λ ∈ [-180.0, 180.0) regularly spaced with Δλ=2.0
+├── latitude:  Bounded  φ ∈ [-60.0, 60.0]   regularly spaced with Δφ=12.0
+└── z:         Bounded  z ∈ [-1000.0, 0.0]  regularly spaced with Δz=200.0</code></pre><p>The main difference between the syntax for <code>LatitudeLongitudeGrid</code> versus that for the <code>RectilinearGrid</code> are the names of the horizontal coordinates: <code>LatitudeLongitudeGrid</code> has <code>longitude</code> and <code>latitude</code> where <code>RectilinearGrid</code> has <code>x</code> and <code>y</code>.</p><div class="admonition is-info" id="Extrinsic-and-intrinsic-coordinate-systems-8eb216193029e302"><header class="admonition-header">Extrinsic and intrinsic coordinate systems<a class="admonition-anchor" href="#Extrinsic-and-intrinsic-coordinate-systems-8eb216193029e302" title="Permalink"></a></header><div class="admonition-body"><p>Every grid is associated with an &quot;extrinsic&quot; coordinate system: <code>RectilinearGrid</code> uses a Cartesian coordinate system <code>(x, y, z)</code>, while <code>LatitudeLongitudeGrid</code> and <code>OrthogonalSphericalShellGrid</code> use the geographic coordinates <code>(λ, φ, z)</code>, where <code>λ</code> is longitude, <code>φ</code> is latitude, and <code>z</code> is height. Additionally, <code>OrthogonalSphericalShellGrid</code> has an &quot;intrinsic&quot; coordinate system associated with the orientation of its finite volumes (which, in general, are not aligned with geographic coordinates).</p><p>To type <code>λ</code> or <code>φ</code> at the REPL, write either <code>\lambda</code> (for <code>λ</code>) or <code>\varphi</code> (for <code>φ</code>) and then press <code>&lt;TAB&gt;</code>.</p></div></div><p>If <code>topology</code> is not provided for <code>LatitudeLongitudeGrid</code>, then Oceananigans tries infer it: if the <code>longitude</code> spans 360 degrees, the default <code>x</code>-topology is <code>Periodic</code>; if <code>longitude</code> spans less than 360 degrees <code>x</code>-topology is <code>Bounded</code>.</p><p>For example,</p><pre><code class="language-julia hljs">grid = LatitudeLongitudeGrid(size = (60, 10, 5),
+                             longitude = (0, 60),
+                             latitude = (-60, 60),
+                             z = (-1000, 0))
+
+# output
+60×10×5 LatitudeLongitudeGrid{Float64, Bounded, Bounded, Bounded} on CPU with 3×3×3 halo
+├── longitude: Bounded  λ ∈ [0.0, 60.0]    regularly spaced with Δλ=1.0
+├── latitude:  Bounded  φ ∈ [-60.0, 60.0]  regularly spaced with Δφ=12.0
+└── z:         Bounded  z ∈ [-1000.0, 0.0] regularly spaced with Δz=200.0</code></pre><p>is <code>Bounded</code> by default, because <code>longitude = (0, 60)</code>.</p><div class="admonition is-info" id="LatitudeLongitudeGrid-topologies-767578934f6a117c"><header class="admonition-header">LatitudeLongitudeGrid topologies<a class="admonition-anchor" href="#LatitudeLongitudeGrid-topologies-767578934f6a117c" title="Permalink"></a></header><div class="admonition-body"><p>It&#39;s still possible to use <code>topology = (Periodic, Bounded, Bounded)</code> even if <code>longitude</code> doesn&#39;t span 360 degrees. But neither <code>latitude</code> nor <code>z</code> may be <code>Periodic</code> with <code>LatitudeLongitudeGrid</code>.</p></div></div><h3 id="Bathymetry,-topography,-and-other-irregularities"><a class="docs-heading-anchor" href="#Bathymetry,-topography,-and-other-irregularities">Bathymetry, topography, and other irregularities</a><a id="Bathymetry,-topography,-and-other-irregularities-1"></a><a class="docs-heading-anchor-permalink" href="#Bathymetry,-topography,-and-other-irregularities" title="Permalink"></a></h3><p>Irregular or &quot;complex&quot; domains are represented with <a href="../appendix/library/#Oceananigans.ImmersedBoundaries.ImmersedBoundaryGrid-Tuple{Oceananigans.Grids.AbstractUnderlyingGrid, Oceananigans.ImmersedBoundaries.AbstractImmersedBoundary}"><code>ImmersedBoundaryGrid</code></a>, which combines one of the above underlying grids with a type of immersed boundary. The immersed boundaries currently supported are:</p><ol><li><a href="../appendix/library/#Oceananigans.ImmersedBoundaries.GridFittedBottom-Tuple{Any}"><code>GridFittedBottom</code></a>, which fits a one- or two-dimensional bottom height to the underlying grid, so the active part of the domain is above the bottom height.</li><li><a href="../appendix/library/#Oceananigans.ImmersedBoundaries.PartialCellBottom-Tuple{Any}"><code>PartialCellBottom</code></a>, which is similar to <a href="../appendix/library/#Oceananigans.ImmersedBoundaries.GridFittedBottom-Tuple{Any}"><code>GridFittedBottom</code></a>, except that the height of the bottommost cell is changed to conform to bottom height, limited to prevent the bottom cells from becoming too thin.</li><li><a href="../appendix/library/#Oceananigans.ImmersedBoundaries.GridFittedBoundary"><code>GridFittedBoundary</code></a>, which fits a three-dimensional mask to the grid.</li></ol><p>To build an <code>ImmersedBoundaryGrid</code>, we start by building one of the three underlying grids, and then embedding a boundary into that underlying grid.</p><pre><code class="language-julia hljs">using Oceananigans.Units
+
+grid = RectilinearGrid(topology = (Bounded, Bounded, Bounded),
+                       size = (20, 20, 20),
+                       x = (-5kilometers, 5kilometers),
+                       y = (-5kilometers, 5kilometers),
+                       z = (0, 1kilometer))
+
+# Height and width
+H = 100meters
+W = 1kilometer
+
+mountain(x, y) = H * exp(-(x^2 + y^2) / 2W^2)
+mountain_grid = ImmersedBoundaryGrid(grid, GridFittedBottom(mountain))
+
+# output
+20×20×20 ImmersedBoundaryGrid{Float64, Bounded, Bounded, Bounded} on CPU with 3×3×3 halo:
+├── immersed_boundary: GridFittedBottom(mean(z)=4.5, min(z)=0.0, max(z)=100.0)
+├── underlying_grid: 20×20×20 RectilinearGrid{Float64, Bounded, Bounded, Bounded} on CPU with 3×3×3 halo
+├── Bounded  x ∈ [-5000.0, 5000.0] regularly spaced with Δx=500.0
+├── Bounded  y ∈ [-5000.0, 5000.0] regularly spaced with Δy=500.0
+└── Bounded  z ∈ [0.0, 1000.0]     regularly spaced with Δz=50.0</code></pre><p>Yep, that&#39;s a Gaussian mountain:</p><pre><code class="language-julia hljs">using CairoMakie
+
+h = mountain_grid.immersed_boundary.bottom_height
+
+fig = Figure()
+ax = Axis(fig[2, 1], xlabel=&quot;x (m)&quot;, ylabel=&quot;y (m)&quot;, aspect=1)
+hm = heatmap!(ax, h)
+Colorbar(fig[1, 1], hm, vertical=false, label=&quot;Bottom height (m)&quot;)
+
+fig</code></pre><img src="1b461451.png" alt="Example block output"/><h2 id="Once-more-with-feeling"><a class="docs-heading-anchor" href="#Once-more-with-feeling">Once more with feeling</a><a id="Once-more-with-feeling-1"></a><a class="docs-heading-anchor-permalink" href="#Once-more-with-feeling" title="Permalink"></a></h2><p>In summary, making a grid requires</p><ul><li>The machine architecture, or whether data is stored on the CPU, GPU, or distributed across multiple devices or nodes.</li><li>Information about the domain geometry. Domains can take a variety of shapes, including<ul><li>lines (one-dimensional),</li><li>rectangles (two-dimensional),</li><li>boxes (three-dimensional),</li><li>sectors of a thin spherical shells (two- or three-dimensional).</li></ul>Irregular domains – such as domains that include bathymetry or topography – are represented by using a masking technique to &quot;immerse&quot; an irregular boundary within an &quot;underlying&quot; regular grid. Part of specifying the shape of the domain also requires specifying the nature of each dimension, which may be<ul><li><a href="../appendix/library/#Oceananigans.Grids.Periodic"><code>Periodic</code></a>, which means that the dimension circles back onto itself: information leaving the left side of the domain re-enters on the right.</li><li><a href="../appendix/library/#Oceananigans.Grids.Bounded"><code>Bounded</code></a>, which means that the two sides of the dimension are either impenetrable (solid walls), or &quot;open&quot;, representing a specified external state.</li><li><a href="../appendix/library/#Oceananigans.Grids.Flat"><code>Flat</code></a>, which means nothing can vary in that dimension, reducing the overall dimensionality of the grid.</li></ul></li><li>Defining the number of cells that divide each dimension. The number of cells, with or without explicit specification of the cell interfaces, determines the spatial resolution of the grid.</li><li>The representation of floating point numbers, which can be single-precision (<code>Float32</code>) or double precision (<code>Float64</code>).</li></ul><p>Let&#39;s dive into each of these options in more detail.</p><h3 id="Specifying-the-machine-architecture"><a class="docs-heading-anchor" href="#Specifying-the-machine-architecture">Specifying the machine architecture</a><a id="Specifying-the-machine-architecture-1"></a><a class="docs-heading-anchor-permalink" href="#Specifying-the-machine-architecture" title="Permalink"></a></h3><p>The positional argument <code>CPU()</code> or <code>GPU()</code>, specifies the &quot;architecture&quot; of the simulation. By using <code>architecture = GPU()</code>, any fields constructed on <code>grid</code> store their data on an Nvidia <a href="../appendix/library/#Oceananigans.Architectures.GPU"><code>GPU</code></a>, if one is available. By default, the grid will be constructed on the <a href="../appendix/library/#Oceananigans.Architectures.CPU"><code>CPU</code></a> if this argument is omitted. So, for example,</p><pre><code class="language-julia hljs">grid     = RectilinearGrid(size=3, z=(0, 1), topology=(Flat, Flat, Bounded))
+cpu_grid = RectilinearGrid(CPU(), size=3, z=(0, 1), topology=(Flat, Flat, Bounded))
+
+grid == cpu_grid
+
+# output
+true</code></pre><p>To use more than one CPU, we use the <code>Distributed</code> architecture,</p><pre><code class="language-julia hljs">using Oceananigans
+
+child_architecture = CPU()
+architecture = Distributed(child_architecture)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Distributed{CPU} across 1 rank:
+├── local_rank: 0 of 0-0
+├── local_index: [1, 1, 1]
+└── connectivity:</code></pre><p>which allows us to distributed computations across either CPUs or GPUs. In this case, we didn&#39;t launch <code>julia</code> on multiple processes using <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI</a>, so we&#39;re only &quot;distributed&quot; across 1 process. For more, see <a href="#Distributed-grids">Distributed grids</a>.</p><h3 id="Specifying-the-topology-for-each-dimension"><a class="docs-heading-anchor" href="#Specifying-the-topology-for-each-dimension">Specifying the topology for each dimension</a><a id="Specifying-the-topology-for-each-dimension-1"></a><a class="docs-heading-anchor-permalink" href="#Specifying-the-topology-for-each-dimension" title="Permalink"></a></h3><p>The keyword argument <code>topology</code> determines if the grid is one-, two-, or three-dimensional (the current case), and additionally specifies the nature of each dimension. <code>topology</code> is always a <code>Tuple</code> with three elements (a 3-<code>Tuple</code>). For <code>RectilinearGrid</code>, the three elements correspond to <span>$(x, y, z)$</span> and indicate whether the respective direction is <code>Periodic</code>, <code>Bounded</code>, or <code>Flat</code>. A few more examples are,</p><pre><code class="language-julia hljs">topology = (Periodic, Periodic, Periodic) # triply periodic
+topology = (Periodic, Periodic, Bounded)  # periodic in x, y, bounded in z
+topology = (Periodic, Bounded, Bounded)   # periodic in x, but bounded in y, z (a &quot;channel&quot;)
+topology = (Bounded, Bounded, Bounded)    # bounded in x, y, z (a closed box)
+topology = (Periodic, Periodic, Flat)     # two-dimensional, doubly-periodic in x, y (a torus)
+topology = (Periodic, Flat, Flat)         # one-dimensional, periodic in x (a line)
+topology = (Flat, Flat, Bounded)          # one-dimensional and bounded in z (a single column)</code></pre><h3 id="Specifying-the-size-of-the-grid"><a class="docs-heading-anchor" href="#Specifying-the-size-of-the-grid">Specifying the size of the grid</a><a id="Specifying-the-size-of-the-grid-1"></a><a class="docs-heading-anchor-permalink" href="#Specifying-the-size-of-the-grid" title="Permalink"></a></h3><p>The <code>size</code> is a <code>Tuple</code> that specifies the number of grid points in each direction. The number of tuple elements corresponds to the number of dimensions that are not <code>Flat</code>.</p><h4 id="The-halo-size"><a class="docs-heading-anchor" href="#The-halo-size">The halo size</a><a id="The-halo-size-1"></a><a class="docs-heading-anchor-permalink" href="#The-halo-size" title="Permalink"></a></h4><p>An additional keyword argument <code>halo</code> allows us to set the number of &quot;halo cells&quot; that surround the core &quot;interior&quot; grid. The default is 3 for each non-flat coordinate. But we can change the halo size, for example,</p><pre><code class="language-julia hljs">big_halo_grid = RectilinearGrid(topology = (Periodic, Periodic, Flat),
+                                size = (32, 16),
+                                halo = (7, 7),
+                                x = (0, 2π),
+                                y = (0, π))
+
+# output
+32×16×1 RectilinearGrid{Float64, Periodic, Periodic, Flat} on CPU with 7×7×0 halo
+├── Periodic x ∈ [-6.90805e-17, 6.28319) regularly spaced with Δx=0.19635
+├── Periodic y ∈ [-1.07194e-16, 3.14159) regularly spaced with Δy=0.19635
+└── Flat z</code></pre><p>The <code>halo</code> size has to be set for certain advection schemes that require more halo points than the default <code>3</code> in every direction. Note that both <code>size</code> and <code>halo</code> are 2-<code>Tuple</code>s, rather than the 3-<code>Tuple</code> that would be required for a three-dimensional grid, or the single number that would be used for a one-dimensional grid.</p><h3 id="The-dimensions:-x,-y,-z-for-RectilinearGrid,-or-latitude,-longitude,-z-for-LatitudeLongitudeGrid"><a class="docs-heading-anchor" href="#The-dimensions:-x,-y,-z-for-RectilinearGrid,-or-latitude,-longitude,-z-for-LatitudeLongitudeGrid">The dimensions: <code>x, y, z</code> for <code>RectilinearGrid</code>, or <code>latitude, longitude, z</code> for <code>LatitudeLongitudeGrid</code></a><a id="The-dimensions:-x,-y,-z-for-RectilinearGrid,-or-latitude,-longitude,-z-for-LatitudeLongitudeGrid-1"></a><a class="docs-heading-anchor-permalink" href="#The-dimensions:-x,-y,-z-for-RectilinearGrid,-or-latitude,-longitude,-z-for-LatitudeLongitudeGrid" title="Permalink"></a></h3><p>These keyword arguments specify the extent and location of the finite volume cells that divide up the three dimensions of the grid. For <code>RectilinearGrid</code>, the dimensions are called <code>x</code>, <code>y</code>, and <code>z</code>, whereas for <code>LatitudeLongitudeGrid</code> the dimensions are called <code>latitude</code>, <code>longitude</code>, and <code>z</code>. The type of each keyword argument determines how the dimension is divided up:</p><ul><li>Tuples that specify only the end points indicate that the dimension should be divided into equally-spaced cells. For example, <code>x = (0, 64)</code> with <code>size = (16, 8, 4)</code> means that the <code>x</code>-dimension is divided into 16 cells, where the first or leftmost cell interface is located at <code>x = 0</code> and the last or rightmost cell interface is located at <code>x = 64</code>. The width of each cell is <code>Δx=4.0</code>.</li><li>Vectors and functions alternatively give the location of each cell interface, and thereby may be used to build grids that are divided into cells of varying width.</li></ul><h2 id="A-complicated-example:-three-dimensional-RectilinearGrid-with-variable-spacing-via-functions"><a class="docs-heading-anchor" href="#A-complicated-example:-three-dimensional-RectilinearGrid-with-variable-spacing-via-functions">A complicated example: three-dimensional <code>RectilinearGrid</code> with variable spacing via functions</a><a id="A-complicated-example:-three-dimensional-RectilinearGrid-with-variable-spacing-via-functions-1"></a><a class="docs-heading-anchor-permalink" href="#A-complicated-example:-three-dimensional-RectilinearGrid-with-variable-spacing-via-functions" title="Permalink"></a></h2><p>Next we build a grid that is both <code>Bounded</code> and stretched in both the <code>y</code> and <code>z</code> directions. The purpose of the stretching is to increase grid resolution near the boundaries. We&#39;ll do this by using functions to specify the keyword arguments <code>y</code> and <code>z</code>.</p><pre><code class="language-julia hljs">Nx = Ny = 64
+Nz = 32
+
+Lx = Ly = 1e4
+Lz = 1e3
+
+# Note that j varies from 1 to Ny
+chebychev_spaced_y_faces(j) = Ly * (1 - cos(π * (j - 1) / Ny)) / 2
+
+# Note that k varies from 1 to Nz
+chebychev_spaced_z_faces(k) = - Lz * (1 + cos(π * (k - 1) / Nz)) / 2
+
+grid = RectilinearGrid(size = (Nx, Ny, Nz),
+                       topology = (Periodic, Bounded, Bounded),
+                       x = (0, Lx),
+                       y = chebychev_spaced_y_faces,
+                       z = chebychev_spaced_z_faces)
+
+# output
+64×64×32 RectilinearGrid{Float64, Periodic, Bounded, Bounded} on CPU with 3×3×3 halo
+├── Periodic x ∈ [0.0, 10000.0)  regularly spaced with Δx=156.25
+├── Bounded  y ∈ [0.0, 10000.0]  variably spaced with min(Δy)=6.02272, max(Δy)=245.338
+└── Bounded  z ∈ [-1000.0, -0.0] variably spaced with min(Δz)=2.40764, max(Δz)=49.0086</code></pre><p>We can easily visualize the spacings of <span>$y$</span> and <span>$z$</span> directions. We can use, e.g., <a href="../appendix/library/#Oceananigans.Grids.ynodes-NTuple{4, Any}"><code>ynodes</code></a> and <a href="@ref"><code>yspacings</code></a> to extract the positions and spacings of the nodes from the grid.</p><pre><code class="language-julia hljs">yc = ynodes(grid, Center())
+zc = znodes(grid, Center())
+
+yf = ynodes(grid, Face())
+zf = znodes(grid, Face())
+
+Δy = yspacings(grid, Center())
+Δz = zspacings(grid, Center())
+
+using CairoMakie
+
+fig = Figure(size=(1000, 1000))
+
+axy = Axis(fig[1, 1], title=&quot;y-grid&quot;)
+lines!(axy, [0, Ly], [0, 0], color=:gray)
+scatter!(axy, yf, 0 * yf, marker=:vline, color=:gray, markersize=25)
+scatter!(axy, yc, 0 * yc)
+hidedecorations!(axy)
+hidespines!(axy)
+
+axΔy = Axis(fig[2, 1]; xlabel = &quot;y (m)&quot;, ylabel = &quot;y-spacing (m)&quot;)
+scatter!(axΔy, yc, Δy)
+hidespines!(axΔy, :t, :r)
+
+axz = Axis(fig[3, 1], title=&quot;z-grid&quot;)
+lines!(axz, [-Lz, 0], [0, 0], color=:gray)
+scatter!(axz, zf, 0 * zf, marker=:vline, color=:gray, markersize=25)
+scatter!(axz, zc, 0 * zc)
+hidedecorations!(axz)
+hidespines!(axz)
+
+axΔz = Axis(fig[4, 1]; xlabel = &quot;z (m)&quot;, ylabel = &quot;z-spacing (m)&quot;)
+scatter!(axΔz, zc, Δz)
+hidespines!(axΔz, :t, :r)
+
+rowsize!(fig.layout, 1, Relative(0.1))
+rowsize!(fig.layout, 3, Relative(0.1))
+
+fig</code></pre><img src="ab750798.png" alt="Example block output"/><h2 id="Inspecting-LatitudeLongitudeGrid-cell-spacings"><a class="docs-heading-anchor" href="#Inspecting-LatitudeLongitudeGrid-cell-spacings">Inspecting <code>LatitudeLongitudeGrid</code> cell spacings</a><a id="Inspecting-LatitudeLongitudeGrid-cell-spacings-1"></a><a class="docs-heading-anchor-permalink" href="#Inspecting-LatitudeLongitudeGrid-cell-spacings" title="Permalink"></a></h2><pre><code class="language-julia hljs">grid = LatitudeLongitudeGrid(size = (1, 44),
+                             longitude = (0, 1),
+                             latitude = (0, 88),
+                             topology = (Bounded, Bounded, Flat))
+
+Δx = xspacings(grid, Center(), Center())
+
+using CairoMakie
+
+fig = Figure()
+ax = Axis(fig[1, 1], xlabel=&quot;Zonal spacing on 2 degree grid (km)&quot;, ylabel=&quot;Latitude (degrees)&quot;)
+scatter!(ax, Δx / 1e3)
+fig</code></pre><img src="f507b203.png" alt="Example block output"/><p><img src="plot_lat_lon_spacings.svg" alt/></p><h2 id="LatitudeLongitudeGrid-with-variable-spacing"><a class="docs-heading-anchor" href="#LatitudeLongitudeGrid-with-variable-spacing"><code>LatitudeLongitudeGrid</code> with variable spacing</a><a id="LatitudeLongitudeGrid-with-variable-spacing-1"></a><a class="docs-heading-anchor-permalink" href="#LatitudeLongitudeGrid-with-variable-spacing" title="Permalink"></a></h2><p>The syntax for building a grid with variably-spaced cells is the same as for <code>RectilinearGrid</code>. In our next example, we use a function to build a Mercator grid with a spacing of 2 degrees at the equator,</p><pre><code class="language-julia hljs"># Mercator scale factor
+scale_factor(φ) = 1 / cosd(φ)
+
+# Compute cell interfaces with Mercator spacing
+m = 2 # spacing at the equator in degrees
+function latitude_faces(j)
+    if j == 1 # equator
+        return 0
+    else # crudely estimate the location of the jth face
+        φ₋ = latitude_faces(j-1)
+        φ′ = φ₋ + m * scale_factor(φ₋) / 2
+        return φ₋ + m * scale_factor(φ′)
+    end
+end
+
+Lx = 360
+Nx = Int(Lx / m)
+Ny = findfirst(latitude_faces.(1:Nx) .&gt; 90) - 2
+
+grid = LatitudeLongitudeGrid(size = (Nx, Ny),
+                             longitude = (0, Lx),
+                             latitude = latitude_faces,
+                             topology = (Bounded, Bounded, Flat))
+
+# output
+180×28×1 LatitudeLongitudeGrid{Float64, Bounded, Bounded, Flat} on CPU with 3×3×0 halo
+├── longitude: Bounded  λ ∈ [0.0, 360.0]   regularly spaced with Δλ=2.0
+├── latitude:  Bounded  φ ∈ [0.0, 77.2679] variably spaced with min(Δφ)=2.0003, max(Δφ)=6.95319
+└── z:         Flat z</code></pre><p>We&#39;ve also illustrated the construction of a grid that is <code>Flat</code> in the vertical direction. Now let&#39;s plot the metrics for this grid,</p><pre><code class="language-julia hljs">φ = φnodes(grid, Center())
+Δx = xspacings(grid, Center(), Center())[1, 1:Ny]
+Δy = yspacings(grid, Center(), Center())[1, 1:Ny]
+
+using CairoMakie
+
+fig = Figure(size=(800, 400), title=&quot;Spacings on a Mercator grid&quot;)
+axx = Axis(fig[1, 1], xlabel=&quot;Zonal spacing (km)&quot;, ylabel=&quot;Latitude (degrees)&quot;)
+scatter!(axx, Δx / 1e3, φ)
+
+axy = Axis(fig[1, 2], xlabel=&quot;Meridional spacing (km)&quot;)
+scatter!(axy, Δy / 1e3, φ)
+
+hidespines!(axx, :t, :r)
+hidespines!(axy, :t, :l, :r)
+hideydecorations!(axy, grid=false)
+
+fig</code></pre><img src="934bf0ff.png" alt="Example block output"/><h2 id="Coordinate-helper-utilities"><a class="docs-heading-anchor" href="#Coordinate-helper-utilities">Coordinate helper utilities</a><a id="Coordinate-helper-utilities-1"></a><a class="docs-heading-anchor-permalink" href="#Coordinate-helper-utilities" title="Permalink"></a></h2><p>As described above, to construct grids with stretched coordinates we need to provide as input either a function the returns the coordinate&#39;s interfaces or an array with the interfaces.</p><p>Here we showcase some helper utilities that can be used to define few special types of discretizations with variable spacings.</p><h3 id="Exponential-discretization"><a class="docs-heading-anchor" href="#Exponential-discretization">Exponential discretization</a><a id="Exponential-discretization-1"></a><a class="docs-heading-anchor-permalink" href="#Exponential-discretization" title="Permalink"></a></h3><p><a href="../appendix/library/#Oceananigans.Grids.ExponentialDiscretization-Tuple{Int64, Any, Any}"><code>ExponentialDiscretization</code></a> returns a discretization with interfaces that lie on an exponential profile. By that, we mean that a uniformly discretized domain in the range <span>$[l, r]$</span> is mapped back onto itself via either</p><p class="math-container">\[ξ \mapsto w(ξ) = r - (r - l) \frac{\exp{[(r - ξ) / h]} - 1}{\exp{[(r - l) / h]} - 1} \quad \text{(right biased)}\]</p><p>or</p><p class="math-container">\[ξ \mapsto w(ξ) = l + (r - l) \frac{\exp{[(ξ - l) / h]} - 1}{\exp{[(r - l) / h]} - 1} \quad \text{(left biased)}\]</p><p>The exponential mappings above have an e-folding controlled by scale <span>$h$</span>. It&#39;s worth noting that the exponential maps imply that the cell widths (distances between interfaces) grow linearly at a rate inversely proportional to <span>$h / (r - l)$</span>.</p><p>The right-biased map biases the interfaces being closer towards <span>$r$</span>; the left-biased map biases the interfaces towards <span>$l$</span>.</p><p>At the limit <span>$h / (r - l) \to \infty$</span> both mappings reduce to identity (<span>$w \to ξ$</span>) and thus the discretization becomes uniformly spaced.</p><div class="admonition is-info" id="Oceanography-related-bias-5b3bdcad8db3a28c"><header class="admonition-header">Oceanography-related bias<a class="admonition-anchor" href="#Oceanography-related-bias-5b3bdcad8db3a28c" title="Permalink"></a></header><div class="admonition-body"><p>For vertical coordinates fit for oceanographic purposes, the right-biased mapping is usually more relevant as it implies finer vertical resolution near the ocean&#39;s surface.</p></div></div><pre><code class="language-julia hljs">using Oceananigans.Grids: rightbiased_exponential_mapping, leftbiased_exponential_mapping
+
+using CairoMakie
+
+l, r = 0, 1
+
+ξ  = range(l, stop=r, length=501)
+ξp = range(l, stop=r, length=6)   # coarser for plotting
+
+fig = Figure(size=(1200, 550))
+
+axis_labels = (xlabel=&quot;uniform ξ / (r - l)&quot;,
+               ylabel=&quot;mapped w / (r - l)&quot;)
+
+axl = Axis(fig[1, 1]; title=&quot;left-biased map&quot;, axis_labels...)
+axr = Axis(fig[1, 2]; title=&quot;right-biased map&quot;, axis_labels...)
+
+for scale in (1/20, 1/5, 1/2, 1e12)
+    label = &quot;h / (r-l) = $scale&quot;
+
+    lines!(axl, ξ, leftbiased_exponential_mapping.(ξ, l, r, scale); label)
+    scatter!(axl, ξp, leftbiased_exponential_mapping.(ξp, l, r, scale), markersize=20)
+
+    lines!(axr, ξ, rightbiased_exponential_mapping.(ξ, l, r, scale); label)
+    scatter!(axr, ξp, rightbiased_exponential_mapping.(ξp, l, r, scale), markersize=20)
+end
+
+Legend(fig[2, :], axl, orientation = :horizontal)
+
+fig</code></pre><img src="310f5050.png" alt="Example block output"/><p>Note that the smallest the ratio <span>$h / (r - l)$</span> is, the more finely-packed are the mapped points towards the left or right side of the domain.</p><p>Let&#39;s see how we use <a href="../appendix/library/#Oceananigans.Grids.ExponentialDiscretization-Tuple{Int64, Any, Any}"><code>ExponentialDiscretization</code></a>. Below we construct a coordinate with 10 cells that spans the range <span>$[-700, 300]$</span>. By default, the <code>ExponentialDiscretization</code> is right-biased.</p><pre><code class="language-julia hljs">using Oceananigans
+
+N = 10
+l = -700
+r = 300
+
+x = ExponentialDiscretization(N, l, r)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">ExponentialDiscretization
+├─ size: 10
+├─ faces: [-700.0, -303.8614994919127, -63.59135344116919, 82.13985675223907, 170.53030381156742, 224.14181997875644, 256.6588482478361, 276.3814228557754, 288.3437690439604, 295.59929876919114, 300.0]
+├─ left: -700.0
+├─ right: 300.0
+├─ scale: 200.0
+└─ bias: :right</code></pre><p>Note that above, the default e-folding scale (<code>scale = (r - l) / 5</code>) was used.</p><p>We can inspect the interfaces of the coordinate via</p><pre><code class="language-julia hljs">[x(i) for i in 1:N+1]</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">11-element Vector{Float64}:
+ -700.0
+ -303.8614994919127
+  -63.59135344116919
+   82.13985675223907
+  170.53030381156742
+  224.14181997875644
+  256.6588482478361
+  276.3814228557754
+  288.3437690439604
+  295.59929876919114
+  300.0</code></pre><p>Being right-biased, note above how the interfaces are closer together near <span>$r$</span>.</p><p>To demonstrate how the scale <span>$h$</span> affects the discretization, we construct below two such exponential discretizations: the first with <span>$h / (r - l) = 1/5$</span> and the second with <span>$h / (r - l) = 1/2$</span>.</p><pre><code class="language-julia hljs">using Oceananigans
+
+N = 10
+l = -700
+r = 300
+extent = r - l
+
+using CairoMakie
+
+fig = Figure(size=(1000, 1000))
+
+scale = extent / 5
+x = ExponentialDiscretization(N, l, r; scale)
+grid = RectilinearGrid(; size=N, x, topology=(Bounded, Flat, Flat))
+xc = xnodes(grid, Center())
+xf = xnodes(grid, Face())
+Δx = xspacings(grid, Center())
+
+axx1 = Axis(fig[1, 1],  title = &quot;scale = extent / 5&quot;)
+lines!(axx1, [l, r], [0, 0], color=:gray)
+scatter!(axx1, xf, 0 * xf, marker=:vline, color=:gray, markersize=25)
+scatter!(axx1, xc, 0 * xc)
+axΔx1 = Axis(fig[2, 1]; xlabel = &quot;x (m)&quot;, ylabel = &quot;x-spacing (m)&quot;)
+lΔx = lines!(axΔx1, xf, Δx[1] .+ (xc[1] .- xf) * (extent / scale) / N, color=(:purple, 0.3), linewidth=4)
+scatter!(axΔx1, xc, Δx)
+
+
+scale = extent / 2
+x = ExponentialDiscretization(N, l, r; scale)
+grid = RectilinearGrid(; size=N, x, topology=(Bounded, Flat, Flat))
+xc = xnodes(grid, Center())
+xf = xnodes(grid, Face())
+Δx = xspacings(grid, Center())
+
+axx2 = Axis(fig[3, 1], title = &quot;scale = extent / 2&quot;)
+lines!(axx2, [l, r], [0, 0], color=:gray)
+scatter!(axx2, xf, 0 * xf, marker=:vline, color=:gray, markersize=25)
+scatter!(axx2, xc, 0 * xc)
+axΔx2 = Axis(fig[4, 1]; xlabel = &quot;x (m)&quot;, ylabel = &quot;x-spacing (m)&quot;)
+lΔx = lines!(axΔx2, xf, Δx[1] .+ (xc[1] .- xf) * (extent / scale) / N, color=(:purple, 0.3), linewidth=4)
+scatter!(axΔx2, xc, Δx)
+
+
+legend = Legend(fig[5, :], [lΔx], [&quot;slope = (extent / scale) / Nz&quot;], orientation = :horizontal)
+
+for ax in (axx1, axx2)
+    hidedecorations!(ax)
+    hidespines!(ax)
+end
+
+for ax in (axΔx1, axΔx2)
+    ylims!(ax, -10, 450)
+    hidespines!(ax, :t, :r)
+end
+
+rowsize!(fig.layout, 1, Relative(0.1))
+rowsize!(fig.layout, 3, Relative(0.1))
+fig</code></pre><img src="13334f7a.png" alt="Example block output"/><p>A downside of <a href="../appendix/library/#Oceananigans.Grids.ExponentialDiscretization-Tuple{Int64, Any, Any}"><code>ExponentialDiscretization</code></a> discretization is that we don&#39;t have tight control on the minimum spacing at the biased edge. To obtain a discretization with a certain minimum spacing we need to play around with the scale <span>$h$</span> and the number of cells.</p><h3 id="Reference-to-stretched-spacing-discretization"><a class="docs-heading-anchor" href="#Reference-to-stretched-spacing-discretization">Reference-to-stretched-spacing discretization</a><a id="Reference-to-stretched-spacing-discretization-1"></a><a class="docs-heading-anchor-permalink" href="#Reference-to-stretched-spacing-discretization" title="Permalink"></a></h3><p><a href="../appendix/library/#Oceananigans.Grids.ReferenceToStretchedDiscretization-Tuple{}"><code>ReferenceToStretchedDiscretization</code></a> returns a discretization with a constant reference spacing over some extent and beyond which the spacing increases with a prescribed stretching law; this allows a tighter control on the spacing at the biased edge. That is, we can prescribe a constant spacing over the top <code>surface_layer_height</code>  below which the grid spacing increases following a prescribed stretching law. The downside here is that neither the final discretization extent nor the total number of cells can be prescribed. The discretization&#39;s extent is greater or equal from what we prescribe via the keyword argument <code>extent</code>. Also, the total number of cells we end up with depends on the stretching law.</p><p>As an example, we build three single-column vertical grids. We use right-biased discretization (i.e., <code>bias = :right</code>) since this way we can have tight control of the spacing at the ocean&#39;s surface (<code>bias_edge = 0</code>). The three grids below have constant 30-meter spacing for the top 180 meters. We prescribe to all three a <code>extent = 800</code> meters and we apply power-law stretching for depths below 120 meters. The bigger the power-law stretching factor is, the further the last interface goes beyond the prescribed depth and/or with less total number of cells.</p><pre><code class="language-julia hljs">bias = :right
+bias_edge = 0
+extent = 800
+constant_spacing = 25
+constant_spacing_extent = 160
+
+z = ReferenceToStretchedDiscretization(; extent, bias, bias_edge,
+                                       constant_spacing,  constant_spacing_extent,
+                                       stretching =  PowerLawStretching(1.06))
+grid = RectilinearGrid(; size=length(z), z, topology=(Flat, Flat, Bounded))
+zf = znodes(grid, Face())
+zc = znodes(grid, Center())
+Δz = zspacings(grid, Center())
+Δz = view(Δz, 1, 1, :)  # for plotting
+
+fig = Figure(size=(800, 550), colgap = 5)
+
+axΔz1 = Axis(fig[1, 1];
+             xlabel = &quot;z-spacing (m)&quot;,
+             ylabel = &quot;z (m)&quot;,
+             title = &quot;PowerLawStretching(1.06)\n $(length(zf)) cells\n bottom @ z = $(zf[1]) m\n &quot;)
+
+axz1 = Axis(fig[1, 2])
+
+ldepth = hlines!(axΔz1, bias_edge - extent, color = :salmon, linestyle=:dash)
+lzbottom = hlines!(axΔz1, zf[1], color = :grey)
+scatter!(axΔz1, Δz, zc)
+hidespines!(axΔz1, :t, :r)
+
+lines!(axz1, [0, 0], [zf[1], 0], color=:gray)
+scatter!(axz1, 0 * zf, zf, marker=:hline, color=:gray, markersize=20)
+scatter!(axz1, 0 * zc, zc)
+hidedecorations!(axz1)
+hidespines!(axz1)
+
+
+z = ReferenceToStretchedDiscretization(; extent, bias, bias_edge,
+                                       constant_spacing,  constant_spacing_extent,
+                                       stretching =  PowerLawStretching(1.03))
+grid = RectilinearGrid(; size=length(z), z, topology=(Flat, Flat, Bounded))
+zf = znodes(grid, Face())
+zc = znodes(grid, Center())
+Δz = zspacings(grid, Center())
+Δz = view(Δz, 1, 1, :)  # for plotting
+
+axΔz2 = Axis(fig[1, 3];
+             xlabel = &quot;z-spacing (m)&quot;,
+             ylabel = &quot;z (m)&quot;,
+             title = &quot;PowerLawStretching(1.03)\n $(length(zf)) cells\n bottom @ z = $(zf[1]) m\n &quot;)
+axz2 = Axis(fig[1, 4])
+
+ldepth = hlines!(axΔz2, bias_edge - extent, color = :salmon, linestyle=:dash)
+lzbottom = hlines!(axΔz2, zf[1], color = :grey)
+scatter!(axΔz2, Δz, zc)
+hidespines!(axΔz2, :t, :r)
+
+lines!(axz2, [0, 0], [zf[1], 0], color=:gray)
+scatter!(axz2, 0 * zf, zf, marker=:hline, color=:gray, markersize=20)
+scatter!(axz2, 0 * zc, zc)
+hidedecorations!(axz2)
+hidespines!(axz2)
+
+z = ReferenceToStretchedDiscretization(; extent, bias, bias_edge,
+                                       constant_spacing,  constant_spacing_extent,
+                                       stretching =  PowerLawStretching(1.03),
+                                       maximum_stretching_extent =  500)
+
+grid = RectilinearGrid(; size=length(z), z, topology=(Flat, Flat, Bounded))
+zf = znodes(grid, Face())
+zc = znodes(grid, Center())
+Δz = zspacings(grid, Center())
+Δz = view(Δz, 1, 1, :)  # for plotting
+
+axΔz3 = Axis(fig[1, 5];
+             xlabel = &quot;z-spacing (m)&quot;,
+             ylabel = &quot;z (m)&quot;,
+             title = &quot;PowerLawStretching(1.03)\n $(length(zf)) cells\n bottom @ z = $(zf[1]) m\n maximum_stretching_extent = 500&quot;)
+axz3 = Axis(fig[1, 6])
+
+ldepth = hlines!(axΔz3, bias_edge - extent, color = :salmon, linestyle=:dash)
+lzbottom = hlines!(axΔz3, zf[1], color = :grey)
+scatter!(axΔz3, Δz, zc)
+
+hidespines!(axΔz3, :t, :r)
+
+lines!(axz3, [0, 0], [zf[1], 0], color=:gray)
+scatter!(axz3, 0 * zf, zf, marker=:hline, color=:gray, markersize=20)
+scatter!(axz3, 0 * zc, zc)
+hidedecorations!(axz3)
+hidespines!(axz3)
+
+
+linkaxes!(axΔz1, axz1, axΔz2, axz2, axΔz3, axz3)
+
+Legend(fig[2, :], [ldepth, lzbottom], [&quot;prescribed extent&quot;, &quot;bottom z interface&quot;], orientation = :horizontal)
+
+colsize!(fig.layout, 2, Relative(0.1))
+colsize!(fig.layout, 4, Relative(0.1))
+colsize!(fig.layout, 6, Relative(0.1))
+
+fig</code></pre><img src="73f10097.png" alt="Example block output"/><h2 id="Single-precision-grids"><a class="docs-heading-anchor" href="#Single-precision-grids">Single-precision grids</a><a id="Single-precision-grids-1"></a><a class="docs-heading-anchor-permalink" href="#Single-precision-grids" title="Permalink"></a></h2><p>To build a grid whose fields are represented with single-precision floating point values, we specify the <code>float_type</code> argument along with the (optional) <code>architecture</code> argument,</p><pre><code class="language-julia hljs">architecture = CPU()
+float_type = Float32
+
+grid = RectilinearGrid(architecture, float_type,
+                       topology = (Periodic, Periodic, Bounded),
+                       size = (16, 8, 4),
+                       x = (0, 64),
+                       y = (0, 32),
+                       z = (0, 8))
+
+# output
+16×8×4 RectilinearGrid{Float32, Periodic, Periodic, Bounded} on CPU with 3×3×3 halo
+├── Periodic x ∈ [0.0, 64.0) regularly spaced with Δx=4.0
+├── Periodic y ∈ [0.0, 32.0) regularly spaced with Δy=4.0
+└── Bounded  z ∈ [0.0, 8.0]  regularly spaced with Δz=2.0</code></pre><p>The same can be accomplished by setting the global default floating point type to <code>Float32</code>:</p><pre><code class="language-julia hljs">architecture = CPU()
+Oceananigans.defaults.FloatType = Float32
+
+grid = RectilinearGrid(architecture,
+                       topology = (Periodic, Periodic, Bounded),
+                       size = (16, 8, 4),
+                       x = (0, 64),
+                       y = (0, 32),
+                       z = (0, 8))
+
+# output
+16×8×4 RectilinearGrid{Float32, Periodic, Periodic, Bounded} on CPU with 3×3×3 halo
+├── Periodic x ∈ [0.0, 64.0) regularly spaced with Δx=4.0
+├── Periodic y ∈ [0.0, 32.0) regularly spaced with Δy=4.0
+└── Bounded  z ∈ [0.0, 8.0]  regularly spaced with Δz=2.0</code></pre><p>Setting the global default is a good approach for building pure Float32 simulations, because this will change <em>all</em> default constructor float types to Float32.</p><div class="admonition is-category-warn" id="Using-single-precision-3526bbdd1c640d75"><header class="admonition-header">Using single precision<a class="admonition-anchor" href="#Using-single-precision-3526bbdd1c640d75" title="Permalink"></a></header><div class="admonition-body"><p>Single precision should be used with care. Users interested in performing single-precision simulations should get in touch via <a href="https://github.com/CliMA/Oceananigans.jl/discussions">Discussions</a>, and should subject their work to extensive testing and validation.</p></div></div><p>For more examples see <a href="../appendix/library/#Oceananigans.Grids.RectilinearGrid"><code>RectilinearGrid</code></a> and <a href="../appendix/library/#Oceananigans.Grids.LatitudeLongitudeGrid"><code>LatitudeLongitudeGrid</code></a>.</p><pre><code class="language-julia hljs">Oceananigans.defaults.FloatType = Float64
+nothing
+
+# output</code></pre><h2 id="Distributed-grids"><a class="docs-heading-anchor" href="#Distributed-grids">Distributed grids</a><a id="Distributed-grids-1"></a><a class="docs-heading-anchor-permalink" href="#Distributed-grids" title="Permalink"></a></h2><div class="admonition is-info" id="Note-3087dc203c72069c"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-3087dc203c72069c" title="Permalink"></a></header><div class="admonition-body"><p>For the following examples, make sure to have both <code>Oceananigans</code> and <code>MPI</code> in your <a href="https://pkgdocs.julialang.org/v1/environments/">environment</a>.</p></div></div><p>Next we turn to the distribution of grids across disparate nodes. This is useful for running simulations that cannot fit on one node. It can also be used to speed up a simulation – provided that the simulation is large enough such that the added cost of communicating information between nodes does not exceed the benefit of dividing up the computation among different nodes.</p><pre><code class="language-julia hljs"># Make a simple program that can be written to file
+make_distributed_arch = &quot;&quot;&quot;
+
+using Oceananigans
+using Oceananigans.DistributedComputations
+using MPI; MPI.Init()
+architecture = Distributed()
+@onrank 0 @show architecture
+@onrank 1 @show architecture
+&quot;&quot;&quot;
+
+write(&quot;distributed_arch_example.jl&quot;, make_distributed_arch)
+
+# Run the program from inside julia.
+# The program can also be run by exiting julia and running
+#
+# $ mpiexec -n 2 julia --project distributed_architecture_example.jl
+#
+# from the terminal.
+using MPI
+run(`$(mpiexec()) -n 2 $(Base.julia_cmd()) --project distributed_arch_example.jl`)
+rm(&quot;distributed_arch_example.jl&quot;)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">architecture = Distributed{CPU} across 2 = 2×1×1 ranks:
+├── local_rank: 0 of 0-1
+├── local_index: [1, 1, 1]
+└── connectivity: east=1 west=1
+architecture = Distributed{CPU} across 2 = 2×1×1 ranks:
+├── local_rank: 1 of 0-1
+├── local_index: [2, 1, 1]
+└── connectivity: east=0 west=0</code></pre><p>That&#39;s what it looks like to build a <a href="../appendix/library/#Distributed"><code>Distributed</code></a> architecture. Notice we chose to display only if we&#39;re on rank 0 – because otherwise, all the ranks print to the terminal at once, talking over each other, and things get messy. Also, we used the &quot;default communicator&quot; <code>MPI.COMM_WORLD</code> to determine whether we were on rank 0. This works because <code>Distributed</code> uses <code>communicator = MPI.COMM_WORLD</code> by default (and this should be changed only with great intention). See the <a href="../appendix/library/#Distributed"><code>Distributed</code></a> docstring for more information.</p><p>Next, let&#39;s try to build a distributed grid:</p><pre><code class="language-julia hljs">make_distributed_grid = &quot;&quot;&quot;
+
+using Oceananigans
+using Oceananigans.DistributedComputations
+using MPI; MPI.Init()
+
+child_architecture = CPU()
+architecture = Distributed(child_architecture)
+
+grid = RectilinearGrid(architecture,
+                       size = (48, 48, 16),
+                       x = (0, 64),
+                       y = (0, 64),
+                       z = (0, 16),
+                       topology = (Periodic, Periodic, Bounded))
+
+@handshake @info grid
+&quot;&quot;&quot;
+
+write(&quot;distributed_grid_example.jl&quot;, make_distributed_grid)
+
+run(`$(mpiexec()) -n 2 $(Base.julia_cmd()) --project distributed_grid_example.jl`)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">┌ Info: </span></span>24×48×16 (distributed across 2×1×1 ranks) RectilinearGrid{Float64, FullyConnected, Periodic, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [0.0, 32.0) regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── Periodic y ∈ [0.0, 64.0)       regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]       regularly spaced with Δz=1.0
+<span class="sgr36"><span class="sgr1">┌ Info: </span></span>24×48×16 (distributed across 2×1×1 ranks) RectilinearGrid{Float64, FullyConnected, Periodic, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [32.0, 64.0) regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── Periodic y ∈ [0.0, 64.0)        regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]        regularly spaced with Δz=1.0</code></pre><p>Now we&#39;re getting somewhere. Let&#39;s note a few things:</p><ul><li><p>For the second example, we explicitly specified <code>child_architecture = CPU()</code> to distribute the grid across CPUs. Changing this to <code>child_architecture = GPU()</code> distributes the grid across GPUs.</p></li><li><p>We built the grid with <code>size = (48, 48, 16)</code>, but ended up with a <code>24×48×16</code> grid. Why&#39;s that? Well, <code>(48, 48, 16)</code> is the size of the <em>global</em> grid, or in other words, the grid that we would get if we stitched together all the grids from each rank. Here we have two ranks. By default, the <em>local</em> grids are distributed equally in <code>x</code>, which means that each of the two local grids have half of the grids points of the global grid – yielding local sizes of <code>(24, 48, 16)</code>.</p></li><li><p>The global grid has topology <code>(Periodic, Periodic, Bounded)</code>, but the local grids have the topology <code>(FullyConnected, Periodic, Bounded)</code>. That means that each local grid, which represents half of the global grid and is partitioned in <code>x</code>, is not <code>Periodic</code> in <code>x</code>. Instead, the west and east sides of each local grid (left and right in the <code>x</code>-direction) are &quot;connected&quot; to another rank.</p></li></ul><p>To drive these points home, let&#39;s run the same script, but using 3 processors instead of 2:</p><pre><code class="language-julia hljs">run(`$(mpiexec()) -n 3 $(Base.julia_cmd()) --project distributed_grid_example.jl`)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">┌ Info: </span></span>16×48×16 (distributed across 3×1×1 ranks) RectilinearGrid{Float64, FullyConnected, Periodic, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [0.0, 21.3333) regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── Periodic y ∈ [0.0, 64.0)          regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]          regularly spaced with Δz=1.0
+<span class="sgr36"><span class="sgr1">┌ Info: </span></span>16×48×16 (distributed across 3×1×1 ranks) RectilinearGrid{Float64, FullyConnected, Periodic, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [21.3333, 42.6667) regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── Periodic y ∈ [0.0, 64.0)              regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]              regularly spaced with Δz=1.0
+<span class="sgr36"><span class="sgr1">┌ Info: </span></span>16×48×16 (distributed across 3×1×1 ranks) RectilinearGrid{Float64, FullyConnected, Periodic, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [42.6667, 64.0) regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── Periodic y ∈ [0.0, 64.0)           regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]           regularly spaced with Δz=1.0</code></pre><p>Now we have three local grids, each with size <code>(16, 48, 16)</code>.</p><h3 id="Custom-partitions-grids-in-both-x-and-y"><a class="docs-heading-anchor" href="#Custom-partitions-grids-in-both-x-and-y">Custom partitions grids in both <span>$x$</span> and <span>$y$</span></a><a id="Custom-partitions-grids-in-both-x-and-y-1"></a><a class="docs-heading-anchor-permalink" href="#Custom-partitions-grids-in-both-x-and-y" title="Permalink"></a></h3><p>To distribute a grid in different ways – for example, in both <span>$x$</span> and <span>$y$</span> – we use a custom <a href="../appendix/library/#Oceananigans.DistributedComputations.Partition-Tuple{Any}"><code>Partition</code></a>.</p><p>The default <code>Partition</code> is equally distributed in <code>x</code>. To equally distribute in <code>y</code>, we write</p><pre><code class="language-julia hljs">make_y_partition = &quot;&quot;&quot;
+
+using Oceananigans
+using Oceananigans.DistributedComputations: Equal
+using MPI
+MPI.Init()
+
+partition = Partition(y=Equal())
+
+if MPI.Comm_rank(MPI.COMM_WORLD) == 0
+    @show partition
+end
+&quot;&quot;&quot;
+
+write(&quot;partition_example.jl&quot;, make_y_partition)
+
+run(`$(mpiexec()) -n 2 $(Base.julia_cmd()) --project partition_example.jl`)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">partition = Partition across 2 = 1×2×1 ranks:
+└── y: 2</code></pre><h4 id="Manually-specifying-ranks-in-x,-y"><a class="docs-heading-anchor" href="#Manually-specifying-ranks-in-x,-y">Manually specifying ranks in <span>$x, y$</span></a><a id="Manually-specifying-ranks-in-x,-y-1"></a><a class="docs-heading-anchor-permalink" href="#Manually-specifying-ranks-in-x,-y" title="Permalink"></a></h4><p>It&#39;s easy to manually configure <code>Partition(x=Rx, y=Ry)</code>, where <code>Rx * Ry</code> is the total number of MPI ranks. For example, <code>Partition(x=3, y=2)</code> is compatible with <code>a_program.jl</code> launched via</p><pre><code class="language-bash hljs">mpiexec -n 6 julia --project a_program.jl</code></pre><h4 id="Programmatically-specifying-ranks-in-x,-y"><a class="docs-heading-anchor" href="#Programmatically-specifying-ranks-in-x,-y">Programmatically specifying ranks in <span>$x, y$</span></a><a id="Programmatically-specifying-ranks-in-x,-y-1"></a><a class="docs-heading-anchor-permalink" href="#Programmatically-specifying-ranks-in-x,-y" title="Permalink"></a></h4><p>Programatic specification of ranks is often better for applications that need to scale. For this the specification <code>Equal</code> is useful: if the number of ranks in one dimension is specified, and the other is <code>Equal</code>, then the <code>Equal</code> dimension is allocated the remaining workers. For example,</p><pre><code class="language-julia hljs">make_xy_partition = &quot;&quot;&quot;
+
+using Oceananigans
+using Oceananigans.DistributedComputations: Equal
+using MPI
+MPI.Init()
+
+partition = Partition(x=Equal(), y=2)
+
+if MPI.Comm_rank(MPI.COMM_WORLD) == 0
+    @show partition
+end
+&quot;&quot;&quot;
+
+write(&quot;programmatic_partition_example.jl&quot;, make_xy_partition)
+
+run(`$(mpiexec()) -n 6 $(Base.julia_cmd()) --project programmatic_partition_example.jl`)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">partition = Partition across 6 = 3×2×1 ranks:
+├── x: 3
+└── y: 2</code></pre><p>Finally, we can use <code>Equal</code> to partition a grid evenly in <span>$x, y$</span>:</p><pre><code class="language-julia hljs">partitioned_grid_example = &quot;&quot;&quot;
+
+using Oceananigans
+using Oceananigans.DistributedComputations: Equal, barrier
+using MPI
+MPI.Init()
+
+# Total number of ranks
+Nr = MPI.Comm_size(MPI.COMM_WORLD)
+
+# Allocate half the ranks to y, and the rest to x
+Rx = Nr ÷ 2
+partition = Partition(x=Rx, y=Equal())
+arch = Distributed(CPU(); partition)
+
+grid = RectilinearGrid(arch,
+                       size = (48, 48, 16),
+                       x = (0, 64),
+                       y = (0, 64),
+                       z = (0, 16),
+                       topology = (Periodic, Periodic, Bounded))
+
+# Let&#39;s see all the grids this time.
+for r in 0:Nr-1
+    if r == arch.local_rank
+        msg = string(&quot;On rank &quot;, r, &quot;:&quot;, &#39;\n&#39;, &#39;\n&#39;,
+                     arch, &#39;\n&#39;,
+                     grid)
+        @info msg
+    end
+
+    barrier(arch)
+end
+&quot;&quot;&quot;
+
+write(&quot;equally_partitioned_grids.jl&quot;, partitioned_grid_example)
+
+run(`$(mpiexec()) -n 4 $(Base.julia_cmd()) --project equally_partitioned_grids.jl`)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">┌ Info: </span></span>On rank 0:
+<span class="sgr36"><span class="sgr1">│ </span></span>
+<span class="sgr36"><span class="sgr1">│ </span></span>Distributed{CPU} across 4 = 2×2×1 ranks:
+<span class="sgr36"><span class="sgr1">│ </span></span>├── local_rank: 0 of 0-3
+<span class="sgr36"><span class="sgr1">│ </span></span>├── local_index: [1, 1, 1]
+<span class="sgr36"><span class="sgr1">│ </span></span>└── connectivity: east=2 west=2 north=1 south=1 southwest=3 southeast=3 northwest=3 northeast=3
+<span class="sgr36"><span class="sgr1">│ </span></span>24×24×16 (distributed across 2×2×1 ranks) RectilinearGrid{Float64, FullyConnected, FullyConnected, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [0.0, 32.0) regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected y ∈ [0.0, 32.0) regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]       regularly spaced with Δz=1.0
+<span class="sgr36"><span class="sgr1">┌ Info: </span></span>On rank 1:
+<span class="sgr36"><span class="sgr1">│ </span></span>
+<span class="sgr36"><span class="sgr1">│ </span></span>Distributed{CPU} across 4 = 2×2×1 ranks:
+<span class="sgr36"><span class="sgr1">│ </span></span>├── local_rank: 1 of 0-3
+<span class="sgr36"><span class="sgr1">│ </span></span>├── local_index: [1, 2, 1]
+<span class="sgr36"><span class="sgr1">│ </span></span>└── connectivity: east=3 west=3 north=0 south=0 southwest=2 southeast=2 northwest=2 northeast=2
+<span class="sgr36"><span class="sgr1">│ </span></span>24×24×16 (distributed across 2×2×1 ranks) RectilinearGrid{Float64, FullyConnected, FullyConnected, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [0.0, 32.0)  regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected y ∈ [32.0, 64.0) regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]        regularly spaced with Δz=1.0
+<span class="sgr36"><span class="sgr1">┌ Info: </span></span>On rank 2:
+<span class="sgr36"><span class="sgr1">│ </span></span>
+<span class="sgr36"><span class="sgr1">│ </span></span>Distributed{CPU} across 4 = 2×2×1 ranks:
+<span class="sgr36"><span class="sgr1">│ </span></span>├── local_rank: 2 of 0-3
+<span class="sgr36"><span class="sgr1">│ </span></span>├── local_index: [2, 1, 1]
+<span class="sgr36"><span class="sgr1">│ </span></span>└── connectivity: east=0 west=0 north=3 south=3 southwest=1 southeast=1 northwest=1 northeast=1
+<span class="sgr36"><span class="sgr1">│ </span></span>24×24×16 (distributed across 2×2×1 ranks) RectilinearGrid{Float64, FullyConnected, FullyConnected, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [32.0, 64.0) regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected y ∈ [0.0, 32.0)  regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]        regularly spaced with Δz=1.0
+<span class="sgr36"><span class="sgr1">┌ Info: </span></span>On rank 3:
+<span class="sgr36"><span class="sgr1">│ </span></span>
+<span class="sgr36"><span class="sgr1">│ </span></span>Distributed{CPU} across 4 = 2×2×1 ranks:
+<span class="sgr36"><span class="sgr1">│ </span></span>├── local_rank: 3 of 0-3
+<span class="sgr36"><span class="sgr1">│ </span></span>├── local_index: [2, 2, 1]
+<span class="sgr36"><span class="sgr1">│ </span></span>└── connectivity: east=1 west=1 north=2 south=2 southwest=0 southeast=0 northwest=0 northeast=0
+<span class="sgr36"><span class="sgr1">│ </span></span>24×24×16 (distributed across 2×2×1 ranks) RectilinearGrid{Float64, FullyConnected, FullyConnected, Bounded} on Distributed{CPU} with 3×3×3 halo
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected x ∈ [32.0, 64.0) regularly spaced with Δx=1.33333
+<span class="sgr36"><span class="sgr1">│ </span></span>├── FullyConnected y ∈ [32.0, 64.0) regularly spaced with Δy=1.33333
+<span class="sgr36"><span class="sgr1">└ </span></span>└── Bounded  z ∈ [0.0, 16.0]        regularly spaced with Δz=1.0</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../literated/tilted_bottom_boundary_layer/">« Tilted bottom boundary layer</a><a class="docs-footer-nextpage" href="../fields/">Fields »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Tuesday 23 December 2025 20:25">Tuesday 23 December 2025</span>. Using Julia version 1.12.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

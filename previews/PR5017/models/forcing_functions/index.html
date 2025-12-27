@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Forcings · Oceananigans.jl</title><meta name="title" content="Forcings · Oceananigans.jl"/><meta property="og:title" content="Forcings · Oceananigans.jl"/><meta property="twitter:title" content="Forcings · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../literated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../../literated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../../literated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../../literated/internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../../literated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../../literated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../../literated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../../literated/baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../../literated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../../literated/shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../../literated/horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../../literated/tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox" checked/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../models_overview/">Overview</a></li><li><a class="tocitem" href="../coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../boundary_conditions/">Boundary conditions</a></li><li class="is-active"><a class="tocitem" href>Forcings</a><ul class="internal"><li><a class="tocitem" href="#The-Forcing-constructor"><span>The <code>Forcing</code> constructor</span></a></li><li><a class="tocitem" href="#Relaxation"><span><code>Relaxation</code></span></a></li><li><a class="tocitem" href="#AdvectiveForcing"><span><code>AdvectiveForcing</code></span></a></li></ul></li><li><a class="tocitem" href="../lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../simulations/simulations_overview/">Overview</a></li><li><a class="tocitem" href="../../simulations/schedules/">Schedules</a></li><li><a class="tocitem" href="../../simulations/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../simulations/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Models</a></li><li class="is-active"><a href>Forcings</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Forcings</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/docs/src/models/forcing_functions.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="forcing_functions"><a class="docs-heading-anchor" href="#forcing_functions">Forcing functions</a><a id="forcing_functions-1"></a><a class="docs-heading-anchor-permalink" href="#forcing_functions" title="Permalink"></a></h1><p>&quot;Forcings&quot; are user-defined terms appended to right-hand side of the momentum or tracer evolution equations. In <code>Oceananigans</code>, momentum and tracer forcings are defined via julia functions. <code>Oceananigans</code> includes an interface for implementing forcing functions that depend on spatial coordinates, time, model velocity and tracer fields, and external parameters.</p><p>Forcings are added to models by passing a <code>NamedTuple</code> of functions or forcing objects to the <code>forcing</code> keyword argument in <code>NonhydrostaticModel</code>&#39;s constructor. By default, momentum and tracer forcing functions are assumed to be functions of <code>x, y, z, t</code>. A basic example is</p><pre><code class="language-julia hljs">u_forcing(x, y, z, t) = exp(z) * cos(x) * sin(t)
+
+grid = RectilinearGrid(size=(1, 1, 1), extent=(1, 1, 1))
+model = NonhydrostaticModel(grid=grid, forcing=(u=u_forcing,))
+
+model.forcing.u
+
+# output
+ContinuousForcing{Nothing} at (Face, Center, Center)
+├── func: u_forcing (generic function with 1 method)
+├── parameters: nothing
+└── field dependencies: ()</code></pre><p>More general forcing functions are built via the <code>Forcing</code> constructor described below. <code>Oceananigans</code> also provides two convenience types:</p><ul><li><code>Relaxation</code> for damping terms that restore a field to a target distribution outside of a masked region of space. <code>Relaxation</code> can be used to implement sponge layers near the boundaries of a domain.</li><li><code>AdvectiveForcing</code> for advecting individual quantities by a separate or &quot;slip&quot; velocity relative to both the prognostic model velocity field and any <code>BackgroundField</code> velocity field.</li></ul><h2 id="The-Forcing-constructor"><a class="docs-heading-anchor" href="#The-Forcing-constructor">The <code>Forcing</code> constructor</a><a id="The-Forcing-constructor-1"></a><a class="docs-heading-anchor-permalink" href="#The-Forcing-constructor" title="Permalink"></a></h2><p>The <code>Forcing</code> constructor provides an interface for specifying forcing functions that</p><ol><li>Depend on external parameters; and</li><li>Depend on model fields at the <code>x, y, z</code> location that forcing is applied; and/or</li><li>Require access to discrete model data.</li></ol><h3 id="Forcing-functions-with-external-parameters"><a class="docs-heading-anchor" href="#Forcing-functions-with-external-parameters">Forcing functions with external parameters</a><a id="Forcing-functions-with-external-parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Forcing-functions-with-external-parameters" title="Permalink"></a></h3><p>Most forcings involve external, changeable parameters. Here are two examples of <code>forcing_func</code>tions that depend on <em>(i)</em> a single scalar parameter <code>s</code>, and <em>(ii)</em> a <code>NamedTuple</code> of parameters, <code>p</code>:</p><pre><code class="language-julia hljs"># Forcing that depends on a scalar parameter `s`
+u_forcing_func(x, y, z, t, s) = s * z
+
+u_forcing = Forcing(u_forcing_func, parameters=0.1)
+
+# Forcing that depends on a `NamedTuple` of parameters `p`
+T_forcing_func(x, y, z, t, p) = - p.μ * exp(z / p.λ) * cos(p.k * x) * sin(p.ω * t)
+
+T_forcing = Forcing(T_forcing_func, parameters=(μ=1, λ=0.5, k=2π, ω=4π))
+
+grid = RectilinearGrid(size=(1, 1, 1), extent=(1, 1, 1))
+model = NonhydrostaticModel(grid=grid, forcing=(u=u_forcing, T=T_forcing), buoyancy=SeawaterBuoyancy(), tracers=(:T, :S))
+
+model.forcing.T
+
+# output
+ContinuousForcing{@NamedTuple{μ::Int64, λ::Float64, k::Float64, ω::Float64}} at (Center, Center, Center)
+├── func: T_forcing_func (generic function with 1 method)
+├── parameters: (μ = 1, λ = 0.5, k = 6.283185307179586, ω = 12.566370614359172)
+└── field dependencies: ()</code></pre><pre><code class="language-julia hljs">model.forcing.u
+
+# output
+ContinuousForcing{Float64} at (Face, Center, Center)
+├── func: u_forcing_func (generic function with 1 method)
+├── parameters: 0.1
+└── field dependencies: ()</code></pre><p>In this example, the objects passed to the <code>parameters</code> keyword in the construction of <code>u_forcing</code> and <code>T_forcing</code> – a floating point number for <code>u_forcing</code>, and a <code>NamedTuple</code> of parameters for <code>T_forcing</code> – are passed on to <code>u_forcing_func</code> and <code>T_forcing_func</code> when they are called during time-stepping. The object passed to <code>parameters</code> is in principle arbitrary. However, if using the GPU, then <code>typeof(parameters)</code> may be restricted by the requirements of GPU-compiliability.</p><h3 id="Forcing-functions-that-depend-on-model-fields"><a class="docs-heading-anchor" href="#Forcing-functions-that-depend-on-model-fields">Forcing functions that depend on model fields</a><a id="Forcing-functions-that-depend-on-model-fields-1"></a><a class="docs-heading-anchor-permalink" href="#Forcing-functions-that-depend-on-model-fields" title="Permalink"></a></h3><p>Forcing functions may depend on model fields (velocity, tracers or auxiliary fields) evaluated at the <code>x, y, z</code> where forcing is applied. Here&#39;s a somewhat non-sensical example:</p><pre><code class="language-julia hljs"># Forcing that depends on the velocity fields `u`, `v`, and `w`
+w_forcing_func(x, y, z, t, u, v, w) = - (u^2 + v^2 + w^2) / 2
+
+w_forcing = Forcing(w_forcing_func, field_dependencies=(:u, :v, :w))
+
+# Forcing that depends on salinity `S` and a scalar parameter
+S_forcing_func(x, y, z, t, S, μ) = - μ * S
+
+S_forcing = Forcing(S_forcing_func, parameters=0.01, field_dependencies=:S)
+
+grid = RectilinearGrid(size=(1, 1, 1), extent=(1, 1, 1))
+model = NonhydrostaticModel(grid=grid, forcing=(w=w_forcing, S=S_forcing), buoyancy=SeawaterBuoyancy(), tracers=(:T, :S))
+
+model.forcing.w
+
+# output
+ContinuousForcing{Nothing} at (Center, Center, Face)
+├── func: w_forcing_func (generic function with 1 method)
+├── parameters: nothing
+└── field dependencies: (:u, :v, :w)</code></pre><pre><code class="language-julia hljs">model.forcing.S
+
+# output
+ContinuousForcing{Float64} at (Center, Center, Center)
+├── func: S_forcing_func (generic function with 1 method)
+├── parameters: 0.01
+└── field dependencies: (:S,)</code></pre><p>The <code>field_dependencies</code> arguments follow <code>x, y, z, t</code> in the forcing <code>func</code>tion in the order they are specified in <code>Forcing</code>. If both <code>field_dependencies</code> and <code>parameters</code> are specified, then the <code>field_dependencies</code> arguments follow <code>x, y, z, t</code>, and <code>parameters</code> follow <code>field_dependencies</code>.</p><p>Model fields that arise in the arguments of continuous <code>Forcing</code> <code>func</code>tions are automatically interpolated to the staggered grid location at which the forcing is applied.</p><h3 id="&quot;Discrete-form&quot;-forcing-functions"><a class="docs-heading-anchor" href="#&quot;Discrete-form&quot;-forcing-functions">&quot;Discrete form&quot; forcing functions</a><a id="&quot;Discrete-form&quot;-forcing-functions-1"></a><a class="docs-heading-anchor-permalink" href="#&quot;Discrete-form&quot;-forcing-functions" title="Permalink"></a></h3><p>&quot;Discrete form&quot; forcing functions are either called with the signature</p><pre><code class="language-julia hljs">func(i, j, k, grid, clock, model_fields)</code></pre><p>or the parameterized form</p><pre><code class="language-julia hljs">func(i, j, k, grid, clock, model_fields, parameters)</code></pre><p>Discrete form forcing functions can access the entirety of model field data through the argument <code>model_fields</code>. The object <code>model_fields</code> is a <code>NamedTuple</code> whose properties include the velocity fields <code>model_fields.u</code>, <code>model_fields.v</code>, <code>model_fields.w</code> and all fields in <code>model.tracers</code>.</p><p>Using discrete forcing functions may require understanding the staggered arrangement of velocity fields and tracers in <code>Oceananigans</code>. Here&#39;s a slightly non-sensical example in which the vertical derivative of a buoyancy tracer is used as a time-scale for damping the u-velocity field:</p><pre><code class="language-julia hljs"># A damping term that depends on a &quot;local average&quot;:
+local_average(i, j, k, grid, c) = @inbounds (c[i, j, k] + c[i-1, j, k] + c[i+1, j, k] +
+                                                          c[i, j-1, k] + c[i, j+1, k] +
+                                                          c[i, j, k-1] + c[i, j, k+1]) / 7
+
+b_forcing_func(i, j, k, grid, clock, model_fields) = - local_average(i, j, k, grid, model_fields.b)
+
+b_forcing = Forcing(b_forcing_func, discrete_form=true)
+
+# A term that damps the local velocity field in the presence of stratification
+using Oceananigans.Operators: ∂zᶠᶜᶠ, ℑxzᶠᵃᶜ
+
+function u_forcing_func(i, j, k, grid, clock, model_fields, ε)
+    # The vertical derivative of buoyancy, interpolated to the u-velocity location:
+    N² = ℑxzᶠᵃᶜ(i, j, k, grid, ∂zᶠᶜᶠ, model_fields.b)
+
+    # Set to zero in unstable stratification where N² &lt; 0:
+    N² = max(N², zero(typeof(N²)))
+
+    return @inbounds - ε * sqrt(N²) * model_fields.u[i, j, k]
+end
+
+u_forcing = Forcing(u_forcing_func, discrete_form=true, parameters=1e-3)
+
+grid = RectilinearGrid(size=(1, 1, 1), extent=(1, 1, 1))
+model = NonhydrostaticModel(grid=grid, tracers=:b, buoyancy=BuoyancyTracer(), forcing=(u=u_forcing, b=b_forcing))
+
+model.forcing.b
+
+# output
+DiscreteForcing{Nothing}
+├── func: b_forcing_func (generic function with 1 method)
+└── parameters: nothing</code></pre><pre><code class="language-julia hljs">model.forcing.u
+
+# output
+DiscreteForcing{Float64}
+├── func: u_forcing_func (generic function with 1 method)
+└── parameters: 0.001</code></pre><p>The annotation <code>@inbounds</code> is crucial for performance when accessing array indices of the fields in <code>model_fields</code>.</p><h2 id="Relaxation"><a class="docs-heading-anchor" href="#Relaxation"><code>Relaxation</code></a><a id="Relaxation-1"></a><a class="docs-heading-anchor-permalink" href="#Relaxation" title="Permalink"></a></h2><p><code>Relaxation</code> defines a special forcing function that restores a field at a specified <code>rate</code> to a <code>target</code> distribution, within a region uncovered by a <code>mask</code>ing function. <code>Relaxation</code> is useful for implementing sponge layers, as shown in the second example.</p><p>The following code constructs a model in which all components of the velocity field are damped to zero everywhere on a time-scale of 1000 seconds, or ~17 minutes:</p><pre><code class="language-julia hljs">damping = Relaxation(rate = 1/1000)
+
+grid = RectilinearGrid(size=(1, 1, 1), extent=(1, 1, 1))
+model = NonhydrostaticModel(grid=grid, forcing=(u=damping, v=damping, w=damping))
+
+model.forcing.w
+
+# output
+ContinuousForcing{Nothing} at (Center, Center, Face)
+├── func: Relaxation(rate=0.001, mask=1, target=0)
+├── parameters: nothing
+└── field dependencies: (:w,)</code></pre><p>The constructor for <code>Relaxation</code> accepts the keyword arguments <code>mask</code>, and <code>target</code>, which specify a <code>mask(x, y, z)</code> function that multiplies the forcing, and a <code>target(x, y, z)</code> distribution for the quantity in question. By default, <code>mask</code> uncovered the whole domain and <code>target</code> restores the field in question to 0</p><p>We illustrate usage of <code>mask</code> and <code>target</code> by implementing a sponge layer that relaxes velocity fields to zero and restores temperature to a linear gradient in the bottom 1/10th of the domain:</p><pre><code class="language-julia hljs">grid = RectilinearGrid(size=(1, 1, 1), x=(0, 1), y=(0, 1), z=(-1, 0))
+
+        damping_rate = 1/100 # relax fields on a 100 second time-scale
+temperature_gradient = 0.001 # ⁰C m⁻¹
+ surface_temperature = 20    # ⁰C (at z=0)
+
+target_temperature = LinearTarget{:z}(intercept=surface_temperature, gradient=temperature_gradient)
+       bottom_mask = GaussianMask{:z}(center=-grid.Lz, width=grid.Lz/10)
+
+uvw_sponge = Relaxation(rate=damping_rate, mask=bottom_mask)
+  T_sponge = Relaxation(rate=damping_rate, mask=bottom_mask, target=target_temperature)
+
+model = NonhydrostaticModel(grid=grid, forcing=(u=uvw_sponge, v=uvw_sponge, w=uvw_sponge, T=T_sponge), buoyancy=SeawaterBuoyancy(), tracers=(:T, :S))
+
+model.forcing.u
+
+# output
+ContinuousForcing{Nothing} at (Face, Center, Center)
+├── func: Relaxation(rate=0.01, mask=exp(-(z + 1.0)^2 / (2 * 0.1^2)), target=0)
+├── parameters: nothing
+└── field dependencies: (:u,)</code></pre><pre><code class="language-julia hljs">model.forcing.T
+
+# output
+ContinuousForcing{Nothing} at (Center, Center, Center)
+├── func: Relaxation(rate=0.01, mask=exp(-(z + 1.0)^2 / (2 * 0.1^2)), target=20.0 + 0.001 * z)
+├── parameters: nothing
+└── field dependencies: (:T,)</code></pre><h2 id="AdvectiveForcing"><a class="docs-heading-anchor" href="#AdvectiveForcing"><code>AdvectiveForcing</code></a><a id="AdvectiveForcing-1"></a><a class="docs-heading-anchor-permalink" href="#AdvectiveForcing" title="Permalink"></a></h2><p><code>AdvectiveForcing</code> defines a forcing function that represents advection by a separate or &quot;slip&quot; velocity relative to the prognostic model velocity field. <code>AdvectiveForcing</code> is implemented with native Oceananigans advection operators, which means that tracers advected by the &quot;flux form&quot; advection term <span>$𝛁⋅𝐮_{\rm slip} c$</span>. Caution is advised when <span>$𝐮_{\rm slip}$</span> is not divergence free.</p><p>As an example, consider a model for sediment settling at a constant rate:</p><pre><code class="language-julia hljs">using Oceananigans
+
+r_sediment = 1e-4 # [m] &quot;Fine sand&quot;
+ρ_sediment = 1200 # kg m⁻³
+ρ_ocean = 1026 # kg m⁻³
+Δb = 9.81 * (ρ_ocean - ρ_sediment) / ρ_ocean # m s⁻²
+ν_molecular = 1.05e-6 # m² s⁻¹
+w_sediment = 2/9 * Δb / ν_molecular * r_sediment^2 # m s⁻¹
+
+sinking = AdvectiveForcing(w=w_sediment)
+
+# output
+AdvectiveForcing:
+├── u: ZeroField{Int64}
+├── v: ZeroField{Int64}
+└── w: ConstantField(-0.00352102)</code></pre><p>The three keyword arguments specify the <code>u</code>, <code>v</code>, and <code>w</code> components of the separate slip velocity field. The default for each <code>u, v, w</code> is <code>ZeroField</code>.</p><p>Next we consider a dynamically-evolving slip velocity. For this we use <code>ZFaceField</code> with appropriate boundary conditions as our slip velocity:</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.BoundaryConditions: ImpenetrableBoundaryCondition
+
+grid = RectilinearGrid(size=(32, 32, 32), x=(-10, 10), y=(-10, 10), z=(-4, 4),
+                       topology=(Periodic, Periodic, Bounded))
+
+no_penetration = ImpenetrableBoundaryCondition()
+slip_bcs = FieldBoundaryConditions(grid, (Center(), Center(), Face()),
+                                   top=no_penetration, bottom=no_penetration)
+
+w_slip = ZFaceField(grid, boundary_conditions=slip_bcs)
+sinking = AdvectiveForcing(w=w_slip)
+
+# output
+AdvectiveForcing:
+├── u: ZeroField{Int64}
+├── v: ZeroField{Int64}
+└── w: 32×32×33 Field{Center, Center, Face} on RectilinearGrid on CPU</code></pre><p>To compute the slip velocity, we must add a <code>Callback</code>to <code>simulations.callback</code> that computes <code>w_slip</code> ever iteration:</p><pre><code class="language-julia hljs">using Oceananigans.BoundaryConditions: fill_halo_regions!
+
+model = NonhydrostaticModel(; grid, tracers=(:b, :P), forcing=(; P=sinking))
+simulation = Simulation(model; Δt=1, stop_iteration=100)
+
+# Build abstract operation for slip velocity
+b_particle = - 1e-4 # relative buoyancy depends on reference density and initial buoyancy condition
+b = model.tracers.b
+R = 1e-3 # [m] mean particle radius
+ν = 1.05e-6 # [m² s⁻¹] molecular kinematic viscosity of water
+w_slip_op = 2/9 * (b - b_particle) / ν * R^2 # Stokes terminal velocity
+
+function compute_slip_velocity!(sim)
+    w_slip .= w_slip_op
+    fill_halo_regions!(w_slip)
+    return nothing
+end
+
+simulation.callbacks[:slip] = Callback(compute_slip_velocity!)
+
+# output
+Callback of compute_slip_velocity! on IterationInterval(1)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../boundary_conditions/">« Boundary conditions</a><a class="docs-footer-nextpage" href="../lagrangian_particles/">Lagrangian particles »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Thursday 25 December 2025 14:05">Thursday 25 December 2025</span>. Using Julia version 1.12.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
