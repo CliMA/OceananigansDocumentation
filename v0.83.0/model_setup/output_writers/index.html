@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Output writers · Oceananigans.jl</title><script data-outdated-warner src="../../assets/warner.js"></script><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/model_setup/output_writers/"/><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../generated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../../generated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../../generated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../../generated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../../generated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../../generated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../../generated/baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../../generated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../../generated/shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../../generated/horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../../generated/tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-4-3" type="checkbox"/><label class="tocitem" for="menuitem-4-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-4" type="checkbox"/><label class="tocitem" for="menuitem-4-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox" checked/><label class="tocitem" for="menuitem-6"><span class="docs-label">Model setup</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../overview/">Overview</a></li><li><a class="tocitem" href="../architecture/">Architecture</a></li><li><a class="tocitem" href="../number_type/">Number type</a></li><li><a class="tocitem" href="../grids/">Grid</a></li><li><a class="tocitem" href="../clock/">Clock</a></li><li><a class="tocitem" href="../coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../tracers/">Tracers</a></li><li><a class="tocitem" href="../buoyancy_and_equation_of_state/">Buoyancy models and equation of state</a></li><li><a class="tocitem" href="../boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../background_fields/">Background fields</a></li><li><a class="tocitem" href="../turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../diagnostics/">Diagnostics</a></li><li class="is-active"><a class="tocitem" href>Output writers</a><ul class="internal"><li><a class="tocitem" href="#Basic-usage"><span>Basic usage</span></a></li><li><a class="tocitem" href="#NetCDF-output-writer"><span>NetCDF output writer</span></a></li><li><a class="tocitem" href="#JLD2-output-writer"><span>JLD2 output writer</span></a></li><li><a class="tocitem" href="#Time-averaged-output"><span>Time-averaged output</span></a></li></ul></li><li><a class="tocitem" href="../checkpointing/">Checkpointing</a></li><li><a class="tocitem" href="../setting_initial_conditions/">Setting initial conditions</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Model setup</a></li><li class="is-active"><a href>Output writers</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Output writers</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/docs/src/model_setup/output_writers.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Output-writers"><a class="docs-heading-anchor" href="#Output-writers">Output writers</a><a id="Output-writers-1"></a><a class="docs-heading-anchor-permalink" href="#Output-writers" title="Permalink"></a></h1><p><code>AbstractOutputWriter</code>s save data to disk. <code>Oceananigans</code> provides three ways to write output:</p><ol><li><a href="../../appendix/library/#Oceananigans.OutputWriters.NetCDFOutputWriter-Tuple{Any, Any}"><code>NetCDFOutputWriter</code></a> for output of arrays and scalars that uses <a href="https://github.com/Alexander-Barth/NCDatasets.jl">NCDatasets.jl</a></li><li><a href="../../appendix/library/#Oceananigans.OutputWriters.JLD2OutputWriter-Tuple{Any, Any}"><code>JLD2OutputWriter</code></a> for arbitrary julia data structures that uses <a href="https://github.com/JuliaIO/JLD2.jl">JLD2.jl</a></li><li><a href="../../appendix/library/#Oceananigans.OutputWriters.Checkpointer-Tuple{Any}"><code>Checkpointer</code></a> that automatically saves as much model data as possible, using <a href="https://github.com/JuliaIO/JLD2.jl">JLD2.jl</a></li></ol><p>The <code>Checkpointer</code> is discussed on a separate documentation page.</p><h2 id="Basic-usage"><a class="docs-heading-anchor" href="#Basic-usage">Basic usage</a><a id="Basic-usage-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-usage" title="Permalink"></a></h2><p><a href="../../appendix/library/#Oceananigans.OutputWriters.NetCDFOutputWriter-Tuple{Any, Any}"><code>NetCDFOutputWriter</code></a> and <a href="../../appendix/library/#Oceananigans.OutputWriters.JLD2OutputWriter-Tuple{Any, Any}"><code>JLD2OutputWriter</code></a> require four inputs:</p><ol><li>The <code>model</code> from which output data is sourced (required to initialize the <code>OutputWriter</code>).</li><li>A key-value pairing of output &quot;names&quot; and &quot;output&quot; objects. <code>JLD2OutputWriter</code> accepts <code>NamedTuple</code>s and <code>Dict</code>s; <code>NetCDFOutputWriter</code> accepts <code>Dict</code>s with string-valued keys. Output objects are either <code>AbstractField</code>s or functions that return data when called via <code>func(model)</code>.</li><li>A <code>schedule</code> on which output is written. <code>TimeInterval</code>, <code>IterationInterval</code>, <code>WallTimeInterval</code> schedule periodic output according to the simulation time, simulation interval, or &quot;wall time&quot; (the physical time according to a clock on your wall). A fourth <code>schedule</code> called <code>AveragedTimeInterval</code> specifies periodic output that is time-averaged over a <code>window</code> prior to being written.</li><li>The <code>filename</code> and <code>dir</code>ectory.</li></ol><p>Other important keyword arguments are</p><ul><li><p><code>field_slicer::FieldSlicer</code> for outputting subregions, two- and one-dimensional slices of fields. By default a <code>FieldSlicer</code> is used to remove halo regions from fields so that only the physical portion of model data is saved to disk.</p></li><li><p><code>array_type</code> for specifying the type of the array that holds outputted field data. The default is <code>Array{Float64}</code>, or arrays of single-precision floating point numbers.</p></li></ul><p>Once an <code>OutputWriter</code> is created, it can be used to write output by adding it the ordered dictionary <code>simulation.output_writers</code>. prior to calling <code>run!(simulation)</code>.</p><p>More specific detail about the <code>NetCDFOutputWriter</code> and <code>JLD2OutputWriter</code> is given below.</p><div class="admonition is-success"><header class="admonition-header">Time step alignment and output writing</header><div class="admonition-body"><p>Oceananigans simulations will shorten the time step as needed to align model output with each output writer&#39;s schedule.</p></div></div><h2 id="NetCDF-output-writer"><a class="docs-heading-anchor" href="#NetCDF-output-writer">NetCDF output writer</a><a id="NetCDF-output-writer-1"></a><a class="docs-heading-anchor-permalink" href="#NetCDF-output-writer" title="Permalink"></a></h2><p>Model data can be saved to NetCDF files along with associated metadata. The NetCDF output writer is generally used by passing it a dictionary of (label, field) pairs and any indices for slicing if you don&#39;t want to save the full 3D field.</p><h3 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h3><p>Saving the u velocity field and temperature fields as full 3D fields, surface 2D slices, and 1D columns to separate NetCDF files:</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(size=(16, 16, 16), extent=(1, 1, 1))
+
+model = NonhydrostaticModel(grid=grid, tracers=:c)
+
+simulation = Simulation(model, Δt=12, stop_time=3600)
+
+fields = Dict(&quot;u&quot; =&gt; model.velocities.u, &quot;c&quot; =&gt; model.tracers.c)
+
+simulation.output_writers[:field_writer] =
+    NetCDFOutputWriter(model, fields, filename=&quot;more_fields.nc&quot;, schedule=TimeInterval(60))
+
+# output
+NetCDFOutputWriter scheduled on TimeInterval(1 minute):
+├── filepath: ./more_fields.nc
+├── dimensions: zC(16), zF(17), xC(16), yF(16), xF(16), yC(16), time(0)
+├── 2 outputs: (c, u)
+└── array type: Array{Float64}</code></pre><pre><code class="language-julia hljs">simulation.output_writers[:surface_slice_writer] =
+    NetCDFOutputWriter(model, fields, filename=&quot;another_surface_xy_slice.nc&quot;,
+                       schedule=TimeInterval(60), indices=(:, :, grid.Nz))
+
+# output
+NetCDFOutputWriter scheduled on TimeInterval(1 minute):
+├── filepath: ./another_surface_xy_slice.nc
+├── dimensions: zC(1), zF(1), xC(16), yF(16), xF(16), yC(16), time(0)
+├── 2 outputs: (c, u)
+└── array type: Array{Float64}</code></pre><pre><code class="language-julia hljs">simulation.output_writers[:averaged_profile_writer] =
+    NetCDFOutputWriter(model, fields,
+                       filename = &quot;another_averaged_z_profile.nc&quot;,
+                       schedule = AveragedTimeInterval(60, window=20),
+                       indices = (1, 1, :))
+
+# output
+NetCDFOutputWriter scheduled on TimeInterval(1 minute):
+├── filepath: ./another_averaged_z_profile.nc
+├── dimensions: zC(16), zF(17), xC(1), yF(1), xF(1), yC(1), time(0)
+├── 2 outputs: (c, u) averaged on AveragedTimeInterval(window=20 seconds, stride=1, interval=1 minute)
+└── array type: Array{Float64}</code></pre><p><code>NetCDFOutputWriter</code> also accepts output functions that write scalars and arrays to disk, provided that their <code>dimensions</code> are provided:</p><pre><code class="language-julia hljs">using Oceananigans
+
+Nx, Ny, Nz = 16, 16, 16
+
+grid = RectilinearGrid(size=(Nx, Ny, Nz), extent=(1, 2, 3))
+
+model = NonhydrostaticModel(grid=grid)
+
+simulation = Simulation(model, Δt=1.25, stop_iteration=3)
+
+f(model) = model.clock.time^2; # scalar output
+
+g(model) = model.clock.time .* exp.(znodes(Center, grid)) # single-column profile output (vector)
+
+xC, yF = xnodes(grid, Center()), ynodes(grid, Face())
+
+XC = [xC[i] for i in 1:Nx, j in 1:Ny]
+YF = [yF[j] for i in 1:Nx, j in 1:Ny]
+
+h(model) = @. model.clock.time * sin(XC) * cos(YF) # x-y slice output (2D array)
+
+outputs = Dict(&quot;scalar&quot; =&gt; f, &quot;profile&quot; =&gt; g, &quot;slice&quot; =&gt; h)
+
+dims = Dict(&quot;scalar&quot; =&gt; (), &quot;profile&quot; =&gt; (&quot;zC&quot;,), &quot;slice&quot; =&gt; (&quot;xC&quot;, &quot;yC&quot;))
+
+output_attributes = Dict(
+    &quot;scalar&quot;  =&gt; Dict(&quot;longname&quot; =&gt; &quot;Some scalar&quot;, &quot;units&quot; =&gt; &quot;bananas&quot;),
+    &quot;profile&quot; =&gt; Dict(&quot;longname&quot; =&gt; &quot;Some vertical profile&quot;, &quot;units&quot; =&gt; &quot;watermelons&quot;),
+    &quot;slice&quot;   =&gt; Dict(&quot;longname&quot; =&gt; &quot;Some slice&quot;, &quot;units&quot; =&gt; &quot;mushrooms&quot;)
+)
+
+global_attributes = Dict(&quot;location&quot; =&gt; &quot;Bay of Fundy&quot;, &quot;onions&quot; =&gt; 7)
+
+simulation.output_writers[:things] =
+    NetCDFOutputWriter(model, outputs,
+                       schedule=IterationInterval(1), filename=&quot;things.nc&quot;, dimensions=dims, verbose=true,
+                       global_attributes=global_attributes, output_attributes=output_attributes)
+
+# output
+NetCDFOutputWriter scheduled on IterationInterval(1):
+├── filepath: ./things.nc
+├── dimensions: zC(16), zF(17), xC(16), yF(16), xF(16), yC(16), time(0)
+├── 3 outputs: (profile, slice, scalar)
+└── array type: Array{Float64}</code></pre><p>See <a href="../../appendix/library/#Oceananigans.OutputWriters.NetCDFOutputWriter-Tuple{Any, Any}"><code>NetCDFOutputWriter</code></a> for more information.</p><h2 id="JLD2-output-writer"><a class="docs-heading-anchor" href="#JLD2-output-writer">JLD2 output writer</a><a id="JLD2-output-writer-1"></a><a class="docs-heading-anchor-permalink" href="#JLD2-output-writer" title="Permalink"></a></h2><p>JLD2 is a fast HDF5 compatible file format written in pure Julia. JLD2 files can be opened in Julia with the <a href="https://github.com/JuliaIO/JLD2.jl">JLD2.jl</a> package and in Python with the <a href="https://www.h5py.org/">h5py</a> package.</p><p>The <code>JLD2OutputWriter</code> receives either a <code>Dict</code>ionary or <code>NamedTuple</code> containing <code>name, output</code> pairs. The <code>name</code> can be a symbol or string. The <code>output</code> must either be an <code>AbstractField</code> or a function called with <code>func(model)</code> that returns arbitrary output. Whenever output needs to be written, the functions will be called and the output of the function will be saved to the JLD2 file.</p><h3 id="Examples-2"><a class="docs-heading-anchor" href="#Examples-2">Examples</a><a class="docs-heading-anchor-permalink" href="#Examples-2" title="Permalink"></a></h3><p>Write out 3D fields for u, v, w, and a tracer c, along with a horizontal average:</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Utils: hour, minute
+
+model = NonhydrostaticModel(grid=RectilinearGrid(size=(1, 1, 1), extent=(1, 1, 1)), tracers=(:c,))
+simulation = Simulation(model, Δt=12, stop_time=1hour)
+
+function init_save_some_metadata!(file, model)
+    file[&quot;author&quot;] = &quot;Chim Riggles&quot;
+    file[&quot;parameters/coriolis_parameter&quot;] = 1e-4
+    file[&quot;parameters/density&quot;] = 1027
+    return nothing
+end
+
+c_avg = Field(Average(model.tracers.c, dims=(1, 2)))
+
+# Note that model.velocities is NamedTuple
+simulation.output_writers[:velocities] = JLD2OutputWriter(model, model.velocities,
+                                                          filename = &quot;some_more_data.jld2&quot;,
+                                                          schedule = TimeInterval(20minute),
+                                                          init = init_save_some_metadata!)
+
+# output
+JLD2OutputWriter scheduled on TimeInterval(20 minutes):
+├── filepath: ./some_more_data.jld2
+├── 3 outputs: (u, v, w)
+├── array type: Array{Float64}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+└── max filesize: Inf YiB</code></pre><p>and a time- and horizontal-average of tracer <code>c</code> every 20 minutes of simulation time to a file called <code>some_more_averaged_data.jld2</code></p><pre><code class="language-julia hljs">simulation.output_writers[:avg_c] = JLD2OutputWriter(model, (; c=c_avg),
+                                                     filename = &quot;some_more_averaged_data.jld2&quot;,
+                                                     schedule = AveragedTimeInterval(20minute, window=5minute))
+
+# output
+JLD2OutputWriter scheduled on TimeInterval(20 minutes):
+├── filepath: ./some_more_averaged_data.jld2
+├── 1 outputs: c averaged on AveragedTimeInterval(window=5 minutes, stride=1, interval=20 minutes)
+├── array type: Array{Float64}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+└── max filesize: Inf YiB</code></pre><p>See <a href="../../appendix/library/#Oceananigans.OutputWriters.JLD2OutputWriter-Tuple{Any, Any}"><code>JLD2OutputWriter</code></a> for more information.</p><h2 id="Time-averaged-output"><a class="docs-heading-anchor" href="#Time-averaged-output">Time-averaged output</a><a id="Time-averaged-output-1"></a><a class="docs-heading-anchor-permalink" href="#Time-averaged-output" title="Permalink"></a></h2><p>Time-averaged output is specified by setting the <code>schedule</code> keyword argument for either <code>NetCDFOutputWriter</code> or <code>JLD2OutputWriter</code> to <a href="../../appendix/library/#Oceananigans.OutputWriters.AveragedTimeInterval"><code>AveragedTimeInterval</code></a>.</p><p>With <code>AveragedTimeInterval</code>, the time-average of <span>$a$</span> is taken as a left Riemann sum corresponding to</p><p class="math-container">\[\langle a \rangle = \frac{1}{T} \int_{t_i-T}^{t_i} a \, \mathrm{d} t \, ,\]</p><p>where <span>$\langle a \rangle$</span> is the time-average of <span>$a$</span>, <span>$T$</span> is the time-<code>window</code> for averaging specified by the <code>window</code> keyword argument to <code>AveragedTimeInterval</code>, and the <span>$t_i$</span> are discrete times separated by the time <code>interval</code>. The <span>$t_i$</span> specify both the end of the averaging window and the time at which output is written.</p><h3 id="Example"><a class="docs-heading-anchor" href="#Example">Example</a><a id="Example-1"></a><a class="docs-heading-anchor-permalink" href="#Example" title="Permalink"></a></h3><p>Building an <code>AveragedTimeInterval</code> that averages over a 1 day window, every 4 days,</p><pre><code class="language-julia hljs">using Oceananigans.OutputWriters: AveragedTimeInterval
+using Oceananigans.Units
+
+schedule = AveragedTimeInterval(4days, window=1day)
+
+# output
+AveragedTimeInterval(window=1 day, stride=1, interval=4 days)</code></pre><p>An <code>AveragedTimeInterval</code> schedule directs an output writer to time-average its outputs before writing them to disk:</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.OutputWriters: JLD2OutputWriter
+using Oceananigans.Units
+
+model = NonhydrostaticModel(grid=RectilinearGrid(size=(1, 1, 1), extent=(1, 1, 1)))
+
+simulation = Simulation(model, Δt=10minutes, stop_time=30days)
+
+simulation.output_writers[:velocities] = JLD2OutputWriter(model, model.velocities,
+                                                          filename = &quot;even_more_averaged_velocity_data.jld2&quot;,
+                                                          schedule = AveragedTimeInterval(4days, window=1day, stride=2))
+
+# output
+JLD2OutputWriter scheduled on TimeInterval(4 days):
+├── filepath: ./even_more_averaged_velocity_data.jld2
+├── 3 outputs: (u, v, w) averaged on AveragedTimeInterval(window=1 day, stride=2, interval=4 days)
+├── array type: Array{Float64}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+└── max filesize: Inf YiB</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../diagnostics/">« Diagnostics</a><a class="docs-footer-nextpage" href="../checkpointing/">Checkpointing »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Friday 16 June 2023 08:49">Friday 16 June 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
