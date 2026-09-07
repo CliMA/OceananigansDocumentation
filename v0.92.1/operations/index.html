@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Operations · Oceananigans.jl</title><meta name="title" content="Operations · Oceananigans.jl"/><meta property="og:title" content="Operations · Oceananigans.jl"/><meta property="twitter:title" content="Operations · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/operations/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/operations/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/operations/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script><link href="../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../literated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../literated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../literated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../literated/internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../literated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../literated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../literated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../literated/baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../literated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../literated/shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../literated/horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../literated/tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../grids/">Grids</a></li><li><a class="tocitem" href="../fields/">Fields</a></li><li class="is-active"><a class="tocitem" href>Operations</a><ul class="internal"><li><a class="tocitem" href="#Locations-and-interpolation"><span>Locations and interpolation</span></a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Model setup (legacy)</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../model_setup/overview/">Overview</a></li><li><a class="tocitem" href="../model_setup/setting_initial_conditions/">Setting initial conditions</a></li><li><a class="tocitem" href="../model_setup/architecture/">Architecture</a></li><li><a class="tocitem" href="../model_setup/number_type/">Number type</a></li><li><a class="tocitem" href="../model_setup/legacy_grids/">Grid</a></li><li><a class="tocitem" href="../model_setup/clock/">Clock</a></li><li><a class="tocitem" href="../model_setup/coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../model_setup/tracers/">Tracers</a></li><li><a class="tocitem" href="../model_setup/buoyancy_and_equation_of_state/">Buoyancy models and equation of state</a></li><li><a class="tocitem" href="../model_setup/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../model_setup/forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../model_setup/background_fields/">Background fields</a></li><li><a class="tocitem" href="../model_setup/turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../model_setup/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../model_setup/diagnostics/">Diagnostics</a></li><li><a class="tocitem" href="../model_setup/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../model_setup/output_writers/">Output writers</a></li><li><a class="tocitem" href="../model_setup/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-8-3" type="checkbox"/><label class="tocitem" for="menuitem-8-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-4" type="checkbox"/><label class="tocitem" for="menuitem-8-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-5" type="checkbox"/><label class="tocitem" for="menuitem-8-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../gallery/">Gallery</a></li><li><a class="tocitem" href="../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../appendix/library/">Library</a></li><li><a class="tocitem" href="../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Operations</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Operations</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/docs/src/operations.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Operations-and-averaging"><a class="docs-heading-anchor" href="#Operations-and-averaging">Operations and averaging</a><a id="Operations-and-averaging-1"></a><a class="docs-heading-anchor-permalink" href="#Operations-and-averaging" title="Permalink"></a></h1><p><code>Field</code>s are more than mere vessels for data. They come equipped with a powerful infrastructure for assembling expression trees that represent arithmetic and discrete calculus operations. We also supply a system for computing reductions (averages, integrals, and cumulative integrals) of <code>Field</code>s. This infrastructure can be used to construct initial conditions, set up diagnostic calculations that are performed and saved to disk while a simulation runs, and also for post-processing.</p><p>We start by constructing a <code>CenterField</code> on a simple grid,</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(topology = (Periodic, Flat, Bounded),
+                       size = (4, 4),
+                       x = (0, 2π),
+                       z = (-4, 0))
+
+c = CenterField(grid)
+
+periodic_but_decaying(x, z) = sin(x) * exp(z)
+set!(c, periodic_but_decaying)
+
+# output
+4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+├── boundary conditions: FieldBoundaryConditions
+│   └── west: Periodic, east: Periodic, south: Nothing, north: Nothing, bottom: ZeroFlux, top: ZeroFlux, immersed: ZeroFlux
+└── data: 10×1×10 OffsetArray(::Array{Float64, 3}, -2:7, 1:1, -2:7) with eltype Float64 with indices -2:7×1:1×-2:7
+    └── max=0.428882, min=-0.428882, mean=1.04083e-17</code></pre><p>An <code>AbstractOperation</code> (or <em>operation</em> for short) differs from a <code>Field</code> in that only represents a computation. Unlike <code>Field</code>s, <code>AbstractOperation</code>s do not have any data, and are associated only with minimal memory allocation. <code>AbstractOperations</code> are generated by inflicting <code>Field</code>s with ordinary arithmetic expressions,</p><pre><code class="language-julia hljs">two_c = 2 * c
+
+# output
+BinaryOperation at (Center, Center, Center)
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+└── tree:
+    * at (Center, Center, Center)
+    ├── 2
+    └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU</code></pre><p>and even by chaining expressions together, which may themselves include <code>AbstractOperations</code>,</p><pre><code class="language-julia hljs">quadratic = c^2 + two_c + 1
+
+# output
+BinaryOperation at (Center, Center, Center)
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+└── tree:
+    + at (Center, Center, Center)
+    ├── + at (Center, Center, Center)
+    │   ├── ^ at (Center, Center, Center)
+    │   │   ├── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+    │   │   └── 2
+    │   └── * at (Center, Center, Center)
+        │   ├── 2
+        │   └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+    └── 1</code></pre><p>Like <code>Field</code>s, <code>AbstractOperations</code> have a location and a grid.  In addition to <code>BinaryOperation</code>s like the kind above, <code>UnaryOperation</code>s and <code>MultiaryOperation</code>s are also supported,</p><pre><code class="language-julia hljs">cos_c = cos(c)
+
+# output
+UnaryOperation at (Center, Center, Center)
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+└── tree:
+    cos at (Center, Center, Center) via identity
+    └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU</code></pre><pre><code class="language-julia hljs">four_c = c + c + c + c
+
+# output
+MultiaryOperation at (Center, Center, Center)
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+└── tree:
+    + at (Center, Center, Center)
+    ├── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+    ├── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+    ├── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+    └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU</code></pre><p><code>UnaryOperation</code>, <code>BinaryOperation</code> and <code>MultiaryOperation</code> all have both an &quot;operator&quot;, and between 1 and many. Last, and definitely not least, the fourth flavor of <code>AbstractOperation</code> represents a derivative,</p><pre><code class="language-julia hljs">dx_c = ∂x(c)
+
+# output
+Derivative at (Face, Center, Center)
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+└── tree:
+    ∂xᶠᶜᶜ at (Face, Center, Center) via identity
+    └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>The <span>$x$</span>-derivative of <code>c</code> is computed by invoking the function <code>∂xᶠᶜᶜ</code>, where the superscript <code>ᶠᶜᶜ</code> indicates that the result of this function is located at <code>(Face, Center, Center)</code>. This convention is used throughout <code>Oceananigans</code> source code. A third superscripted letter <code>ᵃ</code> stands for &quot;any&quot; location and applies to operators that are location-agnostic in the given direction.</p></div></div><p>Like <code>Field</code>s, <code>AbstractOperations</code> are evaluated by indexing,</p><pre><code class="language-julia hljs">@show c[1, 1, 1]
+@show quadratic[1, 1, 1]
+nothing
+
+# output
+c[1, 1, 1] = 0.02135277459201165
+quadratic[1, 1, 1] = 1.0431614901668005</code></pre><p>Also like <code>Field</code>s, <code>AbstractOperation</code>s have a <em>location</em>. For example,</p><pre><code class="language-julia hljs">@show location(c)
+@show location(dx_c)
+nothing
+
+# output
+location(c) = (Center, Center, Center)
+location(dx_c) = (Face, Center, Center)</code></pre><p>Notice that the location of <code>dx_c</code> is shifted in <code>x</code> relative to <code>c</code>. Likewise, <code>y</code>-derivatives are shifted in <code>y</code> and <code>z</code>-derivatives are shifted in <code>z</code>.</p><h2 id="Locations-and-interpolation"><a class="docs-heading-anchor" href="#Locations-and-interpolation">Locations and interpolation</a><a id="Locations-and-interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#Locations-and-interpolation" title="Permalink"></a></h2><p><em>Reconstruction</em> of <code>Field</code>s from one location to another is intrinsic to arithmetic on the staggered grid. Consider the magnitude of the gradient of <code>c</code>:</p><pre><code class="language-julia hljs">∇c² = ∂x(c)^2 + ∂z(c)^2
+
+# output
+BinaryOperation at (Face, Center, Center)
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+└── tree:
+    + at (Face, Center, Center)
+    ├── ^ at (Face, Center, Center)
+    │   ├── ∂xᶠᶜᶜ at (Face, Center, Center) via identity
+    │   │   └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+    │   └── 2
+    └── ^ at (Center, Center, Face)
+        ├── ∂zᶜᶜᶠ at (Center, Center, Face) via identity
+        │   └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+        └── 2</code></pre><p>Because <code>∂x(c)^2</code> is located at <code>(Face, Center, Center)</code> and <code>∂z(c)^2</code> is located at <code>(Center, Center, Face)</code>, a decision has to be made to compute <code>∇c²</code>. By default, <code>AbstractOperations</code> are reconstructed at the location of the <em>first</em> object in the expression. So</p><pre><code class="language-julia hljs">∇c²_ccf = ∂z(c)^2 + ∂x(c)^2
+
+# output
+BinaryOperation at (Center, Center, Face)
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+└── tree:
+    + at (Center, Center, Face)
+    ├── ^ at (Center, Center, Face)
+    │   ├── ∂zᶜᶜᶠ at (Center, Center, Face) via identity
+    │   │   └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+    │   └── 2
+    └── ^ at (Face, Center, Center)
+        ├── ∂xᶠᶜᶜ at (Face, Center, Center) via identity
+        │   └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+        └── 2</code></pre><p>ends up at <code>(Center, Center, Face)</code>. To control the location of an operation we use the macro <code>@at</code>,</p><pre><code class="language-julia hljs">∇c²_ccc = @at (Center, Center, Center) ∂x(c)^2 + ∂z(c)^2
+
+# output
+BinaryOperation at (Center, Center, Center)
+├── grid: 4×1×4 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+└── tree:
+    + at (Center, Center, Center)
+    ├── ^ at (Center, Center, Center)
+    │   ├── ∂xᶠᶜᶜ at (Center, Center, Center) via ℑxᶜᵃᵃ
+    │   │   └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+    │   └── 2
+    └── ^ at (Center, Center, Center)
+        ├── ∂zᶜᶜᶠ at (Center, Center, Center) via ℑzᵃᵃᶜ
+        │   └── 4×1×4 Field{Center, Center, Center} on RectilinearGrid on CPU
+        └── 2</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../fields/">« Fields</a><a class="docs-footer-nextpage" href="../model_setup/overview/">Overview »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Wednesday 23 October 2024 16:22">Wednesday 23 October 2024</span>. Using Julia version 1.10.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
