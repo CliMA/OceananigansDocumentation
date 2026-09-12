@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Horizontal convection · Oceananigans.jl</title><meta name="title" content="Horizontal convection · Oceananigans.jl"/><meta property="og:title" content="Horizontal convection · Oceananigans.jl"/><meta property="twitter:title" content="Horizontal convection · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/horizontal_convection/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/horizontal_convection/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/literated/horizontal_convection/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li class="is-active"><a class="tocitem" href>Horizontal convection</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#Horizontal-convection"><span>Horizontal convection</span></a></li><li><a class="tocitem" href="#Model-instantiation"><span>Model instantiation</span></a></li><li><a class="tocitem" href="#Simulation-set-up"><span>Simulation set-up</span></a></li><li><a class="tocitem" href="#Load-saved-output,-process,-visualize"><span>Load saved output, process, visualize</span></a></li></ul></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Model setup (legacy)</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../model_setup/overview/">Overview</a></li><li><a class="tocitem" href="../../model_setup/setting_initial_conditions/">Setting initial conditions</a></li><li><a class="tocitem" href="../../model_setup/architecture/">Architecture</a></li><li><a class="tocitem" href="../../model_setup/number_type/">Number type</a></li><li><a class="tocitem" href="../../model_setup/legacy_grids/">Grid</a></li><li><a class="tocitem" href="../../model_setup/clock/">Clock</a></li><li><a class="tocitem" href="../../model_setup/coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../../model_setup/tracers/">Tracers</a></li><li><a class="tocitem" href="../../model_setup/buoyancy_and_equation_of_state/">Buoyancy models and equation of state</a></li><li><a class="tocitem" href="../../model_setup/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../model_setup/forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../../model_setup/background_fields/">Background fields</a></li><li><a class="tocitem" href="../../model_setup/turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../../model_setup/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../model_setup/diagnostics/">Diagnostics</a></li><li><a class="tocitem" href="../../model_setup/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../../model_setup/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../model_setup/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-8-3" type="checkbox"/><label class="tocitem" for="menuitem-8-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-4" type="checkbox"/><label class="tocitem" for="menuitem-8-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-5" type="checkbox"/><label class="tocitem" for="menuitem-8-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Horizontal convection</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Horizontal convection</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/examples/horizontal_convection.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Horizontal-convection-example"><a class="docs-heading-anchor" href="#Horizontal-convection-example">Horizontal convection example</a><a id="Horizontal-convection-example-1"></a><a class="docs-heading-anchor-permalink" href="#Horizontal-convection-example" title="Permalink"></a></h1><p>In &quot;horizontal convection&quot;, a non-uniform buoyancy is imposed on top of an initially resting fluid.</p><p>This example demonstrates:</p><ul><li>How to use computed <code>Field</code>s for output.</li><li>How to post-process saved output using <code>FieldTimeSeries</code>.</li></ul><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie&quot;</code></pre><h2 id="Horizontal-convection"><a class="docs-heading-anchor" href="#Horizontal-convection">Horizontal convection</a><a id="Horizontal-convection-1"></a><a class="docs-heading-anchor-permalink" href="#Horizontal-convection" title="Permalink"></a></h2><p>We consider two-dimensional horizontal convection of an incompressible flow <span>$\boldsymbol{u} = (u, w)$</span> on the <span>$(x, z)$</span>-plane (<span>$-L_x/2 \le x \le L_x/2$</span> and <span>$-H \le z \le 0$</span>). The flow evolves under the effect of gravity. The only forcing on the fluid comes from a prescribed, non-uniform buoyancy at the top-surface of the domain.</p><p>We start by importing <code>Oceananigans</code> and <code>Printf</code>.</p><pre><code class="language-julia hljs">using Oceananigans
+using Printf</code></pre><h3 id="The-grid"><a class="docs-heading-anchor" href="#The-grid">The grid</a><a id="The-grid-1"></a><a class="docs-heading-anchor-permalink" href="#The-grid" title="Permalink"></a></h3><pre><code class="language-julia hljs">H = 1            # vertical domain extent
+Lx = 2H          # horizontal domain extent
+Nx, Nz = 128, 64 # horizontal, vertical resolution
+
+grid = RectilinearGrid(size = (Nx, Nz),
+                       x = (-Lx/2, Lx/2),
+                       z = (-H, 0),
+                       topology = (Bounded, Flat, Bounded))</code></pre><pre><code class="nohighlight hljs">128×1×64 RectilinearGrid{Float64, Bounded, Flat, Bounded} on CPU with 3×0×3 halo
+├── Bounded  x ∈ [-1.0, 1.0] regularly spaced with Δx=0.015625
+├── Flat y                   
+└── Bounded  z ∈ [-1.0, 0.0] regularly spaced with Δz=0.015625</code></pre><h3 id="Boundary-conditions"><a class="docs-heading-anchor" href="#Boundary-conditions">Boundary conditions</a><a id="Boundary-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Boundary-conditions" title="Permalink"></a></h3><p>At the surface, the imposed buoyancy is</p><p class="math-container">\[b(x, z = 0, t) = - b_* \cos (2 \pi x / L_x) \, ,\]</p><p>while zero-flux boundary conditions are imposed on all other boundaries. We use free-slip boundary conditions on <span>$u$</span> and <span>$w$</span> everywhere.</p><pre><code class="language-julia hljs">b★ = 1
+@inline bˢ(x, t, p) = - p.b★ * cos(2π * x / p.Lx)
+
+b_bcs = FieldBoundaryConditions(top = ValueBoundaryCondition(bˢ, parameters=(; b★, Lx)))</code></pre><pre><code class="nohighlight hljs">Oceananigans.FieldBoundaryConditions, with boundary conditions
+├── west: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── east: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── south: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── north: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── bottom: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── top: ValueBoundaryCondition: ContinuousBoundaryFunction bˢ at (Nothing, Nothing, Nothing)
+└── immersed: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)</code></pre><h3 id="Non-dimensional-control-parameters-and-Turbulence-closure"><a class="docs-heading-anchor" href="#Non-dimensional-control-parameters-and-Turbulence-closure">Non-dimensional control parameters and Turbulence closure</a><a id="Non-dimensional-control-parameters-and-Turbulence-closure-1"></a><a class="docs-heading-anchor-permalink" href="#Non-dimensional-control-parameters-and-Turbulence-closure" title="Permalink"></a></h3><p>The problem is characterized by three non-dimensional parameters. The first is the domain&#39;s aspect ratio, <span>$L_x / H$</span> and the other two are the Rayleigh (<span>$Ra$</span>) and Prandtl (<span>$Pr$</span>) numbers:</p><p class="math-container">\[Ra = \frac{b_* L_x^3}{\nu \kappa} \, , \quad \text{and}\, \quad Pr = \frac{\nu}{\kappa} \, .\]</p><p>The Prandtl number expresses the ratio of momentum over heat diffusion; the Rayleigh number is a measure of the relative importance of gravity over viscosity in the momentum equation.</p><p>For a domain with a given extent, the nondimensional values of <span>$Ra$</span> and <span>$Pr$</span> uniquely determine the viscosity and diffusivity, i.e.,</p><p class="math-container">\[\nu = \sqrt{\frac{Pr b_* L_x^3}{Ra}} \quad \text{and} \quad \kappa = \sqrt{\frac{b_* L_x^3}{Pr Ra}} \, .\]</p><p>We use isotropic viscosity and diffusivities, <code>ν</code> and <code>κ</code> whose values are obtain from the prescribed <span>$Ra$</span> and <span>$Pr$</span> numbers. Here, we use <span>$Pr = 1$</span> and <span>$Ra = 10^8$</span>:</p><pre><code class="language-julia hljs">Pr = 1      # Prandtl number
+Ra = 1e8    # Rayleigh number
+
+ν = sqrt(Pr * b★ * Lx^3 / Ra)  # Laplacian viscosity
+κ = ν * Pr                     # Laplacian diffusivity</code></pre><h2 id="Model-instantiation"><a class="docs-heading-anchor" href="#Model-instantiation">Model instantiation</a><a id="Model-instantiation-1"></a><a class="docs-heading-anchor-permalink" href="#Model-instantiation" title="Permalink"></a></h2><p>We instantiate the model with the fifth-order WENO advection scheme, a 3rd order Runge-Kutta time-stepping scheme, and a <code>BuoyancyTracer</code>.</p><pre><code class="language-julia hljs">model = NonhydrostaticModel(; grid,
+                            advection = WENO(),
+                            timestepper = :RungeKutta3,
+                            tracers = :b,
+                            buoyancy = BuoyancyTracer(),
+                            closure = ScalarDiffusivity(; ν, κ),
+                            boundary_conditions = (; b=b_bcs))</code></pre><pre><code class="nohighlight hljs">NonhydrostaticModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── grid: 128×1×64 RectilinearGrid{Float64, Bounded, Flat, Bounded} on CPU with 3×0×3 halo
+├── timestepper: RungeKutta3TimeStepper
+├── advection scheme: FluxFormAdvection{3, Float64, WENO{3, Float64, Nothing, Nothing, Nothing, Nothing, WENO{2, Float64, Nothing, Nothing, Nothing, Nothing, UpwindBiased{1, Float64, Nothing, Nothing, Nothing, Nothing, Centered{1, Float64, Nothing, Nothing, Nothing, Nothing}}, Centered{1, Float64, Nothing, Nothing, Nothing, Nothing}}, Centered{2, Float64, Nothing, Nothing, Nothing, Centered{1, Float64, Nothing, Nothing, Nothing, Nothing}}}, UpwindBiased{1, Float64, Nothing, Nothing, Nothing, Nothing, Centered{1, Float64, Nothing, Nothing, Nothing, Nothing}}, WENO{3, Float64, Nothing, Nothing, Nothing, Nothing, WENO{2, Float64, Nothing, Nothing, Nothing, Nothing, UpwindBiased{1, Float64, Nothing, Nothing, Nothing, Nothing, Centered{1, Float64, Nothing, Nothing, Nothing, Nothing}}, Centered{1, Float64, Nothing, Nothing, Nothing, Nothing}}, Centered{2, Float64, Nothing, Nothing, Nothing, Centered{1, Float64, Nothing, Nothing, Nothing, Nothing}}}}
+├── tracers: b
+├── closure: ScalarDiffusivity{ExplicitTimeDiscretization}(ν=0.000282843, κ=(b=0.000282843,))
+├── buoyancy: BuoyancyTracer with ĝ = NegativeZDirection()
+└── coriolis: Nothing</code></pre><h2 id="Simulation-set-up"><a class="docs-heading-anchor" href="#Simulation-set-up">Simulation set-up</a><a id="Simulation-set-up-1"></a><a class="docs-heading-anchor-permalink" href="#Simulation-set-up" title="Permalink"></a></h2><p>We set up a simulation that runs up to <span>$t = 40$</span> with a <code>JLD2OutputWriter</code> that saves the flow speed, <span>$\sqrt{u^2 + w^2}$</span>, the buoyancy, <span>$b$</span>, and the vorticity, <span>$\partial_z u - \partial_x w$</span>.</p><pre><code class="language-julia hljs">simulation = Simulation(model, Δt=1e-2, stop_time=40.0)</code></pre><pre><code class="nohighlight hljs">Simulation of NonhydrostaticModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── Next time step: 10 ms
+├── Elapsed wall time: 0 seconds
+├── Wall time per iteration: NaN days
+├── Stop time: 40 seconds
+├── Stop iteration : Inf
+├── Wall time limit: Inf
+├── Callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+├── Output writers: OrderedDict with no entries
+└── Diagnostics: OrderedDict with no entries</code></pre><h3 id="The-TimeStepWizard"><a class="docs-heading-anchor" href="#The-TimeStepWizard">The <code>TimeStepWizard</code></a><a id="The-TimeStepWizard-1"></a><a class="docs-heading-anchor-permalink" href="#The-TimeStepWizard" title="Permalink"></a></h3><p>The <code>TimeStepWizard</code> manages the time-step adaptively, keeping the Courant-Freidrichs-Lewy (CFL) number close to <code>0.7</code>.</p><pre><code class="language-julia hljs">conjure_time_step_wizard!(simulation, IterationInterval(50), cfl=0.7, max_Δt=1e-1)</code></pre><h3 id="A-progress-messenger"><a class="docs-heading-anchor" href="#A-progress-messenger">A progress messenger</a><a id="A-progress-messenger-1"></a><a class="docs-heading-anchor-permalink" href="#A-progress-messenger" title="Permalink"></a></h3><p>We write a function that prints out a helpful progress message while the simulation runs.</p><pre><code class="language-julia hljs">progress(sim) = @printf(&quot;Iter: % 6d, sim time: % 1.3f, wall time: % 10s, Δt: % 1.4f, advective CFL: %.2e, diffusive CFL: %.2e\n&quot;,
+                        iteration(sim), time(sim), prettytime(sim.run_wall_time),
+                        sim.Δt, AdvectiveCFL(sim.Δt)(sim.model), DiffusiveCFL(sim.Δt)(sim.model))
+
+simulation.callbacks[:progress] = Callback(progress, IterationInterval(50))</code></pre><pre><code class="nohighlight hljs">Callback of progress on IterationInterval(50)</code></pre><h3 id="Output"><a class="docs-heading-anchor" href="#Output">Output</a><a id="Output-1"></a><a class="docs-heading-anchor-permalink" href="#Output" title="Permalink"></a></h3><p>We use computed <code>Field</code>s to diagnose and output the total flow speed, the vorticity, <span>$\zeta$</span>, and the buoyancy, <span>$b$</span>. Note that computed <code>Field</code>s take &quot;AbstractOperations&quot; on <code>Field</code>s as input:</p><pre><code class="language-julia hljs">u, v, w = model.velocities # unpack velocity `Field`s
+b = model.tracers.b        # unpack buoyancy `Field`
+
+# total flow speed
+s = @at (Center, Center, Center) sqrt(u^2 + w^2)
+
+# y-component of vorticity
+ζ = ∂z(u) - ∂x(w)</code></pre><p>We create a <code>JLD2OutputWriter</code> that saves the speed, and the vorticity. Because we want to post-process buoyancy and compute the buoyancy variance dissipation (which is proportional to <span>$|\boldsymbol{\nabla} b|^2$</span>) we use the <code>with_halos = true</code>. This way, the halos for the fields are saved and thus when we load them as fields they will come with the proper boundary conditions.</p><p>We then add the <code>JLD2OutputWriter</code> to the <code>simulation</code>.</p><pre><code class="language-julia hljs">saved_output_filename = &quot;horizontal_convection.jld2&quot;
+
+simulation.output_writers[:fields] = JLD2OutputWriter(model, (; s, b, ζ),
+                                                      schedule = TimeInterval(0.5),
+                                                      filename = saved_output_filename,
+                                                      with_halos = true,
+                                                      overwrite_existing = true)</code></pre><p>Ready to press the big red button:</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
+Iter:      0, sim time:  0.000, wall time:  0 seconds, Δt:  0.0110, advective CFL: 0.00e+00, diffusive CFL: 1.27e-02
+[ Info:     ... simulation initialization complete (20.443 seconds)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (13.727 seconds).
+Iter:     50, sim time:  0.544, wall time: 35.185 seconds, Δt:  0.0121, advective CFL: 4.38e-03, diffusive CFL: 1.40e-02
+Iter:    100, sim time:  1.145, wall time: 36.367 seconds, Δt:  0.0133, advective CFL: 1.66e-02, diffusive CFL: 1.54e-02
+Iter:    150, sim time:  1.806, wall time: 37.152 seconds, Δt:  0.0146, advective CFL: 3.74e-02, diffusive CFL: 1.70e-02
+Iter:    200, sim time:  2.500, wall time: 37.761 seconds, Δt:  0.0161, advective CFL: 6.80e-02, diffusive CFL: 1.87e-02
+Iter:    250, sim time:  3.290, wall time: 38.428 seconds, Δt:  0.0177, advective CFL: 1.16e-01, diffusive CFL: 2.05e-02
+Iter:    300, sim time:  4.159, wall time: 39.150 seconds, Δt:  0.0195, advective CFL: 2.06e-01, diffusive CFL: 2.26e-02
+Iter:    350, sim time:  5.117, wall time: 39.902 seconds, Δt:  0.0214, advective CFL: 5.91e-01, diffusive CFL: 2.48e-02
+Iter:    400, sim time:  6.171, wall time: 40.640 seconds, Δt:  0.0164, advective CFL: 7.00e-01, diffusive CFL: 1.90e-02
+Iter:    450, sim time:  6.976, wall time: 41.379 seconds, Δt:  0.0159, advective CFL: 7.00e-01, diffusive CFL: 1.84e-02
+Iter:    500, sim time:  7.755, wall time: 42.116 seconds, Δt:  0.0155, advective CFL: 7.00e-01, diffusive CFL: 1.80e-02
+Iter:    550, sim time:  8.516, wall time: 42.745 seconds, Δt:  0.0153, advective CFL: 7.00e-01, diffusive CFL: 1.77e-02
+Iter:    600, sim time:  9.275, wall time: 43.329 seconds, Δt:  0.0165, advective CFL: 7.00e-01, diffusive CFL: 1.91e-02
+Iter:    650, sim time:  10.082, wall time: 43.946 seconds, Δt:  0.0155, advective CFL: 7.00e-01, diffusive CFL: 1.80e-02
+Iter:    700, sim time:  10.857, wall time: 44.638 seconds, Δt:  0.0159, advective CFL: 7.00e-01, diffusive CFL: 1.84e-02
+Iter:    750, sim time:  11.595, wall time: 45.260 seconds, Δt:  0.0173, advective CFL: 7.00e-01, diffusive CFL: 2.01e-02
+Iter:    800, sim time:  12.450, wall time: 45.848 seconds, Δt:  0.0179, advective CFL: 7.00e-01, diffusive CFL: 2.07e-02
+Iter:    850, sim time:  13.322, wall time: 46.477 seconds, Δt:  0.0179, advective CFL: 7.00e-01, diffusive CFL: 2.08e-02
+Iter:    900, sim time:  14.215, wall time: 47.157 seconds, Δt:  0.0183, advective CFL: 7.00e-01, diffusive CFL: 2.11e-02
+Iter:    950, sim time:  15.110, wall time: 47.726 seconds, Δt:  0.0197, advective CFL: 7.00e-01, diffusive CFL: 2.28e-02
+Iter:   1000, sim time:  16.079, wall time: 48.401 seconds, Δt:  0.0197, advective CFL: 7.00e-01, diffusive CFL: 2.28e-02
+Iter:   1050, sim time:  17.039, wall time: 49.045 seconds, Δt:  0.0197, advective CFL: 7.00e-01, diffusive CFL: 2.28e-02
+Iter:   1100, sim time:  17.992, wall time: 49.667 seconds, Δt:  0.0201, advective CFL: 7.00e-01, diffusive CFL: 2.32e-02
+Iter:   1150, sim time:  18.981, wall time: 50.334 seconds, Δt:  0.0208, advective CFL: 7.00e-01, diffusive CFL: 2.41e-02
+Iter:   1200, sim time:  20.021, wall time: 51.058 seconds, Δt:  0.0219, advective CFL: 7.00e-01, diffusive CFL: 2.53e-02
+Iter:   1250, sim time:  21.109, wall time: 51.800 seconds, Δt:  0.0219, advective CFL: 7.00e-01, diffusive CFL: 2.54e-02
+Iter:   1300, sim time:  22.197, wall time: 52.562 seconds, Δt:  0.0203, advective CFL: 7.00e-01, diffusive CFL: 2.35e-02
+Iter:   1350, sim time:  23.203, wall time: 53.277 seconds, Δt:  0.0214, advective CFL: 7.00e-01, diffusive CFL: 2.48e-02
+Iter:   1400, sim time:  24.257, wall time: 53.903 seconds, Δt:  0.0222, advective CFL: 7.00e-01, diffusive CFL: 2.57e-02
+Iter:   1450, sim time:  25.355, wall time: 54.575 seconds, Δt:  0.0244, advective CFL: 6.79e-01, diffusive CFL: 2.83e-02
+Iter:   1500, sim time:  26.549, wall time: 55.213 seconds, Δt:  0.0259, advective CFL: 7.00e-01, diffusive CFL: 3.00e-02
+Iter:   1550, sim time:  27.810, wall time: 55.879 seconds, Δt:  0.0197, advective CFL: 7.00e-01, diffusive CFL: 2.28e-02
+Iter:   1600, sim time:  28.775, wall time: 56.661 seconds, Δt:  0.0159, advective CFL: 7.00e-01, diffusive CFL: 1.84e-02
+Iter:   1650, sim time:  29.548, wall time: 57.386 seconds, Δt:  0.0151, advective CFL: 7.00e-01, diffusive CFL: 1.75e-02
+Iter:   1700, sim time:  30.302, wall time: 57.981 seconds, Δt:  0.0149, advective CFL: 7.00e-01, diffusive CFL: 1.72e-02
+Iter:   1750, sim time:  31.030, wall time: 58.613 seconds, Δt:  0.0164, advective CFL: 6.28e-01, diffusive CFL: 1.89e-02
+Iter:   1800, sim time:  31.843, wall time: 59.406 seconds, Δt:  0.0180, advective CFL: 6.29e-01, diffusive CFL: 2.08e-02
+Iter:   1850, sim time:  32.734, wall time: 1.002 minutes, Δt:  0.0198, advective CFL: 6.69e-01, diffusive CFL: 2.29e-02
+Iter:   1900, sim time:  33.698, wall time: 1.016 minutes, Δt:  0.0212, advective CFL: 7.00e-01, diffusive CFL: 2.46e-02
+Iter:   1950, sim time:  34.733, wall time: 1.027 minutes, Δt:  0.0219, advective CFL: 7.00e-01, diffusive CFL: 2.53e-02
+Iter:   2000, sim time:  35.806, wall time: 1.039 minutes, Δt:  0.0223, advective CFL: 7.00e-01, diffusive CFL: 2.59e-02
+Iter:   2050, sim time:  36.902, wall time: 1.051 minutes, Δt:  0.0228, advective CFL: 7.00e-01, diffusive CFL: 2.64e-02
+Iter:   2100, sim time:  38.000, wall time: 1.061 minutes, Δt:  0.0235, advective CFL: 7.00e-01, diffusive CFL: 2.73e-02
+Iter:   2150, sim time:  39.118, wall time: 1.074 minutes, Δt:  0.0243, advective CFL: 7.00e-01, diffusive CFL: 2.81e-02
+[ Info: Simulation is stopping after running for 1.083 minutes.
+[ Info: Simulation time 40 seconds equals or exceeds stop time 40 seconds.
+</code></pre><h2 id="Load-saved-output,-process,-visualize"><a class="docs-heading-anchor" href="#Load-saved-output,-process,-visualize">Load saved output, process, visualize</a><a id="Load-saved-output,-process,-visualize-1"></a><a class="docs-heading-anchor-permalink" href="#Load-saved-output,-process,-visualize" title="Permalink"></a></h2><p>We animate the results by loading the saved output, extracting data for the iterations we ended up saving at, and ploting the saved fields. From the saved buoyancy field we compute the buoyancy dissipation, <span>$\chi = \kappa |\boldsymbol{\nabla} b|^2$</span>, and plot that also.</p><p>To start we load the saved fields are <code>FieldTimeSeries</code> and prepare for animating the flow by creating coordinate arrays that each field lives on.</p><pre><code class="language-julia hljs">using CairoMakie
+using Oceananigans
+using Oceananigans.Fields
+using Oceananigans.AbstractOperations: volume
+
+saved_output_filename = &quot;horizontal_convection.jld2&quot;
+
+# Open the file with our data
+s_timeseries = FieldTimeSeries(saved_output_filename, &quot;s&quot;)
+b_timeseries = FieldTimeSeries(saved_output_filename, &quot;b&quot;)
+ζ_timeseries = FieldTimeSeries(saved_output_filename, &quot;ζ&quot;)
+
+times = b_timeseries.times
+
+χ_timeseries = deepcopy(b_timeseries)
+
+for n in 1:length(times)
+    bn = b_timeseries[n]
+    χ_timeseries[n] .= @at (Center, Center, Center) κ * (∂x(bn)^2 + ∂z(bn)^2)
+end</code></pre><p>Now we&#39;re ready to animate using Makie.</p><pre><code class="language-julia hljs">@info &quot;Making an animation from saved data...&quot;
+
+n = Observable(1)
+
+title = @lift @sprintf(&quot;t=%1.2f&quot;, times[$n])
+
+sn = @lift s_timeseries[$n]
+ζn = @lift ζ_timeseries[$n]
+bn = @lift b_timeseries[$n]
+χn = @lift χ_timeseries[$n]
+
+slim = 0.6
+blim = 0.6
+ζlim = 9
+χlim = 0.025
+
+axis_kwargs = (xlabel = L&quot;x / H&quot;,
+               ylabel = L&quot;z / H&quot;,
+               limits = ((-Lx/2, Lx/2), (-H, 0)),
+               aspect = Lx / H,
+               titlesize = 20)
+
+fig = Figure(size = (600, 1100))
+
+ax_s = Axis(fig[2, 1]; title = L&quot;speed, $(u^2+w^2)^{1/2} / (L_x b_*)^{1/2}$&quot;, axis_kwargs...)
+ax_b = Axis(fig[3, 1]; title = L&quot;buoyancy, $b / b_*$&quot;, axis_kwargs...)
+ax_ζ = Axis(fig[4, 1]; axis_kwargs...,
+            title = L&quot;vorticity, $(∂u/∂z - ∂w/∂x) \, (L_x / b_*)^{1/2}$&quot;)
+
+ax_χ = Axis(fig[5, 1]; axis_kwargs...,
+            title = L&quot;buoyancy dissipation, $κ |\mathbf{\nabla}b|^2 \, (L_x / {b_*}^5)^{1/2}$&quot;)
+
+fig[1, :] = Label(fig, title, fontsize=24, tellwidth=false)
+
+hm_s = heatmap!(ax_s, sn; colorrange=(0, slim), colormap=:speed)
+Colorbar(fig[2, 2], hm_s)
+
+hm_b = heatmap!(ax_b, bn; colorrange=(-blim, blim), colormap=:thermal)
+Colorbar(fig[3, 2], hm_b)
+
+hm_ζ = heatmap!(ax_ζ, ζn; colorrange=(-ζlim, ζlim), colormap=:balance)
+Colorbar(fig[4, 2], hm_ζ)
+
+hm_χ = heatmap!(ax_χ, χn; colorrange=(0, χlim), colormap=:dense)
+Colorbar(fig[5, 2], hm_χ)</code></pre><pre><code class="nohighlight hljs">Colorbar()</code></pre><p>And, finally, we record a movie.</p><pre><code class="language-julia hljs">frames = 1:length(times)
+
+record(fig, &quot;horizontal_convection.mp4&quot;, frames, framerate=8) do i
+    msg = string(&quot;Plotting frame &quot;, i, &quot; of &quot;, frames[end])
+    print(msg * &quot; \r&quot;)
+    n[] = i
+end</code></pre><pre><code class="nohighlight hljs">Plotting frame 1 of 81 Plotting frame 2 of 81 Plotting frame 3 of 81 Plotting frame 4 of 81 Plotting frame 5 of 81 Plotting frame 6 of 81 Plotting frame 7 of 81 Plotting frame 8 of 81 Plotting frame 9 of 81 Plotting frame 10 of 81 Plotting frame 11 of 81 Plotting frame 12 of 81 Plotting frame 13 of 81 Plotting frame 14 of 81 Plotting frame 15 of 81 Plotting frame 16 of 81 Plotting frame 17 of 81 Plotting frame 18 of 81 Plotting frame 19 of 81 Plotting frame 20 of 81 Plotting frame 21 of 81 Plotting frame 22 of 81 Plotting frame 23 of 81 Plotting frame 24 of 81 Plotting frame 25 of 81 Plotting frame 26 of 81 Plotting frame 27 of 81 Plotting frame 28 of 81 Plotting frame 29 of 81 Plotting frame 30 of 81 Plotting frame 31 of 81 Plotting frame 32 of 81 Plotting frame 33 of 81 Plotting frame 34 of 81 Plotting frame 35 of 81 Plotting frame 36 of 81 Plotting frame 37 of 81 Plotting frame 38 of 81 Plotting frame 39 of 81 Plotting frame 40 of 81 Plotting frame 41 of 81 Plotting frame 42 of 81 Plotting frame 43 of 81 Plotting frame 44 of 81 Plotting frame 45 of 81 Plotting frame 46 of 81 Plotting frame 47 of 81 Plotting frame 48 of 81 Plotting frame 49 of 81 Plotting frame 50 of 81 Plotting frame 51 of 81 Plotting frame 52 of 81 Plotting frame 53 of 81 Plotting frame 54 of 81 Plotting frame 55 of 81 Plotting frame 56 of 81 Plotting frame 57 of 81 Plotting frame 58 of 81 Plotting frame 59 of 81 Plotting frame 60 of 81 Plotting frame 61 of 81 Plotting frame 62 of 81 Plotting frame 63 of 81 Plotting frame 64 of 81 Plotting frame 65 of 81 Plotting frame 66 of 81 Plotting frame 67 of 81 Plotting frame 68 of 81 Plotting frame 69 of 81 Plotting frame 70 of 81 Plotting frame 71 of 81 Plotting frame 72 of 81 Plotting frame 73 of 81 Plotting frame 74 of 81 Plotting frame 75 of 81 Plotting frame 76 of 81 Plotting frame 77 of 81 Plotting frame 78 of 81 Plotting frame 79 of 81 Plotting frame 80 of 81 Plotting frame 81 of 81 </code></pre><p><video src="../horizontal_convection.mp4" controls="true" title><a href="../horizontal_convection.mp4"></a></video></p><p>At higher Rayleigh numbers the flow becomes much more vigorous. See, for example, an animation of the voricity of the fluid at <span>$Ra = 10^{12}$</span> on <a href="https://vimeo.com/573730711">vimeo</a>.</p><h3 id="The-Nusselt-number"><a class="docs-heading-anchor" href="#The-Nusselt-number">The Nusselt number</a><a id="The-Nusselt-number-1"></a><a class="docs-heading-anchor-permalink" href="#The-Nusselt-number" title="Permalink"></a></h3><p>Often we are interested on how much the flow enhances mixing. This is quantified by the Nusselt number, which measures how much the flow enhances mixing compared if only diffusion was in operation. The Nusselt number is given by</p><p class="math-container">\[Nu = \frac{\langle \chi \rangle}{\langle \chi_{\rm diff} \rangle} \, ,\]</p><p>where angle brackets above denote both a volume and time average and <span>$\chi_{\rm diff}$</span> is the buoyancy dissipation that we get without any flow, i.e., the buoyancy dissipation associated with the buoyancy distribution that satisfies</p><p class="math-container">\[\kappa \nabla^2 b_{\rm diff} = 0 \, ,\]</p><p>with the same boundary conditions same as our setup. In this case, we can readily find that</p><p class="math-container">\[b_{\rm diff}(x, z) = b_s(x) \frac{\cosh \left [2 \pi (H + z) / L_x \right ]}{\cosh(2 \pi H / L_x)} \, ,\]</p><p>where <span>$b_s(x)$</span> is the surface boundary condition. The diffusive solution implies</p><p class="math-container">\[\langle \chi_{\rm diff} \rangle = \frac{\kappa b_*^2 \pi}{L_x H} \tanh(2 \pi Η / L_x) .\]</p><p>We use the loaded <code>FieldTimeSeries</code> to compute the Nusselt number from buoyancy and the volume average kinetic energy of the fluid.</p><p>First we compute the diffusive buoyancy dissipation, <span>$\chi_{\rm diff}$</span> (which is just a scalar):</p><pre><code class="language-julia hljs">χ_diff = κ * b★^2 * π * tanh(2π * H / Lx) / (Lx * H)</code></pre><p>We recover the time from the saved <code>FieldTimeSeries</code> and construct two empty arrays to store the volume-averaged kinetic energy and the instantaneous Nusselt number,</p><pre><code class="language-julia hljs">t = b_timeseries.times
+
+kinetic_energy, Nu = zeros(length(t)), zeros(length(t))</code></pre><p>Now we can loop over the fields in the <code>FieldTimeSeries</code>, compute kinetic energy and <span>$Nu$</span>, and plot. We make use of <code>Integral</code> to compute the volume integral of fields over our domain.</p><pre><code class="language-julia hljs">for n = 1:length(t)
+    ke = Field(Integral(1/2 * s_timeseries[n]^2 / (Lx * H)))
+    compute!(ke)
+    kinetic_energy[n] = ke[1, 1, 1]
+
+    χ = Field(Integral(χ_timeseries[n] / (Lx * H)))
+    compute!(χ)
+
+    Nu[n] = χ[1, 1, 1] / χ_diff
+end
+
+fig = Figure(size = (850, 450))
+
+ax_KE = Axis(fig[1, 1], xlabel = L&quot;t \, (b_* / L_x)^{1/2}&quot;, ylabel = L&quot;KE $ / (L_x b_*)$&quot;)
+lines!(ax_KE, t, kinetic_energy; linewidth = 3)
+
+ax_Nu = Axis(fig[2, 1], xlabel = L&quot;t \, (b_* / L_x)^{1/2}&quot;, ylabel = L&quot;Nu&quot;)
+lines!(ax_Nu, t, Nu; linewidth = 3)
+
+fig</code></pre><p><img src="../horizontal_convection-39.png" alt/></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../shallow_water_Bickley_jet/">« Shallow water Bickley jet</a><a class="docs-footer-nextpage" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Friday 8 November 2024 12:35">Friday 8 November 2024</span>. Using Julia version 1.10.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
