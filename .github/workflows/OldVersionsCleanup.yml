@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: "30 17 * * 4"
   workflow_dispatch:
+    inputs:
+      max_deletions:
+        description: "Bail out if more than this many old versions would be deleted"
+        required: false
+        default: 5
+        type: number
 
 # Ensure that only one cleanup workflow is force pushing at a time
 concurrency:
@@ -23,52 +29,128 @@ jobs:
       - uses: julia-actions/setup-julia@v3
       - name: Remove old versions
         shell: julia --color=yes {0}
+        env:
+          MAX_DELETIONS: ${{ inputs.max_deletions || '5' }}
         run: |
+          using Logging
+
+          # The console logger elides long values by default, so `@info` would show only
+          # the first and last few entries of the list of versions to delete, which is the
+          # one thing we want to be able to read back in the logs. Widen the display and
+          # turn truncation off. Note that setting `:limit` alone isn't enough: it's
+          # `:displaysize` that decides how many elements of a collection are printed.
+          global_logger(ConsoleLogger(IOContext(stderr, :limit => false,
+                                                :displaysize => (10_000, 1_000))))
+
           docs_dir = pwd()
+          max_deletions = parse(Int, ENV["MAX_DELETIONS"])
 
-          # All versioned directories
-          all_versions = filter(x -> tryparse(VersionNumber, basename(x)) isa VersionNumber, readdir(docs_dir; join=true))
+          # Number of dot-separated components in a directory name: 2 for the `vX.Y` alias
+          # directories, 3 for the `vX.Y.Z` directories holding the actual documentation.
+          components(path) = length(split(basename(path), '.'))
 
-          # All directories which are symlinks to other directories
-          links = filter(islink, all_versions)
-          # Simple sanity check before continuing: all symlinks should be directories in the format
-          # vX.Y, if that's not the case there's something wrong!
-          if sort(links) != sort(filter(x -> length(split(basename(x), '.')) == 2, all_versions))
-              error("We expect all symlink directories to be directories with name vX.Y, but that doesn't appear to be the case, I'm bailing out")
+          # All directories whose name looks like a version number
+          all_versions = filter(readdir(docs_dir; join=true)) do path
+              isdir(path) && tryparse(VersionNumber, basename(path)) isa VersionNumber
           end
 
-          # All directories which are not symlinks, with paths fully resolved
-          non_links = realpath.(filter(!islink, all_versions))
-          # Another sanity check before continuing: all non-symlinks should be directories in the
-          # format vX.Y.Z, if that's not the case there's something else wrong!
-          if sort(non_links) != sort(filter(x -> length(split(basename(x), '.')) == 3, all_versions))
-              error("We expect all non-symlink directories to be directories with name vX.Y.Z, but that doesn't appear to be the case, I'm bailing out")
+          alias_dirs = filter(x -> components(x) == 2, all_versions)    # vX.Y
+          version_dirs = filter(x -> components(x) == 3, all_versions)  # vX.Y.Z
+
+          # Simple sanity check before continuing: version directories only come in the
+          # `vX.Y` and `vX.Y.Z` flavours, if that's not the case there's something wrong!
+          if length(alias_dirs) + length(version_dirs) != length(all_versions)
+              unexpected = basename.(setdiff(all_versions, alias_dirs, version_dirs))
+              error("Unexpected version directories $(unexpected), I'm bailing out")
           end
 
-          # The directories the symlinks point to
-          linked = realpath.(links)
-          # Find all the directories which are not symlinks and no symlinks point to them: these are
-          # old patch versions which can now be cleaned up.
-          old_versions = setdiff(non_links, linked)
+          # Return the name of the `vX.Y.Z` directory that the alias directory `dir`
+          # (`vX.Y` or `stable`) currently stands for.
+          #
+          # Documenter used to create these aliases as symlinks, but DocumenterVitepress
+          # bakes the base URL of the documentation into every generated file, so an alias
+          # can't be a symlink any more: it's a full copy of the build, and the version it
+          # was built from is recorded in its `siteinfo.js`. Handle both layouts.
+          function resolved_version(dir)
+              islink(dir) && return basename(realpath(dir))
+              siteinfo = joinpath(dir, "siteinfo.js")
+              isfile(siteinfo) || return nothing
+              m = match(r"DOCUMENTER_CURRENT_VERSION\s*=\s*\"([^\"]+)\"", read(siteinfo, String))
+              return m === nothing ? nothing : m.captures[1]
+          end
 
-          @info "Old versions to be deleted" old_versions
+          # The `vX.Y.Z` version each `vX.Y` alias (and `stable`) currently refers to:
+          # those are the versions we have to keep.
+          pinned = Dict{String,String}()
+          for dir in [alias_dirs; joinpath(docs_dir, "stable")]
+              isdir(dir) || continue
+              version = resolved_version(dir)
+              if version === nothing
+                  error("Could not work out which version $(basename(dir)) refers to, I'm bailing out")
+              end
+              if !isdir(joinpath(docs_dir, version))
+                  error("$(basename(dir)) refers to $(version), which doesn't exist, I'm bailing out")
+              end
+              pinned[basename(dir)] = version
+          end
 
-          # Simple sanity check: make sure we didn't find too many versions to delete, that'd be
-          # suspicious, and a hint that something went wrong
-          old_versions_threshold = 5
-          if length(old_versions) > old_versions_threshold
-              error("We found more than $(old_versions_threshold) old versions to delete, it's possible something is wrong, I'm bailing out")
+          @info "Aliases and the versions they refer to" pinned
+
+          # Series (`vX.Y`) for which an alias directory exists: only those can be cleaned
+          # up. A `vX.Y.Z` directory belonging to a series without an alias is the only
+          # copy of the documentation for that series, and must never be deleted.
+          cleanable_series = Set(basename.(alias_dirs))
+          series(path) = join(split(basename(path), '.')[1:2], '.')
+
+          kept = Set(values(pinned))
+          # Old patch versions, superseded by a newer patch release of the same series:
+          # these can now be cleaned up.
+          old_versions = filter(version_dirs) do dir
+              series(dir) in cleanable_series && !(basename(dir) in kept)
+          end
+
+          @info "Old versions to be deleted" versions = basename.(old_versions)
+
+          # Simple sanity check: make sure we didn't find too many versions to delete,
+          # that'd be suspicious, and a hint that something went wrong
+          if length(old_versions) > max_deletions
+              error("""
+                    We found $(length(old_versions)) old versions to delete, more than the \
+                    limit of $(max_deletions), it's possible something is wrong, I'm \
+                    bailing out. If this is expected (for example when clearing a backlog \
+                    of old versions), run the workflow manually with a larger \
+                    `max_deletions` input.
+                    """)
           end
 
           for ver in old_versions
               @info "Deleting $(ver)..."
               rm(ver; force=true, recursive=true)
           end
+
+          # Drop the deleted versions from the version picker, otherwise it keeps offering
+          # entries which now 404.
+          versions_file = joinpath(docs_dir, "versions.js")
+          if !isempty(old_versions) && isfile(versions_file)
+              deleted = basename.(old_versions)
+              lines = readlines(versions_file)
+              open(versions_file, "w") do io
+                  for line in lines
+                      m = match(r"^\s*\"([^\"]+)\",?\s*$", line)
+                      (m !== nothing && m.captures[1] in deleted) && continue
+                      println(io, line)
+                  end
+              end
+          end
       - name: Push changes
         run: |
           git config user.name "${{github.actor}}"
           git config user.email "${{github.actor_id}}+${{github.actor}}@users.noreply.github.com"
-          git add .
+          git add --all
+          if git diff --cached --quiet; then
+            echo "No old versions to remove, nothing to do."
+            exit 0
+          fi
           git commit -m "Remove old versions directories"
           git branch gh-pages-new $(echo "delete history" | git commit-tree HEAD^{tree})
           git push --force-with-lease origin gh-pages-new:gh-pages
