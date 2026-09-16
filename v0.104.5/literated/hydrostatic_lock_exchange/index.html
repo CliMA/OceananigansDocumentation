@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Hydrostatic lock exchange with CATKE · Oceananigans.jl</title><meta name="title" content="Hydrostatic lock exchange with CATKE · Oceananigans.jl"/><meta property="og:title" content="Hydrostatic lock exchange with CATKE · Oceananigans.jl"/><meta property="twitter:title" content="Hydrostatic lock exchange with CATKE · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/hydrostatic_lock_exchange/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/hydrostatic_lock_exchange/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/literated/hydrostatic_lock_exchange/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li class="is-active"><a class="tocitem" href>Hydrostatic lock exchange with CATKE</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#Import-Required-Packages"><span>Import Required Packages</span></a></li><li><a class="tocitem" href="#Set-up-2D-Rectilinear-Grid"><span>Set up 2D Rectilinear Grid</span></a></li><li><a class="tocitem" href="#Set-up-a-bottom-drag-boundary-condition-on-the-immersed-boundary"><span>Set up a bottom drag boundary condition on the immersed boundary</span></a></li><li><a class="tocitem" href="#Initialize-the-model"><span>Initialize the model</span></a></li><li><a class="tocitem" href="#Set-variable-density-initial-conditions"><span>Set variable density initial conditions</span></a></li><li><a class="tocitem" href="#Construct-a-Simulation"><span>Construct a Simulation</span></a></li><li><a class="tocitem" href="#Track-Simulation-Progress"><span>Track Simulation Progress</span></a></li><li><a class="tocitem" href="#Add-output-writer"><span>Add output writer</span></a></li><li><a class="tocitem" href="#Run-Simulation"><span>Run Simulation</span></a></li><li><a class="tocitem" href="#Load-Saved-TimeSeries-Values"><span>Load Saved TimeSeries Values</span></a></li><li><a class="tocitem" href="#Visualize-Simulation-Outputs"><span>Visualize Simulation Outputs</span></a></li></ul></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li><li><a class="tocitem" href="../spherical_baroclinic_instability/">Spherical baroclinic instability</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../models/models_overview/">Overview</a></li><li><a class="tocitem" href="../../models/coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../../models/buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../../models/stokes_drift/">Stokes drift</a></li><li><a class="tocitem" href="../../models/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../models/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../models/forcing_functions/">Forcings</a></li><li><a class="tocitem" href="../../models/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../models/background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../simulations/simulations_overview/">Overview</a></li><li><a class="tocitem" href="../../simulations/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../../simulations/schedules/">Schedules</a></li><li><a class="tocitem" href="../../simulations/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../simulations/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/coordinate_systems/">Coordinate systems</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">For developers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../developer_docs/contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../developer_docs/model_interface/">Model interface</a></li><li><a class="tocitem" href="../../developer_docs/turbulence_closures/">Implementing turbulence closures</a></li><li><a class="tocitem" href="../../developer_docs/AGENTS/">Rules for agent-assisted development</a></li></ul></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Hydrostatic lock exchange with CATKE</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Hydrostatic lock exchange with CATKE</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/examples/hydrostatic_lock_exchange.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="hydrostatic_lock_exchange_example"><a class="docs-heading-anchor" href="#hydrostatic_lock_exchange_example">Hydrostatic lock exchange with CATKEVerticalDiffusivity</a><a id="hydrostatic_lock_exchange_example-1"></a><a class="docs-heading-anchor-permalink" href="#hydrostatic_lock_exchange_example" title="Permalink"></a></h1><p>This example simulates a lock exchange problem on a slope. It demonstrates:</p><ul><li>How to set up a 2D grid with a sloping bottom with an immersed boundary</li><li>Initializing a hydrostatic free surface model</li><li>Including variable density initial conditions</li><li>Applying bottom drag boundary conditions on immersed boundaries using <a href="../../appendix/library/#Oceananigans.Models.BulkDragBoundaryConditions.BulkDrag"><code>BulkDrag</code></a></li><li>Saving outputs of the simulation</li><li>Creating an animation with CairoMakie</li></ul><h3 id="The-Lock-Exchange-Problem"><a class="docs-heading-anchor" href="#The-Lock-Exchange-Problem">The Lock Exchange Problem</a><a id="The-Lock-Exchange-Problem-1"></a><a class="docs-heading-anchor-permalink" href="#The-Lock-Exchange-Problem" title="Permalink"></a></h3><p>This use case is a basic example where there are fluids of two different densities (due to temperature, salinity, etc.) that are separated by a ‘lock’ at time <span>$t=0$</span>, and we calculate the evolution of how these fluids interact as time progresses. This lock exchange implementation can be a representation of scenarios where water of different salinities or temperatures meet and form sharp density gradients. For example, in estuaries or in the Denmark Strait overflow. Solutions of this problem describe how the fluids interact with each other as time evolves and can be described by hydrostatic Boussinesq equations. In this example, we use buoyancy as a tracer; see the <a href="../../physics/boussinesq/#boussinesq_approximation">Boussinesq approximation section</a> for more details on the Boussinesq approximation.</p><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie&quot;</code></pre><h2 id="Import-Required-Packages"><a class="docs-heading-anchor" href="#Import-Required-Packages">Import Required Packages</a><a id="Import-Required-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Import-Required-Packages" title="Permalink"></a></h2><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units
+using Printf
+using CairoMakie</code></pre><h2 id="Set-up-2D-Rectilinear-Grid"><a class="docs-heading-anchor" href="#Set-up-2D-Rectilinear-Grid">Set up 2D Rectilinear Grid</a><a id="Set-up-2D-Rectilinear-Grid-1"></a><a class="docs-heading-anchor-permalink" href="#Set-up-2D-Rectilinear-Grid" title="Permalink"></a></h2><p>Set resolution of the simulation grid</p><pre><code class="language-julia hljs">Nx = 128
+Nz = 64
+L = 8kilometers   # horizontal length
+H = 50meters      # depth</code></pre><pre><code class="nohighlight hljs">50.0</code></pre><p>Set domain: We wrap <code>z</code> into a MutableVerticalDiscretization. This allows the HydrostaticFreeSurface model (which we construct further down) to use a time-evolving <code>ZStarCoordinate</code> free-surface–following vertical coordinate.</p><pre><code class="language-julia hljs">x = (-L/8, 7L/8)
+z  = MutableVerticalDiscretization((-50, 0))</code></pre><pre><code class="nohighlight hljs">MutableVerticalDiscretization with reference interfaces r:
+(-50, 0)</code></pre><p>Initialize the grid: Additional details on the grid set up can be found in Grids section of the documentation</p><pre><code class="language-julia hljs">underlying_grid = RectilinearGrid(; size=(Nx, Nz), x, z, halo=(5, 5),
+                                    topology=(Bounded, Flat, Bounded))</code></pre><pre><code class="nohighlight hljs">128×1×64 RectilinearGrid{Float64, Bounded, Flat, Bounded} on CPU with 5×0×5 halo
+├── Bounded  x ∈ [-1000.0, 7000.0] regularly spaced with Δx=62.5
+├── Flat y                         
+└── Bounded  z ∈ [-50.0, 0.0]      regularly spaced with mutable Δr=0.78125</code></pre><p>Add a slope at the bottom of the grid</p><pre><code class="language-julia hljs">h_left = -H
+h_right = -H/2
+slope = (h_right - h_left) / L
+bottom(x) = h_left + slope * x</code></pre><pre><code class="nohighlight hljs">bottom (generic function with 1 method)</code></pre><p>Use an immersed boundary with grid fitted bottom to describe the sloped bottom of the domain</p><pre><code class="language-julia hljs">grid = ImmersedBoundaryGrid(underlying_grid, PartialCellBottom(bottom))</code></pre><pre><code class="nohighlight hljs">128×1×64 ImmersedBoundaryGrid{Float64, Bounded, Flat, Bounded} on CPU with 5×0×5 halo:
+├── immersed_boundary: PartialCellBottom(mean(zb)=-38.0791, min(zb)=-50.0, max(zb)=0.0, ϵ=0.2)
+├── underlying_grid: 128×1×64 RectilinearGrid{Float64, Bounded, Flat, Bounded} on CPU with 5×0×5 halo
+├── Bounded  x ∈ [-1000.0, 7000.0] regularly spaced with Δx=62.5
+├── Flat y                         
+└── Bounded  z ∈ [-50.0, 0.0]      regularly spaced with mutable Δr=0.78125</code></pre><h2 id="Set-up-a-bottom-drag-boundary-condition-on-the-immersed-boundary"><a class="docs-heading-anchor" href="#Set-up-a-bottom-drag-boundary-condition-on-the-immersed-boundary">Set up a bottom drag boundary condition on the immersed boundary</a><a id="Set-up-a-bottom-drag-boundary-condition-on-the-immersed-boundary-1"></a><a class="docs-heading-anchor-permalink" href="#Set-up-a-bottom-drag-boundary-condition-on-the-immersed-boundary" title="Permalink"></a></h2><p>To apply drag to the flow, we use <code>BulkDrag</code>, which implements quadratic drag proportional to <code>Cᴰ |U| u</code>, where <code>Cᴰ</code> is the drag coefficient and <code>|U| = sqrt(u² + v²)</code> is the horizontal speed. We use a drag coefficient <code>Cᴰ = 0.002</code>, a reasonable value for seafloor drag.</p><pre><code class="language-julia hljs">Cᴰ = 0.002
+drag = BulkDrag(coefficient=Cᴰ)</code></pre><pre><code class="nohighlight hljs">FluxBoundaryCondition: BulkDragFunction(QuadraticFormulation(), Nothing, Cᴰ=0.002)</code></pre><p><code>BulkDrag</code> can be applied both to domain boundaries (like the bottom of a <code>Bounded</code> grid) and to immersed boundaries. Here we apply it to the immersed sloping bottom boundary:</p><pre><code class="language-julia hljs">u_bcs = FieldBoundaryConditions(bottom=drag, immersed=drag)</code></pre><pre><code class="nohighlight hljs">Oceananigans.FieldBoundaryConditions, with boundary conditions
+├── west: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── east: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── south: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── north: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── bottom: FluxBoundaryCondition: BulkDragFunction(QuadraticFormulation(), Nothing, Cᴰ=0.002)
+├── top: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+└── immersed: FluxBoundaryCondition: BulkDragFunction(QuadraticFormulation(), Nothing, Cᴰ=0.002)</code></pre><p>Note: in a 2D simulation with <code>Flat</code> in the y-direction, we don&#39;t need v boundary conditions.</p><h2 id="Initialize-the-model"><a class="docs-heading-anchor" href="#Initialize-the-model">Initialize the model</a><a id="Initialize-the-model-1"></a><a class="docs-heading-anchor-permalink" href="#Initialize-the-model" title="Permalink"></a></h2><ul><li>Want to use a hydrostatic model since horizontal motion may be more significant than vertical motion</li><li>Tracers act as markers within the fluid to track movement and dispersion</li><li>Vertical closure <a href="../../models/turbulence_closures/#CATKEVerticalDiffusivity"><code>CATKEVerticalDiffusivity</code></a> handles small-scale vertical turbulence</li><li>Weighted Essentially Non-Oscillatory (WENO) methods are useful for capturing sharp changes in density</li></ul><pre><code class="language-julia hljs">model = HydrostaticFreeSurfaceModel(grid;
+                                    tracers = :b,
+                                    buoyancy = BuoyancyTracer(),
+                                    closure = CATKEVerticalDiffusivity(),
+                                    momentum_advection = WENO(order=5),
+                                    tracer_advection = WENO(order=7),
+                                    boundary_conditions = (; u=u_bcs),
+                                    free_surface = SplitExplicitFreeSurface(grid; substeps=20))</code></pre><pre><code class="nohighlight hljs">HydrostaticFreeSurfaceModel{CPU, ImmersedBoundaryGrid}(time = 0 seconds, iteration = 0)
+├── grid: 128×1×64 ImmersedBoundaryGrid{Float64, Bounded, Flat, Bounded} on CPU with 5×0×5 halo
+├── timestepper: QuasiAdamsBashforth2TimeStepper
+├── tracers: (b, e)
+├── closure: CATKEVerticalDiffusivity{VerticallyImplicitTimeDiscretization}
+├── buoyancy: BuoyancyTracer with ĝ = NegativeZDirection()
+├── free surface: SplitExplicitFreeSurface with gravitational acceleration 9.80665 m s⁻²
+│   └── substepping: FixedSubstepNumber(14)
+├── advection scheme: 
+│   ├── momentum: WENO{3, Float64, Float32}(order=5)
+│   ├── b: WENO{4, Float64, Float32}(order=7)
+│   └── e: WENO{4, Float64, Float32}(order=7)
+├── vertical_coordinate: ZStarCoordinate
+└── coriolis: Nothing</code></pre><h2 id="Set-variable-density-initial-conditions"><a class="docs-heading-anchor" href="#Set-variable-density-initial-conditions">Set variable density initial conditions</a><a id="Set-variable-density-initial-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Set-variable-density-initial-conditions" title="Permalink"></a></h2><p>Set initial conditions for lock exchange with different buoyancies.</p><pre><code class="language-julia hljs">bᵢ(x, z) = x &gt; L/2 ? 0.01 : 0.06
+set!(model, b=bᵢ)</code></pre><h2 id="Construct-a-Simulation"><a class="docs-heading-anchor" href="#Construct-a-Simulation">Construct a Simulation</a><a id="Construct-a-Simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Construct-a-Simulation" title="Permalink"></a></h2><p>Fast wave speeds make the equations stiff, so the CFL condition restricts the timestep to adequately small values to maintain numerical stability.</p><p>Set the timesteps</p><pre><code class="language-julia hljs">Δt = 1second
+stop_time = 6hours
+simulation = Simulation(model; Δt, stop_time)</code></pre><pre><code class="nohighlight hljs">Simulation of HydrostaticFreeSurfaceModel{CPU, ImmersedBoundaryGrid}(time = 0 seconds, iteration = 0)
+├── Next time step: 1 second
+├── run_wall_time: 0 seconds
+├── run_wall_time / iteration: NaN days
+├── stop_time: 6 hours
+├── stop_iteration: Inf
+├── wall_time_limit: Inf
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+└── output_writers: OrderedDict with no entries</code></pre><p>The <a href="../../appendix/library/#Oceananigans.Simulations.TimeStepWizard"><code>TimeStepWizard</code></a> is incorporated in the simulation via the <a href="../../appendix/library/#Oceananigans.Simulations.conjure_time_step_wizard!"><code>conjure_time_step_wizard!</code></a> helper function and it ensures stable time-stepping with a Courant-Freidrichs-Lewy (CFL) number of 0.35.</p><pre><code class="language-julia hljs">conjure_time_step_wizard!(simulation, cfl=0.3)</code></pre><h2 id="Track-Simulation-Progress"><a class="docs-heading-anchor" href="#Track-Simulation-Progress">Track Simulation Progress</a><a id="Track-Simulation-Progress-1"></a><a class="docs-heading-anchor-permalink" href="#Track-Simulation-Progress" title="Permalink"></a></h2><pre><code class="language-julia hljs"># Wall clock represents the real world time as opposed to simulation time
+wall_clock = Ref(time_ns())
+
+# Define callback function to show how the simulation is progressing alongside with some flow statistics.
+function progress(sim)
+    elapsed = 1e-9 * (time_ns() - wall_clock[])
+    msg = @sprintf(&quot;Iter: %6d, time: %s, Δt: %s, wall: %s, max|w| = %6.3e m s⁻¹&quot;,
+                   iteration(sim),
+                   prettytime(sim),
+                   prettytime(sim.Δt),
+                   prettytime(elapsed),
+                   maximum(abs, sim.model.velocities.w))
+    @info msg
+    wall_clock[] = time_ns()
+    return nothing
+end
+
+add_callback!(simulation, progress, IterationInterval(1000))</code></pre><h2 id="Add-output-writer"><a class="docs-heading-anchor" href="#Add-output-writer">Add output writer</a><a id="Add-output-writer-1"></a><a class="docs-heading-anchor-permalink" href="#Add-output-writer" title="Permalink"></a></h2><p>Here, we construct a JLD2Writer to save some output every <code>save_interval</code>.</p><pre><code class="language-julia hljs">b = model.tracers.b
+e = model.tracers.e
+u, v, w = model.velocities
+N² = ∂z(b)
+
+filename = &quot;hydrostatic_lock_exchange.jld2&quot;
+save_interval = 2minutes
+simulation.output_writers[:fields] = JLD2Writer(model, (; b, e, u, N²);
+                                                filename = filename,
+                                                schedule = TimeInterval(save_interval),
+                                                overwrite_existing = true)</code></pre><pre><code class="nohighlight hljs">JLD2Writer scheduled on TimeInterval(2 minutes):
+├── filepath: hydrostatic_lock_exchange.jld2
+├── 4 outputs: (b, e, u, N²)
+├── array_type: Array{Float32}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+├── file_splitting: NoFileSplitting
+└── file size: 0 bytes (file not yet created)</code></pre><h2 id="Run-Simulation"><a class="docs-heading-anchor" href="#Run-Simulation">Run Simulation</a><a id="Run-Simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Run-Simulation" title="Permalink"></a></h2><pre><code class="language-julia hljs">run!(simulation)
+
+@info &quot;Simulation finished. Output saved to $(filename)&quot;</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
+[ Info: Iter:      0, time: 0 seconds, Δt: 1.100 seconds, wall: 12.668 seconds, max|w| = 0.000e+00 m s⁻¹
+[ Info:     ... simulation initialization complete (13.233 seconds)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (1.231 minutes).
+[ Info: Iter:   1000, time: 31.884 minutes, Δt: 2.012 seconds, wall: 1.654 minutes, max|w| = 1.166e-01 m s⁻¹
+[ Info: Iter:   2000, time: 1.005 hours, Δt: 1.524 seconds, wall: 13.409 seconds, max|w| = 1.522e-01 m s⁻¹
+[ Info: Iter:   3000, time: 1.437 hours, Δt: 1.486 seconds, wall: 16.234 seconds, max|w| = 1.575e-01 m s⁻¹
+[ Info: Iter:   4000, time: 1.834 hours, Δt: 1.633 seconds, wall: 13.284 seconds, max|w| = 1.435e-01 m s⁻¹
+[ Info: Iter:   5000, time: 2.213 hours, Δt: 1.378 seconds, wall: 16.242 seconds, max|w| = 1.675e-01 m s⁻¹
+[ Info: Iter:   6000, time: 2.677 hours, Δt: 2.537 seconds, wall: 13.656 seconds, max|w| = 8.574e-02 m s⁻¹
+[ Info: Iter:   7000, time: 3.684 hours, Δt: 5.235 seconds, wall: 13.320 seconds, max|w| = 4.300e-02 m s⁻¹
+[ Info: Iter:   8000, time: 4.345 hours, Δt: 2.164 seconds, wall: 13.219 seconds, max|w| = 1.049e-01 m s⁻¹
+[ Info: Iter:   9000, time: 4.841 hours, Δt: 1.674 seconds, wall: 13.143 seconds, max|w| = 1.389e-01 m s⁻¹
+[ Info: Iter:  10000, time: 5.443 hours, Δt: 2.849 seconds, wall: 13.155 seconds, max|w| = 8.062e-02 m s⁻¹
+[ Info: Simulation is stopping after running for 3.946 minutes.
+[ Info: Simulation time 6 hours equals or exceeds stop time 6 hours.
+[ Info: Simulation finished. Output saved to hydrostatic_lock_exchange.jld2
+</code></pre><h2 id="Load-Saved-TimeSeries-Values"><a class="docs-heading-anchor" href="#Load-Saved-TimeSeries-Values">Load Saved TimeSeries Values</a><a id="Load-Saved-TimeSeries-Values-1"></a><a class="docs-heading-anchor-permalink" href="#Load-Saved-TimeSeries-Values" title="Permalink"></a></h2><pre><code class="language-julia hljs">ut = FieldTimeSeries(filename, &quot;u&quot;)
+N²t = FieldTimeSeries(filename, &quot;N²&quot;)
+bt = FieldTimeSeries(filename, &quot;b&quot;)
+et = FieldTimeSeries(filename, &quot;e&quot;)
+times = bt.times</code></pre><pre><code class="nohighlight hljs">0.0:120.0:21600.0</code></pre><h2 id="Visualize-Simulation-Outputs"><a class="docs-heading-anchor" href="#Visualize-Simulation-Outputs">Visualize Simulation Outputs</a><a id="Visualize-Simulation-Outputs-1"></a><a class="docs-heading-anchor-permalink" href="#Visualize-Simulation-Outputs" title="Permalink"></a></h2><p>We use Makie&#39;s <code>Observable</code> to animate the data. To dive into how <code>Observable</code>s work we refer to <a href="https://docs.makie.org/stable/explanations/observables">Makie.jl&#39;s Documentation</a>.</p><pre><code class="language-julia hljs">n = Observable(1)
+
+title = @lift @sprintf(&quot;t = %5.2f hours&quot;, times[$n] / hour)
+
+un = @lift ut[$n]
+N²n = @lift N²t[$n]
+bn = @lift bt[$n]
+en = @lift et[$n]</code></pre><p>For visualization color ranges (use last snapshot)</p><pre><code class="language-julia hljs">umax = maximum(abs, ut[end])
+N²max = maximum(abs, N²t[end])
+bmax = maximum(abs, bt[end])
+emax = maximum(abs, et[end])</code></pre><p>Use snapshots to create Makie visualization for <span>$b$</span>,  <span>$e$</span>, <span>$u$</span>, and <span>$N^2$</span>.</p><pre><code class="language-julia hljs">nan_color = :grey
+axis_kwargs = (xlabel = &quot;x [m]&quot;, ylabel = &quot;z [m]&quot;,
+               limits = ((0, L), (-H, 0)), titlesize = 18)
+
+fig = Figure(size = (800, 900))
+fig[1, :] = Label(fig, title, fontsize = 24, tellwidth = false)
+
+ax_b = Axis(fig[2, 1]; title = &quot;b (buoyancy)&quot;, axis_kwargs...)
+hm_b = heatmap!(ax_b, bn; nan_color, colorrange = (0, bmax), colormap = :thermal)
+Colorbar(fig[2, 2], hm_b, label = &quot;m s⁻²&quot;)
+
+ax_e = Axis(fig[3, 1]; title = &quot;e (turbulent kinetic energy)&quot;, axis_kwargs...)
+hm_e = heatmap!(ax_e, en; nan_color, colorrange = (0, emax), colormap = :magma)
+Colorbar(fig[3, 2], hm_e, label = &quot;m² s⁻²&quot;)
+
+ax_u = Axis(fig[4, 1]; title = &quot;u (horizontal velocity)&quot;, axis_kwargs...)
+hm_u = heatmap!(ax_u, un; nan_color, colorrange = (-umax, umax), colormap = :balance)
+Colorbar(fig[4, 2], hm_u, label = &quot;m s⁻¹&quot;)
+
+ax_N² = Axis(fig[5, 1]; title = &quot;N² (stratification)&quot;, axis_kwargs...)
+hm_N² = heatmap!(ax_N², N²n; nan_color, colorrange = (-N²max/4, N²max), colormap = :haline)
+Colorbar(fig[5, 2], hm_N², label = &quot;s⁻²&quot;)
+
+Nt = length(times)
+record(fig, &quot;hydrostatic_lock_exchange.mp4&quot;, 1:Nt; framerate = 8) do nn
+    @info &quot;Animating frame $nn out of $Nt&quot;
+    n[] = nn
+end</code></pre><pre><code class="nohighlight hljs">&quot;hydrostatic_lock_exchange.mp4&quot;</code></pre><p>The visualization shows the time evolution of buoyancy <span>$b$</span>, turbulent kinetic energy <span>$e$</span>, stratification <span>$N²$</span>, and zonal velocity <span>$u$</span>. Initially, the two water masses are separated horizontally by a sharp density interface. As the flow evolves, gravity currents form and the dense fluid moves beneath the lighter fluid. This shows the characteristic transition from horizontal to vertical density separation for the lock exchange problem.</p><p><video src="../hydrostatic_lock_exchange.mp4" controls="true" title><a href="../hydrostatic_lock_exchange.mp4"></a></video></p><hr/><h3 id="Julia-version-and-environment-information"><a class="docs-heading-anchor" href="#Julia-version-and-environment-information">Julia version and environment information</a><a id="Julia-version-and-environment-information-1"></a><a class="docs-heading-anchor-permalink" href="#Julia-version-and-environment-information" title="Permalink"></a></h3><p>This example was executed with the following version of Julia:</p><pre><code class="language-julia hljs">using InteractiveUtils: versioninfo
+versioninfo()</code></pre><pre><code class="nohighlight hljs">Julia Version 1.12.4
+Commit 01a2eadb047 (2026-01-06 16:56 UTC)
+Build Info:
+  Official https://julialang.org release
+Platform Info:
+  OS: Linux (x86_64-linux-gnu)
+  CPU: 128 × AMD EPYC 9374F 32-Core Processor
+  WORD_SIZE: 64
+  LLVM: libLLVM-18.1.7 (ORCJIT, znver4)
+  GC: Built with stock GC
+Threads: 1 default, 1 interactive, 1 GC (on 128 virtual cores)
+Environment:
+  LD_LIBRARY_PATH = 
+  JULIA_PKG_SERVER_REGISTRY_PREFERENCE = eager
+  JULIA_DEPOT_PATH = /var/lib/buildkite-agent/.julia-oceananigans
+  JULIA_PROJECT = /var/lib/buildkite-agent/Oceananigans.jl-29413/docs/
+  JULIA_VERSION = 1.12.4
+  JULIA_LOAD_PATH = @:@v#.#:@stdlib
+  JULIA_VERSION_ENZYME = 1.10.10
+  JULIA_PYTHONCALL_EXE = /var/lib/buildkite-agent/Oceananigans.jl-29413/docs/.CondaPkg/.pixi/envs/default/bin/python
+  JULIA_DEBUG = Literate
+</code></pre><p>These were the top-level packages installed in the environment:</p><pre><code class="language-julia hljs">import Pkg
+Pkg.status()</code></pre><pre><code class="nohighlight hljs">Status `~/Oceananigans.jl-29413/docs/Project.toml`
+  [79e6a3ab] Adapt v4.4.0
+  [052768ef] CUDA v5.9.6
+  [13f3f980] CairoMakie v0.15.8
+  [e30172f5] Documenter v1.16.1
+  [daee34ce] DocumenterCitations v1.4.1
+  [033835bb] JLD2 v0.6.3
+  [63c18a36] KernelAbstractions v0.9.40
+  [98b081ad] Literate v2.21.0
+  [da04e1cc] MPI v0.20.23
+  [85f8d34a] NCDatasets v0.14.11
+  [9e8cae18] Oceananigans v0.104.5 `..`
+  [f27b6e38] Polynomials v4.1.0
+  [6038ab10] Rotations v1.7.1
+  [d496a93d] SeawaterPolynomials v0.3.10
+  [09ab397b] StructArrays v0.7.2
+  [bdfc003b] TimesDates v0.3.3
+  [2e0b0046] XESMF v0.1.6
+  [b77e0a4c] InteractiveUtils v1.11.0
+  [37e2e46d] LinearAlgebra v1.12.0
+  [44cfe95a] Pkg v1.12.1
+</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../kelvin_helmholtz_instability/">« Kelvin-Helmholtz instability</a><a class="docs-footer-nextpage" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Friday 13 February 2026 01:51">Friday 13 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
