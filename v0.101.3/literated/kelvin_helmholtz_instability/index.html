@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Kelvin-Helmholtz instability · Oceananigans.jl</title><meta name="title" content="Kelvin-Helmholtz instability · Oceananigans.jl"/><meta property="og:title" content="Kelvin-Helmholtz instability · Oceananigans.jl"/><meta property="twitter:title" content="Kelvin-Helmholtz instability · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/kelvin_helmholtz_instability/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/kelvin_helmholtz_instability/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/literated/kelvin_helmholtz_instability/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../baroclinic_adjustment/">Baroclinic adjustment</a></li><li class="is-active"><a class="tocitem" href>Kelvin-Helmholtz instability</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#The-physical-domain"><span>The physical domain</span></a></li><li class="toplevel"><a class="tocitem" href="#The-basic-state"><span>The basic state</span></a></li><li class="toplevel"><a class="tocitem" href="#Linear-Instabilities"><span>Linear Instabilities</span></a></li><li class="toplevel"><a class="tocitem" href="#The-power-method-algorithm"><span>The power method algorithm</span></a></li><li class="toplevel"><a class="tocitem" href="#The-model"><span>The model</span></a></li><li class="toplevel"><a class="tocitem" href="#Eigenplotting"><span>Eigenplotting</span></a></li><li class="toplevel"><a class="tocitem" href="#Rev-your-engines..."><span>Rev your engines...</span></a></li><li class="toplevel"><a class="tocitem" href="#Powerful-convergence"><span>Powerful convergence</span></a></li><li class="toplevel"><a class="tocitem" href="#Now-for-the-fun-part"><span>Now for the fun part</span></a></li><li><a class="tocitem" href="#Pretty-things"><span>Pretty things</span></a></li></ul></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../models/models_overview/">Overview</a></li><li><a class="tocitem" href="../../models/coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../../models/buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../../models/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../models/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../models/forcing_functions/">Forcings</a></li><li><a class="tocitem" href="../../models/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../models/background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../simulations/simulations_overview/">Overview</a></li><li><a class="tocitem" href="../../simulations/schedules/">Schedules</a></li><li><a class="tocitem" href="../../simulations/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../simulations/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Kelvin-Helmholtz instability</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Kelvin-Helmholtz instability</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/examples/kelvin_helmholtz_instability.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Stratified-Kelvin-Helmholtz-instability"><a class="docs-heading-anchor" href="#Stratified-Kelvin-Helmholtz-instability">Stratified Kelvin-Helmholtz instability</a><a id="Stratified-Kelvin-Helmholtz-instability-1"></a><a class="docs-heading-anchor-permalink" href="#Stratified-Kelvin-Helmholtz-instability" title="Permalink"></a></h1><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie&quot;</code></pre><h2 id="The-physical-domain"><a class="docs-heading-anchor" href="#The-physical-domain">The physical domain</a><a id="The-physical-domain-1"></a><a class="docs-heading-anchor-permalink" href="#The-physical-domain" title="Permalink"></a></h2><p>We simulate a Kelvin-Helmholtz instability in two-dimensions in <span>$x, z$</span> and therefore assign <code>Flat</code> to the <code>y</code> direction,</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(size=(64, 64), x=(-5, 5), z=(-5, 5),
+                       topology=(Periodic, Flat, Bounded))</code></pre><pre><code class="nohighlight hljs">64×1×64 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+├── Periodic x ∈ [-5.0, 5.0) regularly spaced with Δx=0.15625
+├── Flat y                   
+└── Bounded  z ∈ [-5.0, 5.0] regularly spaced with Δz=0.15625</code></pre><h1 id="The-basic-state"><a class="docs-heading-anchor" href="#The-basic-state">The basic state</a><a id="The-basic-state-1"></a><a class="docs-heading-anchor-permalink" href="#The-basic-state" title="Permalink"></a></h1><p>We&#39;re simulating the instability of a sheared and stably-stratified basic state <span>$U(z)$</span> and <span>$B(z)$</span>. Two parameters define our basic state: the Richardson number,</p><p class="math-container">\[Ri = \frac{∂_z B}{(∂_z U)^2} ,\]</p><p>and the width of the stratification layer, <span>$h$</span>.</p><pre><code class="language-julia hljs">shear_flow(x, z, t) = tanh(z)
+
+stratification(x, z, t, p) = p.h * p.Ri * tanh(z / p.h)
+
+U = BackgroundField(shear_flow)
+
+B = BackgroundField(stratification, parameters=(Ri=0.1, h=1/4))</code></pre><pre><code class="nohighlight hljs">BackgroundField{typeof(Main.var&quot;##288&quot;.stratification), @NamedTuple{Ri::Float64, h::Float64}}
+├── func: stratification (generic function with 1 method)
+└── parameters: (Ri = 0.1, h = 0.25)</code></pre><p>Our basic state thus has a thin layer of stratification in the center of the channel, embedded within a thicker shear layer surrounded by unstratified fluid.</p><pre><code class="language-julia hljs">using CairoMakie
+
+zF = znodes(grid, Face())
+zC = znodes(grid, Center())
+
+Ri, h = B.parameters
+
+fig = Figure(size = (850, 450))
+
+ax = Axis(fig[1, 1], xlabel = &quot;U(z)&quot;, ylabel = &quot;z&quot;)
+lines!(ax, shear_flow.(0, zC, 0), zC; linewidth = 3)
+
+ax = Axis(fig[1, 2], xlabel = &quot;B(z)&quot;)
+lines!(ax, [stratification(0, z, 0, (Ri=Ri, h=h)) for z in zC], zC; linewidth = 3, color = :red)
+
+ax = Axis(fig[1, 3], xlabel = &quot;Ri(z)&quot;)
+lines!(ax, [Ri * sech(z / h)^2 / sech(z)^2 for z in zF], zF; linewidth = 3, color = :black) # Ri(z)= ∂_z B / (∂_z U)²; derivatives computed by hand
+
+fig</code></pre><p><img src="../kelvin_helmholtz_instability-9.png" alt/></p><p>In unstable flows it is often useful to determine the dominant spatial structure of the instability and the growth rate at which the instability grows. If the simulation idealizes a physical flow, this can be used to make predictions as to what should develop and how quickly. Since these instabilities are often attributed to a linear instability, we can determine information about the structure and the growth rate of the instability by analyzing the linear operator that governs small perturbations about a base state, or by solving for the linear dynamics.</p><p>Here, we discuss first briefly linear instabilities and how one can obtain growth rates and structures of most unstable modes via eigenanalysis. Then we present an alternative method for approximating the eigenanalysis results when one does not have access to the linear dynamics or the linear operator about the base state.</p><h1 id="Linear-Instabilities"><a class="docs-heading-anchor" href="#Linear-Instabilities">Linear Instabilities</a><a id="Linear-Instabilities-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Instabilities" title="Permalink"></a></h1><p>The base state <span>$U(z)$</span>, <span>$B(z)$</span> is a solution of the inviscid equations of motion. Whether the base state is stable or not is determined by whether small perturbations about this base state grow or decay. To formalize this, we study the linearized dynamics satisfied by perturbations about the base state:</p><p class="math-container">\[\partial_t \Phi = L \Phi \, .\]</p><p>where <span>$\Phi = (u, v, w, b)$</span> is a vector of the perturbation velocities <span>$u, v, w$</span> and perturbation buoyancy <span>$b$</span> and <span>$L$</span> a linear operator that depends on the base state, <span>$L = L(U(z), B(z))$</span> (the <code>background_fields</code>). Eigenanalysis of the linear operator <span>$L$</span> determines the stability of the base state, such as the Kelvin-Helmholtz instability. That is, by using the ansantz</p><p class="math-container">\[\Phi(x, y, z, t) = \phi(x, y, z) \, \exp(\lambda t) \, ,\]</p><p>then <span>$\lambda$</span> and <span>$\phi$</span> are respectively eigenvalues and eigenmodes of <span>$L$</span>, i.e., they obey</p><p class="math-container">\[L \, \phi_j = \lambda_j \, \phi_j \quad j=1,2,\dots \, .\]</p><p>From hereafter we&#39;ll use the convention that the eigenvalues are ordered according to their real part, <span>$\mathrm{Re}(\lambda_1) \ge \mathrm{Re}(\lambda_2) \ge \dotsb$</span>.</p><p>Remarks:</p><p>As we touched upon briefly above, Oceananigans.jl, does not include the linearized version of the equations. Furthermore, Oceananigans.jl does not give us access to the linear operator <span>$L$</span> so that we can perform eigenanalysis. Below we discuss an alternative way of approximating the eigenanalysis results. The method boils down to solving the nonlinear equations while continually renormalize the magnitude of the perturbations to ensure that nonlinear terms (terms that are quadratic or higher in perturbations) remain negligibly small, i.e.,much smaller than the background flow.</p><h1 id="The-power-method-algorithm"><a class="docs-heading-anchor" href="#The-power-method-algorithm">The power method algorithm</a><a id="The-power-method-algorithm-1"></a><a class="docs-heading-anchor-permalink" href="#The-power-method-algorithm" title="Permalink"></a></h1><p>Successive application of <span>$L$</span> to a random initial state will eventually render it parallel with eigenmode <span>$\phi_1$</span>:</p><p class="math-container">\[\lim_{n \to \infty} L^n \Phi \propto \phi_1 \, .\]</p><p>Of course, if <span>$\phi_1$</span> is an unstable mode (i.e., <span>$\sigma_1 = \mathrm{Re}(\lambda_1) &gt; 0$</span>), then successive application of <span>$L$</span> will lead to exponential amplification. (Similarly, if <span>$\sigma_1 &lt; 0$</span>, successive application of <span>$L$</span> will lead to exponential decay of <span>$\Phi$</span> down to machine precision.) Therefore, after each application of the linear operator <span>$L$</span>, we rescale the output <span>$L \Phi$</span> back to a pre-selected amplitude.</p><p>So, we initialize a <code>simulation</code> with random initial conditions with amplitude much less than those of the base state (which are <span>$O(1)$</span>). Instead of &quot;applying&quot; <span>$L$</span> on our initial state, we evolve the (approximately) linear dynamics for interval <span>$\Delta \tau$</span>. We measure how much the energy has grown during that interval, rescale the perturbations back to original energy amplitude and repeat. After some iterations the state will converge to the most unstable eigenmode.</p><p>In summary, each iteration of the power method includes:</p><ul><li>compute the perturbation energy, <span>$E_0$</span>,</li><li>evolve the system for a time-interval <span>$\Delta \tau$</span>,</li><li>compute the perturbation energy, <span>$E_1$</span>,</li><li>determine the exponential growth of the most unstable mode during the interval <span>$\Delta \tau$</span> as  <span>$\log(E_1 / E_0) / (2 \Delta \tau)$</span>,</li><li>repeat the above until growth rate converges.</li></ul><p>By fiddling a bit with <span>$\Delta t$</span> we can get convergence after only a few iterations.</p><p>Let&#39;s apply all these to our example.</p><h1 id="The-model"><a class="docs-heading-anchor" href="#The-model">The model</a><a id="The-model-1"></a><a class="docs-heading-anchor-permalink" href="#The-model" title="Permalink"></a></h1><pre><code class="language-julia hljs">model = NonhydrostaticModel(; grid,
+                            advection = UpwindBiased(order=5),
+                            background_fields = (u=U, b=B),
+                            closure = ScalarDiffusivity(ν=2e-4, κ=2e-4),
+                            buoyancy = BuoyancyTracer(),
+                            tracers = :b)</code></pre><pre><code class="nohighlight hljs">NonhydrostaticModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── grid: 64×1×64 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+├── timestepper: RungeKutta3TimeStepper
+├── advection scheme: UpwindBiased(order=5)
+├── tracers: b
+├── closure: ScalarDiffusivity{ExplicitTimeDiscretization}(ν=0.0002, κ=(b=0.0002,))
+├── buoyancy: BuoyancyTracer with ĝ = NegativeZDirection()
+└── coriolis: Nothing</code></pre><p>We have included a &quot;pinch&quot; of viscosity and diffusivity in anticipation of what will follow further down: viscosity and diffusivity will ensure numerical stability when we evolve the unstable mode to the point it becomes nonlinear.</p><p>Here, we take <span>$\Delta \tau = 15$</span>. We also set <code>verbose=false</code> so that <code>run!(simulation)</code> is a little quieter.</p><pre><code class="language-julia hljs">simulation = Simulation(model, Δt=0.1, stop_iteration=150, verbose=false)</code></pre><pre><code class="nohighlight hljs">Simulation of NonhydrostaticModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── Next time step: 100 ms
+├── run_wall_time: 0 seconds
+├── run_wall_time / iteration: NaN days
+├── stop_time: Inf days
+├── stop_iteration: 150.0
+├── wall_time_limit: Inf
+├── minimum_relative_step: 0.0
+├── callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+└── output_writers: OrderedDict with no entries</code></pre><p>Now some helper functions that will be used during for the power method algorithm.</p><p>First a function that evolves the state for <span>$\Delta \tau$</span> and measure the energy growth over that period.</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    grow_instability!(simulation, energy)
+
+Grow an instability by running `simulation`.
+
+Estimates the growth rate ``σ`` of the instability
+using the fractional change in volume-mean kinetic energy,
+over the course of the `simulation`
+
+``
+energy(t₀ + Δτ) / energy(t₀) ≈ exp(2 σ Δτ)
+``
+
+where ``t₀`` is the starting time of the simulation and ``t₀ + Δτ``
+the ending time of the simulation. We thus find that the growth rate
+is measured by
+
+``
+σ = log(energy(t₀ + Δτ) / energy(t₀)) / (2 Δτ) .
+``
+&quot;&quot;&quot;
+function grow_instability!(simulation, energy)
+    # Initialize
+    simulation.model.clock.iteration = 0
+    t₀ = simulation.model.clock.time = 0
+    compute!(energy)
+    energy₀ = energy[1, 1, 1]
+
+    # Grow
+    run!(simulation)
+
+    # Analyze
+    compute!(energy)
+    energy₁ = energy[1, 1, 1]
+    Δτ = simulation.model.clock.time - t₀
+
+    # ½(u² + v²) ~ exp(2 σ Δτ)
+    σ = growth_rate = log(energy₁ / energy₀) / 2Δτ
+
+    return growth_rate
+end</code></pre><p>Finally, we write a function that rescales the state. The rescaling is done via computing the kinetic energy and then rescaling all flow fields so that the kinetic energy assumes a targetted value.</p><p>(Measuring the perturbation growth via the kinetic energy works fine <em>unless</em> an unstable mode <em>only</em> has buoyancy structure. In that case, the total perturbation energy is more adequate.)</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    rescale!(model, energy; target_kinetic_energy = 1e-3)
+
+Rescales all model fields so that `energy = target_kinetic_energy`.
+&quot;&quot;&quot;
+function rescale!(model, energy; target_kinetic_energy = 1e-6)
+    compute!(energy)
+    rescale_factor = √(target_kinetic_energy / energy[1, 1, 1])
+
+    for f in merge(model.velocities, model.tracers)
+        f .*= rescale_factor
+    end
+
+    return nothing
+end
+
+using Printf</code></pre><p>Another helper function for the power method,</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    convergence(σ)
+
+Check if the growth rate has converged. If the array `σ` has at least 2 elements then returns the
+relative difference between ``σ[end]`` and ``σ[end-1]``.
+&quot;&quot;&quot;
+convergence(σ) = length(σ) &gt; 1 ? abs((σ[end] - σ[end-1]) / σ[end]) : 9.1e18 # pretty big (not Inf tho)</code></pre><p>and the main function that performs the power method iteration.</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    estimate_growth_rate(simulation, energy, ω; convergence_criterion=1e-3)
+
+Estimates the growth rate iteratively until the relative change
+in the estimated growth rate ``σ`` falls below `convergence_criterion`.
+
+Returns ``σ``.
+&quot;&quot;&quot;
+function estimate_growth_rate(simulation, energy, ω, b; convergence_criterion=1e-3)
+    σ = []
+    power_method_data = []
+    compute!(ω)
+    push!(power_method_data, (ω=deepcopy(ω), b=deepcopy(b), σ=deepcopy(σ)))
+
+    while convergence(σ) &gt; convergence_criterion
+        compute!(energy)
+
+        @info @sprintf(&quot;About to start power method iteration %d; kinetic energy: %.2e&quot;, length(σ)+1, energy[1, 1, 1])
+        push!(σ, grow_instability!(simulation, energy))
+        compute!(energy)
+
+        @info @sprintf(&quot;Power method iteration %d, kinetic energy: %.2e, σⁿ: %.2e, relative Δσ: %.2e&quot;,
+                       length(σ), energy[1, 1, 1], σ[end], convergence(σ))
+
+        compute!(ω)
+        rescale!(simulation.model, energy)
+    push!(power_method_data, (ω=deepcopy(ω), b=deepcopy(b), σ=deepcopy(σ)))
+    end
+
+    return σ, power_method_data
+end</code></pre><h1 id="Eigenplotting"><a class="docs-heading-anchor" href="#Eigenplotting">Eigenplotting</a><a id="Eigenplotting-1"></a><a class="docs-heading-anchor-permalink" href="#Eigenplotting" title="Permalink"></a></h1><p>A good algorithm wouldn&#39;t be complete without a good visualization,</p><pre><code class="language-julia hljs">u, v, w = model.velocities
+b = model.tracers.b
+
+perturbation_vorticity = Field(∂z(u) - ∂x(w))</code></pre><pre><code class="nohighlight hljs">64×1×65 Field{Face, Center, Face} on RectilinearGrid on CPU
+├── grid: 64×1×64 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+├── boundary conditions: FieldBoundaryConditions
+│   └── west: Periodic, east: Periodic, south: Nothing, north: Nothing, bottom: Nothing, top: Nothing, immersed: Nothing
+├── operand: BinaryOperation at (Face, Center, Face)
+├── status: time=0.0
+└── data: 70×1×71 OffsetArray(::Array{Float64, 3}, -2:67, 1:1, -2:68) with eltype Float64 with indices -2:67×1:1×-2:68
+    └── max=0.0, min=0.0, mean=0.0</code></pre><h1 id="Rev-your-engines..."><a class="docs-heading-anchor" href="#Rev-your-engines...">Rev your engines...</a><a id="Rev-your-engines...-1"></a><a class="docs-heading-anchor-permalink" href="#Rev-your-engines..." title="Permalink"></a></h1><p>We initialize the power iteration with random noise and rescale to have a <code>target_kinetic_energy</code></p><pre><code class="language-julia hljs">using Random, Statistics
+
+mean_perturbation_kinetic_energy = Field(Average(1/2 * (u^2 + w^2)))
+noise(x, z) = randn()
+set!(model, u=noise, w=noise, b=noise)
+rescale!(simulation.model, mean_perturbation_kinetic_energy, target_kinetic_energy=1e-6)
+growth_rates, power_method_data = estimate_growth_rate(simulation, mean_perturbation_kinetic_energy, perturbation_vorticity, b)
+
+@info &quot;Power iterations converged! Estimated growth rate: $(growth_rates[end])&quot;</code></pre><pre><code class="nohighlight hljs">[ Info: About to start power method iteration 1; kinetic energy: 1.50e-03
+[ Info: Power method iteration 1, kinetic energy: 4.86e-06, σⁿ: -1.91e-01, relative Δσ: 9.10e+18
+[ Info: About to start power method iteration 2; kinetic energy: 1.01e-06
+[ Info: Power method iteration 2, kinetic energy: 4.65e-06, σⁿ: 5.09e-02, relative Δσ: 4.75e+00
+[ Info: About to start power method iteration 3; kinetic energy: 1.02e-06
+[ Info: Power method iteration 3, kinetic energy: 9.55e-06, σⁿ: 7.45e-02, relative Δσ: 3.17e-01
+[ Info: About to start power method iteration 4; kinetic energy: 1.01e-06
+[ Info: Power method iteration 4, kinetic energy: 1.57e-05, σⁿ: 9.15e-02, relative Δσ: 1.86e-01
+[ Info: About to start power method iteration 5; kinetic energy: 1.02e-06
+[ Info: Power method iteration 5, kinetic energy: 1.69e-05, σⁿ: 9.36e-02, relative Δσ: 2.22e-02
+[ Info: About to start power method iteration 6; kinetic energy: 1.02e-06
+[ Info: Power method iteration 6, kinetic energy: 1.72e-05, σⁿ: 9.40e-02, relative Δσ: 4.81e-03
+[ Info: About to start power method iteration 7; kinetic energy: 1.02e-06
+[ Info: Power method iteration 7, kinetic energy: 1.72e-05, σⁿ: 9.40e-02, relative Δσ: 1.41e-04
+[ Info: Power iterations converged! Estimated growth rate: 0.09400202561464563
+</code></pre><h1 id="Powerful-convergence"><a class="docs-heading-anchor" href="#Powerful-convergence">Powerful convergence</a><a id="Powerful-convergence-1"></a><a class="docs-heading-anchor-permalink" href="#Powerful-convergence" title="Permalink"></a></h1><p>We animate the power method steps. A scatter plot illustrates how the growth rate converges as the power method iterates.</p><pre><code class="language-julia hljs">n = Observable(1)
+
+fig = Figure(size=(800, 600))
+
+kwargs = (xlabel=&quot;x&quot;, ylabel=&quot;z&quot;, limits = ((-5, 5), (-5, 5)), aspect=1)
+
+ω_title(t) = t === nothing ? @sprintf(&quot;vorticity&quot;) : @sprintf(&quot;vorticity at t = %.2f&quot;, t)
+b_title(t) = t === nothing ? @sprintf(&quot;buoyancy&quot;)  : @sprintf(&quot;buoyancy at t = %.2f&quot;, t)
+
+ax_ω = Axis(fig[2, 1]; title = ω_title(nothing), kwargs...)
+
+ax_b = Axis(fig[2, 3]; title = b_title(nothing), kwargs...)
+
+ωₙ = @lift power_method_data[$n].ω
+bₙ = @lift power_method_data[$n].b
+
+σₙ = @lift [(i-1, i==1 ? NaN : growth_rates[i-1]) for i in 1:$n]
+
+ω_lims = @lift (-maximum(abs, power_method_data[$n].ω), maximum(abs, power_method_data[$n].ω))
+b_lims = @lift (-maximum(abs, power_method_data[$n].b), maximum(abs, power_method_data[$n].b))
+
+hm_ω = heatmap!(ax_ω, ωₙ; colorrange = ω_lims, colormap = :balance)
+Colorbar(fig[2, 2], hm_ω)
+
+hm_b = heatmap!(ax_b, bₙ; colorrange = b_lims, colormap = :balance)
+Colorbar(fig[2, 4], hm_b)
+
+eigentitle(σ, t) = length(σ) &gt; 0 ? @sprintf(&quot;Iteration #%i; growth rate %.2e&quot;, length(σ), σ[end]) : @sprintf(&quot;Initial perturbation fields&quot;)
+σ_title = @lift eigentitle(power_method_data[$n].σ, nothing)
+
+ax_σ = Axis(fig[1, :];
+            xlabel = &quot;Power iteration&quot;,
+            ylabel = &quot;Growth rate&quot;,
+            title = σ_title,
+            xticks = 1:length(power_method_data)-1,
+            limits = ((0.5, length(power_method_data)-0.5), (-0.25, 0.25)))
+
+scatter!(ax_σ, σₙ; color = :blue)
+
+frames = 1:length(power_method_data)
+
+record(fig, &quot;powermethod.mp4&quot;, frames, framerate=1) do i
+    n[] = i
+end
+</code></pre><p><video src="../powermethod.mp4" controls="true" title><a href="../powermethod.mp4"></a></video></p><h1 id="Now-for-the-fun-part"><a class="docs-heading-anchor" href="#Now-for-the-fun-part">Now for the fun part</a><a id="Now-for-the-fun-part-1"></a><a class="docs-heading-anchor-permalink" href="#Now-for-the-fun-part" title="Permalink"></a></h1><p>Now we simulate the nonlinear evolution of the eigenmode we&#39;ve isolated for a few e-folding times <span>$1/\sigma$</span>,</p><pre><code class="language-julia hljs"># Reset the clock
+model.clock.iteration = 0
+model.clock.time = 0
+
+estimated_growth_rate = growth_rates[end]
+
+simulation.stop_time = 5 / estimated_growth_rate
+simulation.stop_iteration = 9.1e18 # pretty big (not Inf tho)
+
+# Rescale the eigenmode
+initial_eigenmode_energy = 5e-5
+rescale!(simulation.model, mean_perturbation_kinetic_energy, target_kinetic_energy=initial_eigenmode_energy)</code></pre><p>Let&#39;s save and plot the perturbation vorticity and buoyancy and also the total vorticity and buoyancy (perturbation + basic state). It&#39;ll be also neat to plot the kinetic energy time-series and confirm it grows with the estimated growth rate.</p><pre><code class="language-julia hljs">total_vorticity = Field(∂z(u) + ∂z(model.background_fields.velocities.u) - ∂x(w))
+
+total_b = Field(b + model.background_fields.tracers.b)
+
+simulation.output_writers[:vorticity] =
+    JLD2Writer(model, (ω=perturbation_vorticity, Ω=total_vorticity, b=b, B=total_b, KE=mean_perturbation_kinetic_energy),
+               schedule = TimeInterval(0.10 / estimated_growth_rate),
+               filename = &quot;kelvin_helmholtz_instability.jld2&quot;,
+               overwrite_existing = true)</code></pre><pre><code class="nohighlight hljs">JLD2Writer scheduled on TimeInterval(1.064 seconds):
+├── filepath: kelvin_helmholtz_instability.jld2
+├── 5 outputs: (ω, Ω, b, B, KE)
+├── array_type: Array{Float32}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+├── file_splitting: NoFileSplitting
+└── file size: 43.4 KiB</code></pre><p>And now we...</p><pre><code class="language-julia hljs">@info &quot;*** Running a simulation of Kelvin-Helmholtz instability...&quot;
+run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: *** Running a simulation of Kelvin-Helmholtz instability...
+</code></pre><h2 id="Pretty-things"><a class="docs-heading-anchor" href="#Pretty-things">Pretty things</a><a id="Pretty-things-1"></a><a class="docs-heading-anchor-permalink" href="#Pretty-things" title="Permalink"></a></h2><p>First we plot the nonlinear equilibration of the perturbation fields together with the evolution of the kinetic energy,</p><pre><code class="language-julia hljs">@info &quot;Making a neat movie of stratified shear flow...&quot;
+
+filepath = simulation.output_writers[:vorticity].filepath
+
+ω_timeseries = FieldTimeSeries(filepath, &quot;ω&quot;)
+b_timeseries = FieldTimeSeries(filepath, &quot;b&quot;)
+Ω_timeseries = FieldTimeSeries(filepath, &quot;Ω&quot;)
+B_timeseries = FieldTimeSeries(filepath, &quot;B&quot;)
+KE_timeseries = FieldTimeSeries(filepath, &quot;KE&quot;)
+
+times = ω_timeseries.times
+
+t_final = times[end]
+
+n = Observable(1)
+
+ωₙ = @lift ω_timeseries[$n]
+bₙ = @lift b_timeseries[$n]
+
+fig = Figure(size=(800, 600))
+
+kwargs = (xlabel=&quot;x&quot;, ylabel=&quot;z&quot;, limits = ((-5, 5), (-5, 5)), aspect=1)
+
+title = @lift @sprintf(&quot;t = %.2f&quot;, times[$n])
+
+ax_ω = Axis(fig[2, 1]; title = &quot;perturbation vorticity&quot;, kwargs...)
+
+ax_b = Axis(fig[2, 3]; title = &quot;perturbation buoyancy&quot;, kwargs...)
+
+ax_KE = Axis(fig[3, :];
+             yscale = log10,
+             limits = ((0, t_final), (initial_eigenmode_energy, 1e-1)),
+             xlabel = &quot;time&quot;)
+
+fig[1, :] = Label(fig, title, fontsize=24, tellwidth=false)
+
+ω_lims = @lift (-maximum(abs, ω_timeseries[$n]), maximum(abs, ω_timeseries[$n]))
+b_lims = @lift (-maximum(abs, b_timeseries[$n]), maximum(abs, b_timeseries[$n]))
+
+hm_ω = heatmap!(ax_ω, ωₙ; colorrange = ω_lims, colormap = :balance)
+Colorbar(fig[2, 2], hm_ω)
+
+hm_b = heatmap!(ax_b, bₙ; colorrange = b_lims, colormap = :balance)
+Colorbar(fig[2, 4], hm_b)
+
+tₙ = @lift times[1:$n]
+KEₙ = @lift KE_timeseries[1:$n]
+
+lines!(ax_KE, [0, t_final], @. initial_eigenmode_energy * exp(2 * estimated_growth_rate * [0, t_final]);
+       label = &quot;~ exp(2 σ t)&quot;,
+       linewidth = 2,
+       color = :black)
+
+lines!(ax_KE, times, KE_timeseries[:];
+       label = &quot;perturbation kinetic energy&quot;,
+       linewidth = 4, color = :blue, alpha = 0.4)
+
+KE_point = @lift Point2f[(times[$n], KE_timeseries[$n][1, 1, 1])]
+
+scatter!(ax_KE, KE_point;
+         marker = :circle, markersize = 16, color = :blue)
+
+frames = 1:length(times)
+
+record(fig, &quot;kelvin_helmholtz_instability_perturbations.mp4&quot;, frames, framerate=8) do i
+    @info &quot;Plotting frame $i of $(frames[end])...&quot;
+    n[] = i
+end</code></pre><pre><code class="nohighlight hljs">[ Info: Making a neat movie of stratified shear flow...
+[ Info: Plotting frame 1 of 50...
+[ Info: Plotting frame 2 of 50...
+[ Info: Plotting frame 3 of 50...
+[ Info: Plotting frame 4 of 50...
+[ Info: Plotting frame 5 of 50...
+[ Info: Plotting frame 6 of 50...
+[ Info: Plotting frame 7 of 50...
+[ Info: Plotting frame 8 of 50...
+[ Info: Plotting frame 9 of 50...
+[ Info: Plotting frame 10 of 50...
+[ Info: Plotting frame 11 of 50...
+[ Info: Plotting frame 12 of 50...
+[ Info: Plotting frame 13 of 50...
+[ Info: Plotting frame 14 of 50...
+[ Info: Plotting frame 15 of 50...
+[ Info: Plotting frame 16 of 50...
+[ Info: Plotting frame 17 of 50...
+[ Info: Plotting frame 18 of 50...
+[ Info: Plotting frame 19 of 50...
+[ Info: Plotting frame 20 of 50...
+[ Info: Plotting frame 21 of 50...
+[ Info: Plotting frame 22 of 50...
+[ Info: Plotting frame 23 of 50...
+[ Info: Plotting frame 24 of 50...
+[ Info: Plotting frame 25 of 50...
+[ Info: Plotting frame 26 of 50...
+[ Info: Plotting frame 27 of 50...
+[ Info: Plotting frame 28 of 50...
+[ Info: Plotting frame 29 of 50...
+[ Info: Plotting frame 30 of 50...
+[ Info: Plotting frame 31 of 50...
+[ Info: Plotting frame 32 of 50...
+[ Info: Plotting frame 33 of 50...
+[ Info: Plotting frame 34 of 50...
+[ Info: Plotting frame 35 of 50...
+[ Info: Plotting frame 36 of 50...
+[ Info: Plotting frame 37 of 50...
+[ Info: Plotting frame 38 of 50...
+[ Info: Plotting frame 39 of 50...
+[ Info: Plotting frame 40 of 50...
+[ Info: Plotting frame 41 of 50...
+[ Info: Plotting frame 42 of 50...
+[ Info: Plotting frame 43 of 50...
+[ Info: Plotting frame 44 of 50...
+[ Info: Plotting frame 45 of 50...
+[ Info: Plotting frame 46 of 50...
+[ Info: Plotting frame 47 of 50...
+[ Info: Plotting frame 48 of 50...
+[ Info: Plotting frame 49 of 50...
+[ Info: Plotting frame 50 of 50...
+</code></pre><p><video src="../kelvin_helmholtz_instability_perturbations.mp4" controls="true" title><a href="../kelvin_helmholtz_instability_perturbations.mp4"></a></video></p><p>And then the same for total vorticity &amp; buoyancy of the fluid.</p><pre><code class="language-julia hljs">n = Observable(1)
+
+Ωₙ = @lift Ω_timeseries[$n]
+Bₙ = @lift B_timeseries[$n]
+
+fig = Figure(size=(800, 600))
+
+kwargs = (xlabel=&quot;x&quot;, ylabel=&quot;z&quot;, limits = ((-5, 5), (-5, 5)), aspect=1)
+
+title = @lift @sprintf(&quot;t = %.2f&quot;, times[$n])
+
+ax_Ω = Axis(fig[2, 1]; title = &quot;total vorticity&quot;, kwargs...)
+
+ax_B = Axis(fig[2, 3]; title = &quot;total buoyancy&quot;, kwargs...)
+
+ax_KE = Axis(fig[3, :];
+             yscale = log10,
+             limits = ((0, t_final), (initial_eigenmode_energy, 1e-1)),
+             xlabel = &quot;time&quot;)
+
+fig[1, :] = Label(fig, title, fontsize=24, tellwidth=false)
+
+hm_Ω = heatmap!(ax_Ω, Ωₙ; colorrange = (-1, 1), colormap = :balance)
+Colorbar(fig[2, 2], hm_Ω)
+
+hm_B = heatmap!(ax_B, Bₙ; colorrange = (-0.05, 0.05), colormap = :balance)
+Colorbar(fig[2, 4], hm_B)
+
+tₙ = @lift times[1:$n]
+KEₙ = @lift KE_timeseries[1, 1, 1, 1:$n]
+
+lines!(ax_KE, [0, t_final], @. initial_eigenmode_energy * exp(2 * estimated_growth_rate * [0, t_final]);
+       label = &quot;~ exp(2 σ t)&quot;,
+       linewidth = 2,
+       color = :black)
+
+lines!(ax_KE, times, KE_timeseries[:];
+       label = &quot;perturbation kinetic energy&quot;,
+       linewidth = 4, color = :blue, alpha = 0.4)
+
+KE_point = @lift Point2f[(times[$n], KE_timeseries[$n][1, 1, 1])]
+
+scatter!(ax_KE, KE_point;
+         marker = :circle, markersize = 16, color = :blue)
+
+axislegend(ax_KE; position = :rb)
+
+record(fig, &quot;kelvin_helmholtz_instability_total.mp4&quot;, frames, framerate=8) do i
+    n[] = i
+end</code></pre><p><video src="../kelvin_helmholtz_instability_total.mp4" controls="true" title><a href="../kelvin_helmholtz_instability_total.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../baroclinic_adjustment/">« Baroclinic adjustment</a><a class="docs-footer-nextpage" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.0 on <span class="colophon-date" title="Wednesday 19 November 2025 01:08">Wednesday 19 November 2025</span>. Using Julia version 1.12.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
