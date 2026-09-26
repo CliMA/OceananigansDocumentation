@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Internal tide by a seamount · Oceananigans.jl</title><meta name="title" content="Internal tide by a seamount · Oceananigans.jl"/><meta property="og:title" content="Internal tide by a seamount · Oceananigans.jl"/><meta property="twitter:title" content="Internal tide by a seamount · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/internal_tide/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/internal_tide/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/literated/internal_tide/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../internal_wave/">Internal wave</a></li><li class="is-active"><a class="tocitem" href>Internal tide by a seamount</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#Grid"><span>Grid</span></a></li><li><a class="tocitem" href="#Model"><span>Model</span></a></li><li><a class="tocitem" href="#Diagnostics/Output"><span>Diagnostics/Output</span></a></li><li><a class="tocitem" href="#Load-output"><span>Load output</span></a></li><li><a class="tocitem" href="#Visualize"><span>Visualize</span></a></li></ul></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Model setup (legacy)</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../model_setup/overview/">Overview</a></li><li><a class="tocitem" href="../../model_setup/setting_initial_conditions/">Setting initial conditions</a></li><li><a class="tocitem" href="../../model_setup/architecture/">Architecture</a></li><li><a class="tocitem" href="../../model_setup/number_type/">Number type</a></li><li><a class="tocitem" href="../../model_setup/legacy_grids/">Grid</a></li><li><a class="tocitem" href="../../model_setup/clock/">Clock</a></li><li><a class="tocitem" href="../../model_setup/coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../../model_setup/tracers/">Tracers</a></li><li><a class="tocitem" href="../../model_setup/buoyancy_and_equation_of_state/">Buoyancy models and equation of state</a></li><li><a class="tocitem" href="../../model_setup/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../model_setup/forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../../model_setup/background_fields/">Background fields</a></li><li><a class="tocitem" href="../../model_setup/turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../../model_setup/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../model_setup/diagnostics/">Diagnostics</a></li><li><a class="tocitem" href="../../model_setup/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../../model_setup/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../model_setup/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-8-3" type="checkbox"/><label class="tocitem" for="menuitem-8-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-4" type="checkbox"/><label class="tocitem" for="menuitem-8-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-5" type="checkbox"/><label class="tocitem" for="menuitem-8-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Internal tide by a seamount</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Internal tide by a seamount</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/examples/internal_tide.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Internal-tide-over-a-seamount"><a class="docs-heading-anchor" href="#Internal-tide-over-a-seamount">Internal tide over a seamount</a><a id="Internal-tide-over-a-seamount-1"></a><a class="docs-heading-anchor-permalink" href="#Internal-tide-over-a-seamount" title="Permalink"></a></h1><p>In this example, we show how internal tide is generated from a barotropic tidal flow sloshing back and forth over a sea mount.</p><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie&quot;</code></pre><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units</code></pre><h2 id="Grid"><a class="docs-heading-anchor" href="#Grid">Grid</a><a id="Grid-1"></a><a class="docs-heading-anchor-permalink" href="#Grid" title="Permalink"></a></h2><p>We create an <code>ImmersedBoundaryGrid</code> wrapped around an underlying two-dimensional <code>RectilinearGrid</code> that is periodic in <span>$x$</span> and bounded in <span>$z$</span>.</p><pre><code class="language-julia hljs">Nx, Nz = 256, 128
+H, L = 2kilometers, 1000kilometers
+
+underlying_grid = RectilinearGrid(size = (Nx, Nz), halo = (4, 4),
+                                  x = (-L, L), z = (-H, 0),
+                                  topology = (Periodic, Flat, Bounded))</code></pre><pre><code class="nohighlight hljs">256×1×128 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 4×0×4 halo
+├── Periodic x ∈ [-1.0e6, 1.0e6) regularly spaced with Δx=7812.5
+├── Flat y                       
+└── Bounded  z ∈ [-2000.0, 0.0]  regularly spaced with Δz=15.625</code></pre><p>Now we can create the non-trivial bathymetry. We use <code>GridFittedBottom</code> that gets as input either <em>(i)</em> a two-dimensional function whose arguments are the grid&#39;s native horizontal coordinates and it returns the <span>$z$</span> of the bottom, or <em>(ii)</em> a two-dimensional array with the values of <span>$z$</span> at the bottom cell centers.</p><p>In this example we&#39;d like to have a Gaussian hill at the center of the domain.</p><p class="math-container">\[h(x) = -H + h_0 \exp(-x^2 / 2σ^2)\]</p><pre><code class="language-julia hljs">h₀ = 250meters
+width = 20kilometers
+hill(x) = h₀ * exp(-x^2 / 2width^2)
+bottom(x) = - H + hill(x)
+
+grid = ImmersedBoundaryGrid(underlying_grid, PartialCellBottom(bottom))</code></pre><pre><code class="nohighlight hljs">256×1×128 ImmersedBoundaryGrid{Float64, Periodic, Flat, Bounded} on CPU with 4×0×4 halo:
+├── immersed_boundary: PartialCellBottom(mean(zb)=-1993.92, min(zb)=-2000.0, max(zb)=-1754.72, ϵ=0.2)
+├── underlying_grid: 256×1×128 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 4×0×4 halo
+├── Periodic x ∈ [-1.0e6, 1.0e6) regularly spaced with Δx=7812.5
+├── Flat y                       
+└── Bounded  z ∈ [-2000.0, 0.0]  regularly spaced with Δz=15.625</code></pre><p>Let&#39;s see how the domain with the bathymetry is.</p><pre><code class="language-julia hljs">x = xnodes(grid, Center())
+bottom_boundary = interior(grid.immersed_boundary.bottom_height, :, 1, 1)
+top_boundary = 0 * x
+
+using CairoMakie
+
+fig = Figure(size = (700, 200))
+ax = Axis(fig[1, 1],
+          xlabel=&quot;x [km]&quot;,
+          ylabel=&quot;z [m]&quot;,
+          limits=((-grid.Lx/2e3, grid.Lx/2e3), (-grid.Lz, 0)))
+
+band!(ax, x/1e3, bottom_boundary, top_boundary, color = :mediumblue)
+
+fig</code></pre><p><img src="../internal_tide-11.png" alt/></p><p>Now we want to add a barotropic tide forcing. For example, to add the lunar semi-diurnal <span>$M_2$</span> tide we need to add forcing in the <span>$u$</span>-momentum equation of the form:</p><p class="math-container">\[F_0 \sin(\omega_2 t)\]</p><p>where <span>$\omega_2 = 2π / T_2$</span>, with <span>$T_2 = 12.421 \,\mathrm{hours}$</span> the period of the <span>$M_2$</span> tide.</p><p>The excursion parameter is a nondimensional number that expresses the ratio of the flow movement due to the tide compared to the size of the width of the hill.</p><p class="math-container">\[\epsilon = \frac{U_{\mathrm{tidal}} / \omega_2}{\sigma}\]</p><p>We prescribe the excursion parameter which, in turn, implies a tidal velocity <span>$U_{\mathrm{tidal}}$</span> which then allows us to determing the tidal forcing amplitude <span>$F_0$</span>. For the last step, we use Fourier decomposition on the inviscid, linearized momentum equations to determine the flow response for a given tidal forcing. Doing so we get that for the sinusoidal forcing above, the tidal velocity and tidal forcing amplitudes are related via:</p><p class="math-container">\[U_{\mathrm{tidal}} = \frac{\omega_2}{\omega_2^2 - f^2} F_0\]</p><p>Now we have the way to find the value of the tidal forcing amplitude that would correspond to a given excursion parameter. The Coriolis frequency is needed, so we start by constructing a Coriolis on an <span>$f$</span>-plane at the mid-latitudes.</p><pre><code class="language-julia hljs">coriolis = FPlane(latitude = -45)</code></pre><pre><code class="nohighlight hljs">FPlane{Float64}(f=-0.000103126)</code></pre><p>Now we have everything we require to construct the tidal forcing given a value of the excursion parameter.</p><pre><code class="language-julia hljs">T₂ = 12.421hours
+ω₂ = 2π / T₂ # radians/sec
+ϵ = 0.1 # excursion parameter
+U₂ = ϵ * ω₂ * width
+A₂ = U₂ * (ω₂^2 - coriolis.f^2) / ω₂
+
+@inline tidal_forcing(x, z, t, p) = p.A₂ * sin(p.ω₂ * t)
+u_forcing = Forcing(tidal_forcing, parameters=(; A₂, ω₂))</code></pre><pre><code class="nohighlight hljs">ContinuousForcing{@NamedTuple{A₂::Float64, ω₂::Float64}}
+├── func: tidal_forcing (generic function with 1 method)
+├── parameters: (A₂ = 1.8218611749508242e-5, ω₂ = 0.00014051439111137024)
+└── field dependencies: ()</code></pre><h2 id="Model"><a class="docs-heading-anchor" href="#Model">Model</a><a id="Model-1"></a><a class="docs-heading-anchor-permalink" href="#Model" title="Permalink"></a></h2><p>We built a <code>HydrostaticFreeSurfaceModel</code>:</p><pre><code class="language-julia hljs">model = HydrostaticFreeSurfaceModel(; grid, coriolis,
+                                      buoyancy = BuoyancyTracer(),
+                                      tracers = :b,
+                                      momentum_advection = WENO(),
+                                      tracer_advection = WENO(),
+                                      forcing = (; u = u_forcing))</code></pre><pre><code class="nohighlight hljs">HydrostaticFreeSurfaceModel{CPU, ImmersedBoundaryGrid}(time = 0 seconds, iteration = 0)
+├── grid: 256×1×128 ImmersedBoundaryGrid{Float64, Periodic, Flat, Bounded} on CPU with 4×0×4 halo
+├── timestepper: QuasiAdamsBashforth2TimeStepper
+├── tracers: b
+├── closure: Nothing
+├── buoyancy: BuoyancyTracer with ĝ = NegativeZDirection()
+├── free surface: SplitExplicitFreeSurface with gravitational acceleration 9.80665 m s⁻²
+│   └── substepping: FixedTimeStepSize(39.049 seconds)
+├── advection scheme: 
+│   ├── momentum: WENO{3, Float64, Float32}(order=5)
+│   └── b: WENO{3, Float64, Float32}(order=5)
+├── vertical_coordinate: ZCoordinate
+└── coriolis: FPlane{Float64}</code></pre><p>We initialize the model with the tidal flow and a linear stratification.</p><pre><code class="language-julia hljs">Nᵢ² = 1e-4  # [s⁻²] initial buoyancy frequency / stratification
+bᵢ(x, z) = Nᵢ² * z
+set!(model, u=U₂, b=bᵢ)</code></pre><p>Now let&#39;s build a <code>Simulation</code>.</p><pre><code class="language-julia hljs">Δt = 5minutes
+stop_time = 4days
+simulation = Simulation(model; Δt, stop_time)</code></pre><pre><code class="nohighlight hljs">Simulation of HydrostaticFreeSurfaceModel{CPU, ImmersedBoundaryGrid}(time = 0 seconds, iteration = 0)
+├── Next time step: 5 minutes
+├── Elapsed wall time: 0 seconds
+├── Wall time per iteration: NaN days
+├── Stop time: 4 days
+├── Stop iteration: Inf
+├── Wall time limit: Inf
+├── Minimum relative step: 0.0
+├── Callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; 4
+│   ├── stop_iteration_exceeded =&gt; -
+│   ├── wall_time_limit_exceeded =&gt; e
+│   └── nan_checker =&gt; }
+├── Output writers: OrderedDict with no entries
+└── Diagnostics: OrderedDict with no entries</code></pre><p>We add a callback to print a message about how the simulation is going,</p><pre><code class="language-julia hljs">using Printf
+
+wall_clock = Ref(time_ns())
+
+function progress(sim)
+    elapsed = 1e-9 * (time_ns() - wall_clock[])
+
+    msg = @sprintf(&quot;Iter: %d, time: %s, wall time: %s, max|w|: %6.3e, m s⁻¹\n&quot;,
+                   iteration(sim), prettytime(sim), prettytime(elapsed),
+                   maximum(abs, sim.model.velocities.w))
+
+    wall_clock[] = time_ns()
+
+    @info msg
+
+    return nothing
+end
+
+add_callback!(simulation, progress, name=:progress, IterationInterval(200))</code></pre><h2 id="Diagnostics/Output"><a class="docs-heading-anchor" href="#Diagnostics/Output">Diagnostics/Output</a><a id="Diagnostics/Output-1"></a><a class="docs-heading-anchor-permalink" href="#Diagnostics/Output" title="Permalink"></a></h2><p>Add some diagnostics. Instead of <span>$u$</span> we save the deviation of <span>$u$</span> from its instantaneous domain average, <span>$u&#39; = u - (L_x H)^{-1} \int u \, \mathrm{d}x \mathrm{d}z$</span>. We also save the stratification <span>$N^2 = \partial_z b$</span>.</p><pre><code class="language-julia hljs">b = model.tracers.b
+u, v, w = model.velocities
+U = Field(Average(u))
+u′ = u - U
+N² = ∂z(b)
+
+filename = &quot;internal_tide&quot;
+save_fields_interval = 30minutes
+
+simulation.output_writers[:fields] = JLD2Writer(model, (; u, u′, w, b, N²); filename,
+                                                schedule = TimeInterval(save_fields_interval),
+                                                overwrite_existing = true)</code></pre><pre><code class="nohighlight hljs">JLD2Writer scheduled on TimeInterval(30 minutes):
+├── filepath: internal_tide.jld2
+├── 5 outputs: (u, u′, w, b, N²)
+├── array_type: Array{Float32}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+├── file_splitting: NoFileSplitting
+└── file size: 75.7 KiB</code></pre><p>We are ready – let&#39;s run!</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
+[ Info: Iter: 0, time: 0 seconds, wall time: 3.473 minutes, max|w|: 2.089e-03, m s⁻¹
+[ Info:     ... simulation initialization complete (29.320 seconds)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (37.177 seconds).
+[ Info: Iter: 200, time: 16.667 hours, wall time: 54.799 seconds, max|w|: 5.068e-03, m s⁻¹
+[ Info: Iter: 400, time: 1.389 days, wall time: 7.832 seconds, max|w|: 5.142e-03, m s⁻¹
+[ Info: Iter: 600, time: 2.083 days, wall time: 7.594 seconds, max|w|: 1.964e-03, m s⁻¹
+[ Info: Iter: 800, time: 2.778 days, wall time: 7.312 seconds, max|w|: 4.267e-03, m s⁻¹
+[ Info: Iter: 1000, time: 3.472 days, wall time: 8.067 seconds, max|w|: 3.553e-03, m s⁻¹
+[ Info: Simulation is stopping after running for 1.837 minutes.
+[ Info: Simulation time 4 days equals or exceeds stop time 4 days.
+</code></pre><h2 id="Load-output"><a class="docs-heading-anchor" href="#Load-output">Load output</a><a id="Load-output-1"></a><a class="docs-heading-anchor-permalink" href="#Load-output" title="Permalink"></a></h2><p>First, we load the saved velocities and stratification output as <code>FieldTimeSeries</code>es.</p><pre><code class="language-julia hljs">saved_output_filename = filename * &quot;.jld2&quot;
+
+u′_t = FieldTimeSeries(saved_output_filename, &quot;u′&quot;)
+ w_t = FieldTimeSeries(saved_output_filename, &quot;w&quot;)
+N²_t = FieldTimeSeries(saved_output_filename, &quot;N²&quot;)
+
+umax = maximum(abs, u′_t[end])
+wmax = maximum(abs, w_t[end])
+
+times = u′_t.times</code></pre><h2 id="Visualize"><a class="docs-heading-anchor" href="#Visualize">Visualize</a><a id="Visualize-1"></a><a class="docs-heading-anchor-permalink" href="#Visualize" title="Permalink"></a></h2><p>Now we can visualize our resutls! We use <code>CairoMakie</code> here. On a system with OpenGL <code>using GLMakie</code> is more convenient as figures will be displayed on the screen.</p><p>We use Makie&#39;s <code>Observable</code> to animate the data. To dive into how <code>Observable</code>s work we refer to <a href="https://docs.makie.org/stable/explanations/observables">Makie.jl&#39;s Documentation</a>.</p><pre><code class="language-julia hljs">using CairoMakie
+
+n = Observable(1)
+
+title = @lift @sprintf(&quot;t = %1.2f days = %1.2f T₂&quot;,
+                       round(times[$n] / day, digits=2) , round(times[$n] / T₂, digits=2))
+
+u′ₙ = @lift u′_t[$n]
+ wₙ = @lift  w_t[$n]
+N²ₙ = @lift N²_t[$n]
+
+axis_kwargs = (xlabel = &quot;x [m]&quot;,
+               ylabel = &quot;z [m]&quot;,
+               limits = ((-grid.Lx/2, grid.Lx/2), (-grid.Lz, 0)),
+               titlesize = 20)
+
+fig = Figure(size = (700, 900))
+
+fig[1, :] = Label(fig, title, fontsize=24, tellwidth=false)
+
+ax_u = Axis(fig[2, 1]; title = &quot;u&#39;-velocity&quot;, axis_kwargs...)
+hm_u = heatmap!(ax_u, u′ₙ; nan_color=:gray, colorrange=(-umax, umax), colormap=:balance)
+Colorbar(fig[2, 2], hm_u, label = &quot;m s⁻¹&quot;)
+
+ax_w = Axis(fig[3, 1]; title = &quot;w-velocity&quot;, axis_kwargs...)
+hm_w = heatmap!(ax_w, wₙ; nan_color=:gray, colorrange=(-wmax, wmax), colormap=:balance)
+Colorbar(fig[3, 2], hm_w, label = &quot;m s⁻¹&quot;)
+
+ax_N² = Axis(fig[4, 1]; title = &quot;stratification N²&quot;, axis_kwargs...)
+hm_N² = heatmap!(ax_N², N²ₙ; nan_color=:gray, colorrange=(0.9Nᵢ², 1.1Nᵢ²), colormap=:magma)
+Colorbar(fig[4, 2], hm_N², label = &quot;s⁻²&quot;)
+
+fig</code></pre><p><img src="../internal_tide-36.png" alt/></p><p>Finally, we can record a movie.</p><pre><code class="language-julia hljs">@info &quot;Making an animation from saved data...&quot;
+
+frames = 1:length(times)
+
+record(fig, filename * &quot;.mp4&quot;, frames, framerate=16) do i
+    @info string(&quot;Plotting frame &quot;, i, &quot; of &quot;, frames[end])
+    n[] = i
+end</code></pre><pre><code class="nohighlight hljs">[ Info: Making an animation from saved data...
+[ Info: Plotting frame 1 of 193
+[ Info: Plotting frame 2 of 193
+[ Info: Plotting frame 3 of 193
+[ Info: Plotting frame 4 of 193
+[ Info: Plotting frame 5 of 193
+[ Info: Plotting frame 6 of 193
+[ Info: Plotting frame 7 of 193
+[ Info: Plotting frame 8 of 193
+[ Info: Plotting frame 9 of 193
+[ Info: Plotting frame 10 of 193
+[ Info: Plotting frame 11 of 193
+[ Info: Plotting frame 12 of 193
+[ Info: Plotting frame 13 of 193
+[ Info: Plotting frame 14 of 193
+[ Info: Plotting frame 15 of 193
+[ Info: Plotting frame 16 of 193
+[ Info: Plotting frame 17 of 193
+[ Info: Plotting frame 18 of 193
+[ Info: Plotting frame 19 of 193
+[ Info: Plotting frame 20 of 193
+[ Info: Plotting frame 21 of 193
+[ Info: Plotting frame 22 of 193
+[ Info: Plotting frame 23 of 193
+[ Info: Plotting frame 24 of 193
+[ Info: Plotting frame 25 of 193
+[ Info: Plotting frame 26 of 193
+[ Info: Plotting frame 27 of 193
+[ Info: Plotting frame 28 of 193
+[ Info: Plotting frame 29 of 193
+[ Info: Plotting frame 30 of 193
+[ Info: Plotting frame 31 of 193
+[ Info: Plotting frame 32 of 193
+[ Info: Plotting frame 33 of 193
+[ Info: Plotting frame 34 of 193
+[ Info: Plotting frame 35 of 193
+[ Info: Plotting frame 36 of 193
+[ Info: Plotting frame 37 of 193
+[ Info: Plotting frame 38 of 193
+[ Info: Plotting frame 39 of 193
+[ Info: Plotting frame 40 of 193
+[ Info: Plotting frame 41 of 193
+[ Info: Plotting frame 42 of 193
+[ Info: Plotting frame 43 of 193
+[ Info: Plotting frame 44 of 193
+[ Info: Plotting frame 45 of 193
+[ Info: Plotting frame 46 of 193
+[ Info: Plotting frame 47 of 193
+[ Info: Plotting frame 48 of 193
+[ Info: Plotting frame 49 of 193
+[ Info: Plotting frame 50 of 193
+[ Info: Plotting frame 51 of 193
+[ Info: Plotting frame 52 of 193
+[ Info: Plotting frame 53 of 193
+[ Info: Plotting frame 54 of 193
+[ Info: Plotting frame 55 of 193
+[ Info: Plotting frame 56 of 193
+[ Info: Plotting frame 57 of 193
+[ Info: Plotting frame 58 of 193
+[ Info: Plotting frame 59 of 193
+[ Info: Plotting frame 60 of 193
+[ Info: Plotting frame 61 of 193
+[ Info: Plotting frame 62 of 193
+[ Info: Plotting frame 63 of 193
+[ Info: Plotting frame 64 of 193
+[ Info: Plotting frame 65 of 193
+[ Info: Plotting frame 66 of 193
+[ Info: Plotting frame 67 of 193
+[ Info: Plotting frame 68 of 193
+[ Info: Plotting frame 69 of 193
+[ Info: Plotting frame 70 of 193
+[ Info: Plotting frame 71 of 193
+[ Info: Plotting frame 72 of 193
+[ Info: Plotting frame 73 of 193
+[ Info: Plotting frame 74 of 193
+[ Info: Plotting frame 75 of 193
+[ Info: Plotting frame 76 of 193
+[ Info: Plotting frame 77 of 193
+[ Info: Plotting frame 78 of 193
+[ Info: Plotting frame 79 of 193
+[ Info: Plotting frame 80 of 193
+[ Info: Plotting frame 81 of 193
+[ Info: Plotting frame 82 of 193
+[ Info: Plotting frame 83 of 193
+[ Info: Plotting frame 84 of 193
+[ Info: Plotting frame 85 of 193
+[ Info: Plotting frame 86 of 193
+[ Info: Plotting frame 87 of 193
+[ Info: Plotting frame 88 of 193
+[ Info: Plotting frame 89 of 193
+[ Info: Plotting frame 90 of 193
+[ Info: Plotting frame 91 of 193
+[ Info: Plotting frame 92 of 193
+[ Info: Plotting frame 93 of 193
+[ Info: Plotting frame 94 of 193
+[ Info: Plotting frame 95 of 193
+[ Info: Plotting frame 96 of 193
+[ Info: Plotting frame 97 of 193
+[ Info: Plotting frame 98 of 193
+[ Info: Plotting frame 99 of 193
+[ Info: Plotting frame 100 of 193
+[ Info: Plotting frame 101 of 193
+[ Info: Plotting frame 102 of 193
+[ Info: Plotting frame 103 of 193
+[ Info: Plotting frame 104 of 193
+[ Info: Plotting frame 105 of 193
+[ Info: Plotting frame 106 of 193
+[ Info: Plotting frame 107 of 193
+[ Info: Plotting frame 108 of 193
+[ Info: Plotting frame 109 of 193
+[ Info: Plotting frame 110 of 193
+[ Info: Plotting frame 111 of 193
+[ Info: Plotting frame 112 of 193
+[ Info: Plotting frame 113 of 193
+[ Info: Plotting frame 114 of 193
+[ Info: Plotting frame 115 of 193
+[ Info: Plotting frame 116 of 193
+[ Info: Plotting frame 117 of 193
+[ Info: Plotting frame 118 of 193
+[ Info: Plotting frame 119 of 193
+[ Info: Plotting frame 120 of 193
+[ Info: Plotting frame 121 of 193
+[ Info: Plotting frame 122 of 193
+[ Info: Plotting frame 123 of 193
+[ Info: Plotting frame 124 of 193
+[ Info: Plotting frame 125 of 193
+[ Info: Plotting frame 126 of 193
+[ Info: Plotting frame 127 of 193
+[ Info: Plotting frame 128 of 193
+[ Info: Plotting frame 129 of 193
+[ Info: Plotting frame 130 of 193
+[ Info: Plotting frame 131 of 193
+[ Info: Plotting frame 132 of 193
+[ Info: Plotting frame 133 of 193
+[ Info: Plotting frame 134 of 193
+[ Info: Plotting frame 135 of 193
+[ Info: Plotting frame 136 of 193
+[ Info: Plotting frame 137 of 193
+[ Info: Plotting frame 138 of 193
+[ Info: Plotting frame 139 of 193
+[ Info: Plotting frame 140 of 193
+[ Info: Plotting frame 141 of 193
+[ Info: Plotting frame 142 of 193
+[ Info: Plotting frame 143 of 193
+[ Info: Plotting frame 144 of 193
+[ Info: Plotting frame 145 of 193
+[ Info: Plotting frame 146 of 193
+[ Info: Plotting frame 147 of 193
+[ Info: Plotting frame 148 of 193
+[ Info: Plotting frame 149 of 193
+[ Info: Plotting frame 150 of 193
+[ Info: Plotting frame 151 of 193
+[ Info: Plotting frame 152 of 193
+[ Info: Plotting frame 153 of 193
+[ Info: Plotting frame 154 of 193
+[ Info: Plotting frame 155 of 193
+[ Info: Plotting frame 156 of 193
+[ Info: Plotting frame 157 of 193
+[ Info: Plotting frame 158 of 193
+[ Info: Plotting frame 159 of 193
+[ Info: Plotting frame 160 of 193
+[ Info: Plotting frame 161 of 193
+[ Info: Plotting frame 162 of 193
+[ Info: Plotting frame 163 of 193
+[ Info: Plotting frame 164 of 193
+[ Info: Plotting frame 165 of 193
+[ Info: Plotting frame 166 of 193
+[ Info: Plotting frame 167 of 193
+[ Info: Plotting frame 168 of 193
+[ Info: Plotting frame 169 of 193
+[ Info: Plotting frame 170 of 193
+[ Info: Plotting frame 171 of 193
+[ Info: Plotting frame 172 of 193
+[ Info: Plotting frame 173 of 193
+[ Info: Plotting frame 174 of 193
+[ Info: Plotting frame 175 of 193
+[ Info: Plotting frame 176 of 193
+[ Info: Plotting frame 177 of 193
+[ Info: Plotting frame 178 of 193
+[ Info: Plotting frame 179 of 193
+[ Info: Plotting frame 180 of 193
+[ Info: Plotting frame 181 of 193
+[ Info: Plotting frame 182 of 193
+[ Info: Plotting frame 183 of 193
+[ Info: Plotting frame 184 of 193
+[ Info: Plotting frame 185 of 193
+[ Info: Plotting frame 186 of 193
+[ Info: Plotting frame 187 of 193
+[ Info: Plotting frame 188 of 193
+[ Info: Plotting frame 189 of 193
+[ Info: Plotting frame 190 of 193
+[ Info: Plotting frame 191 of 193
+[ Info: Plotting frame 192 of 193
+[ Info: Plotting frame 193 of 193
+</code></pre><p><video src="../internal_tide.mp4" controls="true" title><a href="../internal_tide.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../internal_wave/">« Internal wave</a><a class="docs-footer-nextpage" href="../convecting_plankton/">Convecting plankton »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Wednesday 3 September 2025 06:12">Wednesday 3 September 2025</span>. Using Julia version 1.10.10.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
