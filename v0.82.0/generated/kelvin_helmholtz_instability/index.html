@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Kelvin-Helmholtz instability · Oceananigans.jl</title><script data-outdated-warner src="../../assets/warner.js"></script><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/generated/kelvin_helmholtz_instability/"/><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../baroclinic_adjustment/">Baroclinic adjustment</a></li><li class="is-active"><a class="tocitem" href>Kelvin-Helmholtz instability</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#The-physical-domain"><span>The physical domain</span></a></li><li class="toplevel"><a class="tocitem" href="#The-basic-state"><span>The basic state</span></a></li><li class="toplevel"><a class="tocitem" href="#Linear-Instabilities"><span>Linear Instabilities</span></a></li><li class="toplevel"><a class="tocitem" href="#The-power-method-algorithm"><span>The power method algorithm</span></a></li><li class="toplevel"><a class="tocitem" href="#The-model"><span>The model</span></a></li><li class="toplevel"><a class="tocitem" href="#Eigenplotting"><span>Eigenplotting</span></a></li><li class="toplevel"><a class="tocitem" href="#Rev-your-engines..."><span>Rev your engines...</span></a></li><li class="toplevel"><a class="tocitem" href="#Powerful-convergence"><span>Powerful convergence</span></a></li><li class="toplevel"><a class="tocitem" href="#Now-for-the-fun-part"><span>Now for the fun part</span></a></li><li><a class="tocitem" href="#Pretty-things"><span>Pretty things</span></a></li></ul></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-4-3" type="checkbox"/><label class="tocitem" for="menuitem-4-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-4" type="checkbox"/><label class="tocitem" for="menuitem-4-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">Model setup</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../model_setup/overview/">Overview</a></li><li><a class="tocitem" href="../../model_setup/architecture/">Architecture</a></li><li><a class="tocitem" href="../../model_setup/number_type/">Number type</a></li><li><a class="tocitem" href="../../model_setup/grids/">Grid</a></li><li><a class="tocitem" href="../../model_setup/clock/">Clock</a></li><li><a class="tocitem" href="../../model_setup/coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../../model_setup/tracers/">Tracers</a></li><li><a class="tocitem" href="../../model_setup/buoyancy_and_equation_of_state/">Buoyancy models and equation of state</a></li><li><a class="tocitem" href="../../model_setup/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../model_setup/forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../../model_setup/background_fields/">Background fields</a></li><li><a class="tocitem" href="../../model_setup/turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../../model_setup/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../model_setup/diagnostics/">Diagnostics</a></li><li><a class="tocitem" href="../../model_setup/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../model_setup/checkpointing/">Checkpointing</a></li><li><a class="tocitem" href="../../model_setup/setting_initial_conditions/">Setting initial conditions</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Kelvin-Helmholtz instability</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Kelvin-Helmholtz instability</a></li></ul></nav><div class="docs-right"><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Stratified-Kelvin-Helmholtz-instability"><a class="docs-heading-anchor" href="#Stratified-Kelvin-Helmholtz-instability">Stratified Kelvin-Helmholtz instability</a><a id="Stratified-Kelvin-Helmholtz-instability-1"></a><a class="docs-heading-anchor-permalink" href="#Stratified-Kelvin-Helmholtz-instability" title="Permalink"></a></h1><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie&quot;</code></pre><h2 id="The-physical-domain"><a class="docs-heading-anchor" href="#The-physical-domain">The physical domain</a><a id="The-physical-domain-1"></a><a class="docs-heading-anchor-permalink" href="#The-physical-domain" title="Permalink"></a></h2><p>We simulate a Kelvin-Helmholtz instability in two-dimensions in <span>$x, z$</span> and therefore assign <code>Flat</code> to the <code>y</code> direction,</p><pre><code class="language-julia hljs">using Oceananigans
+
+grid = RectilinearGrid(size=(64, 64), x=(-5, 5), z=(-5, 5),
+                       topology=(Periodic, Flat, Bounded))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">64×1×64 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+├── Periodic x ∈ [-5.0, 5.0)      regularly spaced with Δx=0.15625
+├── Flat y
+└── Bounded  z ∈ [-5.0, 5.0]      regularly spaced with Δz=0.15625</code></pre><h1 id="The-basic-state"><a class="docs-heading-anchor" href="#The-basic-state">The basic state</a><a id="The-basic-state-1"></a><a class="docs-heading-anchor-permalink" href="#The-basic-state" title="Permalink"></a></h1><p>We&#39;re simulating the instability of a sheared and stably-stratified basic state <span>$U(z)$</span> and <span>$B(z)$</span>. Two parameters define our basic state: the Richardson number,</p><p class="math-container">\[Ri = \frac{∂_z B}{(∂_z U)^2} ,\]</p><p>and the width of the stratification layer, <span>$h$</span>.</p><pre><code class="language-julia hljs">shear_flow(x, y, z, t) = tanh(z)
+
+stratification(x, y, z, t, p) = p.h * p.Ri * tanh(z / p.h)
+
+U = BackgroundField(shear_flow)
+
+B = BackgroundField(stratification, parameters=(Ri=0.1, h=1/4))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">BackgroundField{typeof(Main.stratification), NamedTuple{(:Ri, :h), Tuple{Float64, Float64}}}
+├── func: stratification (generic function with 1 method)
+└── parameters: (Ri = 0.1, h = 0.25)</code></pre><p>Our basic state thus has a thin layer of stratification in the center of the channel, embedded within a thicker shear layer surrounded by unstratified fluid.</p><pre><code class="language-julia hljs">using CairoMakie
+
+zF = znodes(grid, Face())
+zC = znodes(grid, Center())
+
+Ri, h = B.parameters
+
+fig = Figure(resolution = (850, 450))
+
+ax = Axis(fig[1, 1], xlabel = &quot;U(z)&quot;, ylabel = &quot;z&quot;)
+lines!(ax, shear_flow.(0, 0, zC, 0), zC; linewidth = 3)
+
+ax = Axis(fig[1, 2], xlabel = &quot;B(z)&quot;)
+lines!(ax, [stratification(0, 0, z, 0, (Ri=Ri, h=h)) for z in zC], zC; linewidth = 3, color = :red)
+
+ax = Axis(fig[1, 3], xlabel = &quot;Ri(z)&quot;)
+lines!(ax, [Ri * sech(z / h)^2 / sech(z)^2 for z in zF], zF; linewidth = 3, color = :black) # Ri(z)= ∂_z B / (∂_z U)²; derivatives computed by hand
+
+fig</code></pre><img src='data:image/svg+xml;utf-8,<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="638pt" height="338pt" viewBox="0 0 638 338" version="1.1">
+<defs>
+<g>
+<symbol overflow="visible" id="glyph0-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph0-1-CBrESuN/">
+<path style="stroke:none;" d="M 11.609375 -4 C 11.609375 -1.375 9.625 0.328125 6.546875 0.328125 C 3.4375 0.328125 1.53125 -1.328125 1.53125 -4 C 1.53125 -4 1.53125 -13.125 1.53125 -13.125 C 1.53125 -13.125 3.203125 -13.125 3.203125 -13.125 C 3.203125 -13.125 3.203125 -4 3.203125 -4 C 3.203125 -2.09375 4.59375 -1.15625 6.546875 -1.15625 C 8.65625 -1.15625 9.9375 -2.234375 9.9375 -4 C 9.9375 -4 9.9375 -13.125 9.9375 -13.125 C 9.9375 -13.125 11.609375 -13.125 11.609375 -13.125 C 11.609375 -13.125 11.609375 -4 11.609375 -4 Z M 11.609375 -4 "/>
+</symbol>
+<symbol overflow="visible" id="glyph0-2-CBrESuN/">
+<path style="stroke:none;" d="M 8.21875 0 C 8.21875 0 0.5625 0 0.5625 0 C 0.5625 0 0.5625 -1.34375 0.5625 -1.34375 C 0.5625 -1.34375 6.1875 -8.125 6.1875 -8.125 C 6.1875 -8.125 0.9375 -8.125 0.9375 -8.125 C 0.9375 -8.125 0.9375 -9.4375 0.9375 -9.4375 C 0.9375 -9.4375 7.96875 -9.4375 7.96875 -9.4375 C 7.96875 -9.4375 7.96875 -8.09375 7.96875 -8.09375 C 7.96875 -8.09375 2.375 -1.3125 2.375 -1.3125 C 2.375 -1.3125 8.21875 -1.3125 8.21875 -1.3125 C 8.21875 -1.3125 8.21875 0 8.21875 0 Z M 8.21875 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph0-3-CBrESuN/">
+<path style="stroke:none;" d="M 4.609375 -4.640625 C 4.609375 -1.8125 3.46875 1.453125 1.671875 3.8125 C 1.671875 3.8125 0.6875 3.8125 0.6875 3.8125 C 2.265625 1.265625 3.15625 -1.78125 3.15625 -4.640625 C 3.15625 -7.53125 2.265625 -10.546875 0.6875 -13.125 C 0.6875 -13.125 1.671875 -13.125 1.671875 -13.125 C 3.46875 -10.765625 4.609375 -7.484375 4.609375 -4.640625 Z M 4.609375 -4.640625 "/>
+</symbol>
+<symbol overflow="visible" id="glyph1-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph1-1-CBrESuN/">
+<path style="stroke:none;" d="M 5.234375 3.8125 C 5.234375 3.8125 4.25 3.8125 4.25 3.8125 C 2.453125 1.453125 1.3125 -1.8125 1.3125 -4.65625 C 1.3125 -7.484375 2.453125 -10.765625 4.25 -13.125 C 4.25 -13.125 5.234375 -13.125 5.234375 -13.125 C 3.65625 -10.5625 2.765625 -7.53125 2.765625 -4.65625 C 2.765625 -1.78125 3.65625 1.234375 5.234375 3.8125 Z M 5.234375 3.8125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph2-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph2-1-CBrESuN/">
+<path style="stroke:none;" d="M 8.21875 0 C 8.21875 0 0.5625 0 0.5625 0 C 0.5625 0 0.5625 -1.34375 0.5625 -1.34375 C 0.5625 -1.34375 6.1875 -8.125 6.1875 -8.125 C 6.1875 -8.125 0.9375 -8.125 0.9375 -8.125 C 0.9375 -8.125 0.9375 -9.4375 0.9375 -9.4375 C 0.9375 -9.4375 7.96875 -9.4375 7.96875 -9.4375 C 7.96875 -9.4375 7.96875 -8.09375 7.96875 -8.09375 C 7.96875 -8.09375 2.375 -1.3125 2.375 -1.3125 C 2.375 -1.3125 8.21875 -1.3125 8.21875 -1.3125 C 8.21875 -1.3125 8.21875 0 8.21875 0 Z M 8.21875 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph2-2-CBrESuN/">
+<path style="stroke:none;" d="M 4.609375 -4.640625 C 4.609375 -1.8125 3.46875 1.453125 1.671875 3.8125 C 1.671875 3.8125 0.6875 3.8125 0.6875 3.8125 C 2.265625 1.265625 3.15625 -1.78125 3.15625 -4.640625 C 3.15625 -7.53125 2.265625 -10.546875 0.6875 -13.125 C 0.6875 -13.125 1.671875 -13.125 1.671875 -13.125 C 3.46875 -10.765625 4.609375 -7.484375 4.609375 -4.640625 Z M 4.609375 -4.640625 "/>
+</symbol>
+<symbol overflow="visible" id="glyph2-3-CBrESuN/">
+<path style="stroke:none;" d="M 5.109375 -4.3125 C 5.109375 -4.3125 0.828125 -4.3125 0.828125 -4.3125 C 0.828125 -4.3125 0.828125 -5.609375 0.828125 -5.609375 C 0.828125 -5.609375 5.109375 -5.609375 5.109375 -5.609375 C 5.109375 -5.609375 5.109375 -4.3125 5.109375 -4.3125 Z M 5.109375 -4.3125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph2-4-CBrESuN/">
+<path style="stroke:none;" d="M 9.109375 -3.703125 C 9.109375 -1.296875 7.421875 0.265625 4.78125 0.265625 C 2.171875 0.265625 0.78125 -1.015625 0.578125 -3.859375 C 0.578125 -3.859375 2.15625 -3.859375 2.15625 -3.859375 C 2.265625 -2 3.109375 -1.140625 4.84375 -1.140625 C 6.5 -1.140625 7.484375 -2.09375 7.484375 -3.6875 C 7.484375 -5.109375 6.59375 -5.9375 4.84375 -5.9375 C 4.84375 -5.9375 3.984375 -5.9375 3.984375 -5.9375 C 3.984375 -5.9375 3.984375 -7.265625 3.984375 -7.265625 C 6.515625 -7.265625 7.109375 -7.828125 7.109375 -9.203125 C 7.109375 -10.546875 6.265625 -11.375 4.859375 -11.375 C 3.234375 -11.375 2.46875 -10.53125 2.4375 -8.640625 C 2.4375 -8.640625 0.84375 -8.640625 0.84375 -8.640625 C 0.90625 -11.359375 2.265625 -12.765625 4.84375 -12.765625 C 7.265625 -12.765625 8.734375 -11.453125 8.734375 -9.25 C 8.734375 -7.96875 8.140625 -7.140625 6.953125 -6.671875 C 8.484375 -6.15625 9.109375 -5.25 9.109375 -3.703125 Z M 9.109375 -3.703125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph3-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph3-1-CBrESuN/">
+<path style="stroke:none;" d="M 5.109375 -4.3125 C 5.109375 -4.3125 0.828125 -4.3125 0.828125 -4.3125 C 0.828125 -4.3125 0.828125 -5.609375 0.828125 -5.609375 C 0.828125 -5.609375 5.109375 -5.609375 5.109375 -5.609375 C 5.109375 -5.609375 5.109375 -4.3125 5.109375 -4.3125 Z M 5.109375 -4.3125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph3-2-CBrESuN/">
+<path style="stroke:none;" d="M 3.4375 0 C 3.4375 0 1.5625 0 1.5625 0 C 1.5625 0 1.5625 -1.875 1.5625 -1.875 C 1.5625 -1.875 3.4375 -1.875 3.4375 -1.875 C 3.4375 -1.875 3.4375 0 3.4375 0 Z M 3.4375 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph3-3-CBrESuN/">
+<path style="stroke:none;" d="M 9.125 -6.140625 C 9.125 -1.9375 7.65625 0.265625 4.953125 0.265625 C 2.21875 0.265625 0.78125 -1.9375 0.78125 -6.25 C 0.78125 -10.53125 2.203125 -12.765625 4.953125 -12.765625 C 7.71875 -12.765625 9.125 -10.5625 9.125 -6.140625 Z M 7.5 -6.28125 C 7.5 -9.703125 6.65625 -11.359375 4.953125 -11.359375 C 3.234375 -11.359375 2.390625 -9.71875 2.390625 -6.234375 C 2.390625 -2.734375 3.234375 -1.046875 4.90625 -1.046875 C 6.671875 -1.046875 7.5 -2.65625 7.5 -6.28125 Z M 7.5 -6.28125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph4-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph4-1-CBrESuN/">
+<path style="stroke:none;" d="M 6.25 0 C 6.25 0 4.65625 0 4.65625 0 C 4.65625 0 4.65625 -9.09375 4.65625 -9.09375 C 4.65625 -9.09375 1.84375 -9.09375 1.84375 -9.09375 C 1.84375 -9.09375 1.84375 -10.21875 1.84375 -10.21875 C 4.28125 -10.53125 4.640625 -10.796875 5.203125 -12.765625 C 5.203125 -12.765625 6.25 -12.765625 6.25 -12.765625 C 6.25 -12.765625 6.25 0 6.25 0 Z M 6.25 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph4-2-CBrESuN/">
+<path style="stroke:none;" d="M 3.4375 0 C 3.4375 0 1.5625 0 1.5625 0 C 1.5625 0 1.5625 -1.875 1.5625 -1.875 C 1.5625 -1.875 3.4375 -1.875 3.4375 -1.875 C 3.4375 -1.875 3.4375 0 3.4375 0 Z M 3.4375 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph4-3-CBrESuN/">
+<path style="stroke:none;" d="M 9.125 -6.140625 C 9.125 -1.9375 7.65625 0.265625 4.953125 0.265625 C 2.21875 0.265625 0.78125 -1.9375 0.78125 -6.25 C 0.78125 -10.53125 2.203125 -12.765625 4.953125 -12.765625 C 7.71875 -12.765625 9.125 -10.5625 9.125 -6.140625 Z M 7.5 -6.28125 C 7.5 -9.703125 6.65625 -11.359375 4.953125 -11.359375 C 3.234375 -11.359375 2.390625 -9.71875 2.390625 -6.234375 C 2.390625 -2.734375 3.234375 -1.046875 4.90625 -1.046875 C 6.671875 -1.046875 7.5 -2.65625 7.5 -6.28125 Z M 7.5 -6.28125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph4-4-CBrESuN/">
+<path style="stroke:none;" d="M 5.109375 -4.3125 C 5.109375 -4.3125 0.828125 -4.3125 0.828125 -4.3125 C 0.828125 -4.3125 0.828125 -5.609375 0.828125 -5.609375 C 0.828125 -5.609375 5.109375 -5.609375 5.109375 -5.609375 C 5.109375 -5.609375 5.109375 -4.3125 5.109375 -4.3125 Z M 5.109375 -4.3125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph4-5-CBrESuN/">
+<path style="stroke:none;" d="M 9.203125 -9.015625 C 9.203125 -7.453125 8.28125 -6.125 6.5 -5.171875 C 6.5 -5.171875 4.703125 -4.1875 4.703125 -4.1875 C 3.125 -3.28125 2.5625 -2.609375 2.390625 -1.5625 C 2.390625 -1.5625 9.109375 -1.5625 9.109375 -1.5625 C 9.109375 -1.5625 9.109375 0 9.109375 0 C 9.109375 0 0.609375 0 0.609375 0 C 0.75 -2.8125 1.53125 -4.015625 4.1875 -5.53125 C 4.1875 -5.53125 5.84375 -6.46875 5.84375 -6.46875 C 6.984375 -7.109375 7.578125 -7.96875 7.578125 -8.984375 C 7.578125 -10.34375 6.5 -11.375 5.0625 -11.375 C 3.484375 -11.375 2.609375 -10.46875 2.484375 -8.328125 C 2.484375 -8.328125 0.90625 -8.328125 0.90625 -8.328125 C 0.984375 -11.4375 2.5 -12.765625 5.109375 -12.765625 C 7.53125 -12.765625 9.203125 -11.171875 9.203125 -9.015625 Z M 9.203125 -9.015625 "/>
+</symbol>
+<symbol overflow="visible" id="glyph4-6-CBrESuN/">
+<path style="stroke:none;" d="M 9.234375 -4.234375 C 9.234375 -1.53125 7.4375 0.265625 4.859375 0.265625 C 2.59375 0.265625 1.15625 -0.734375 0.625 -3.28125 C 0.625 -3.28125 2.21875 -3.28125 2.21875 -3.28125 C 2.59375 -1.84375 3.4375 -1.140625 4.828125 -1.140625 C 6.546875 -1.140625 7.609375 -2.171875 7.609375 -4.015625 C 7.609375 -5.90625 6.53125 -7 4.828125 -7 C 3.828125 -7 3.21875 -6.703125 2.484375 -5.8125 C 2.484375 -5.8125 1.03125 -5.8125 1.03125 -5.8125 C 1.03125 -5.8125 1.984375 -12.484375 1.984375 -12.484375 C 1.984375 -12.484375 8.5625 -12.484375 8.5625 -12.484375 C 8.5625 -12.484375 8.5625 -10.921875 8.5625 -10.921875 C 8.5625 -10.921875 3.265625 -10.921875 3.265625 -10.921875 C 3.265625 -10.921875 2.75 -7.625 2.75 -7.625 C 3.484375 -8.171875 4.21875 -8.40625 5.109375 -8.40625 C 7.5625 -8.40625 9.234375 -6.75 9.234375 -4.234375 Z M 9.234375 -4.234375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph4-7-CBrESuN/">
+<path style="stroke:none;" d="M 9.109375 -3.703125 C 9.109375 -1.296875 7.421875 0.265625 4.78125 0.265625 C 2.171875 0.265625 0.78125 -1.015625 0.578125 -3.859375 C 0.578125 -3.859375 2.15625 -3.859375 2.15625 -3.859375 C 2.265625 -2 3.109375 -1.140625 4.84375 -1.140625 C 6.5 -1.140625 7.484375 -2.09375 7.484375 -3.6875 C 7.484375 -5.109375 6.59375 -5.9375 4.84375 -5.9375 C 4.84375 -5.9375 3.984375 -5.9375 3.984375 -5.9375 C 3.984375 -5.9375 3.984375 -7.265625 3.984375 -7.265625 C 6.515625 -7.265625 7.109375 -7.828125 7.109375 -9.203125 C 7.109375 -10.546875 6.265625 -11.375 4.859375 -11.375 C 3.234375 -11.375 2.46875 -10.53125 2.4375 -8.640625 C 2.4375 -8.640625 0.84375 -8.640625 0.84375 -8.640625 C 0.90625 -11.359375 2.265625 -12.765625 4.84375 -12.765625 C 7.265625 -12.765625 8.734375 -11.453125 8.734375 -9.25 C 8.734375 -7.96875 8.140625 -7.140625 6.953125 -6.671875 C 8.484375 -6.15625 9.109375 -5.25 9.109375 -3.703125 Z M 9.109375 -3.703125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph5-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph5-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.125 -6.140625 C 9.125 -1.9375 7.65625 0.265625 4.953125 0.265625 C 2.21875 0.265625 0.78125 -1.9375 0.78125 -6.25 C 0.78125 -10.53125 2.203125 -12.765625 4.953125 -12.765625 C 7.71875 -12.765625 9.125 -10.5625 9.125 -6.140625 Z M 7.5 -6.28125 C 7.5 -9.703125 6.65625 -11.359375 4.953125 -11.359375 C 3.234375 -11.359375 2.390625 -9.71875 2.390625 -6.234375 C 2.390625 -2.734375 3.234375 -1.046875 4.90625 -1.046875 C 6.671875 -1.046875 7.5 -2.65625 7.5 -6.28125 Z M 7.5 -6.28125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph6-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph6-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.234375 -4.234375 C 9.234375 -1.53125 7.4375 0.265625 4.859375 0.265625 C 2.59375 0.265625 1.15625 -0.734375 0.625 -3.28125 C 0.625 -3.28125 2.21875 -3.28125 2.21875 -3.28125 C 2.59375 -1.84375 3.4375 -1.140625 4.828125 -1.140625 C 6.546875 -1.140625 7.609375 -2.171875 7.609375 -4.015625 C 7.609375 -5.90625 6.53125 -7 4.828125 -7 C 3.828125 -7 3.21875 -6.703125 2.484375 -5.8125 C 2.484375 -5.8125 1.03125 -5.8125 1.03125 -5.8125 C 1.03125 -5.8125 1.984375 -12.484375 1.984375 -12.484375 C 1.984375 -12.484375 8.5625 -12.484375 8.5625 -12.484375 C 8.5625 -12.484375 8.5625 -10.921875 8.5625 -10.921875 C 8.5625 -10.921875 3.265625 -10.921875 3.265625 -10.921875 C 3.265625 -10.921875 2.75 -7.625 2.75 -7.625 C 3.484375 -8.171875 4.21875 -8.40625 5.109375 -8.40625 C 7.5625 -8.40625 9.234375 -6.75 9.234375 -4.234375 Z M 9.234375 -4.234375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph7-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph7-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.125 -6.140625 C 9.125 -1.9375 7.65625 0.265625 4.953125 0.265625 C 2.21875 0.265625 0.78125 -1.9375 0.78125 -6.25 C 0.78125 -10.53125 2.203125 -12.765625 4.953125 -12.765625 C 7.71875 -12.765625 9.125 -10.5625 9.125 -6.140625 Z M 7.5 -6.28125 C 7.5 -9.703125 6.65625 -11.359375 4.953125 -11.359375 C 3.234375 -11.359375 2.390625 -9.71875 2.390625 -6.234375 C 2.390625 -2.734375 3.234375 -1.046875 4.90625 -1.046875 C 6.671875 -1.046875 7.5 -2.65625 7.5 -6.28125 Z M 7.5 -6.28125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph7-2-CBrESuN/">
+<path style="stroke:none;" d="M 3.4375 0 C 3.4375 0 1.5625 0 1.5625 0 C 1.5625 0 1.5625 -1.875 1.5625 -1.875 C 1.5625 -1.875 3.4375 -1.875 3.4375 -1.875 C 3.4375 -1.875 3.4375 0 3.4375 0 Z M 3.4375 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph7-3-CBrESuN/">
+<path style="stroke:none;" d="M 5.109375 -4.3125 C 5.109375 -4.3125 0.828125 -4.3125 0.828125 -4.3125 C 0.828125 -4.3125 0.828125 -5.609375 0.828125 -5.609375 C 0.828125 -5.609375 5.109375 -5.609375 5.109375 -5.609375 C 5.109375 -5.609375 5.109375 -4.3125 5.109375 -4.3125 Z M 5.109375 -4.3125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph7-4-CBrESuN/">
+<path style="stroke:none;" d="M 6.25 0 C 6.25 0 4.65625 0 4.65625 0 C 4.65625 0 4.65625 -9.09375 4.65625 -9.09375 C 4.65625 -9.09375 1.84375 -9.09375 1.84375 -9.09375 C 1.84375 -9.09375 1.84375 -10.21875 1.84375 -10.21875 C 4.28125 -10.53125 4.640625 -10.796875 5.203125 -12.765625 C 5.203125 -12.765625 6.25 -12.765625 6.25 -12.765625 C 6.25 -12.765625 6.25 0 6.25 0 Z M 6.25 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph8-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph8-1-CBrESuN/">
+<path style="stroke:none;" d="M 3.4375 0 C 3.4375 0 1.5625 0 1.5625 0 C 1.5625 0 1.5625 -1.875 1.5625 -1.875 C 1.5625 -1.875 3.4375 -1.875 3.4375 -1.875 C 3.4375 -1.875 3.4375 0 3.4375 0 Z M 3.4375 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph8-2-CBrESuN/">
+<path style="stroke:none;" d="M 9.234375 -4.234375 C 9.234375 -1.53125 7.4375 0.265625 4.859375 0.265625 C 2.59375 0.265625 1.15625 -0.734375 0.625 -3.28125 C 0.625 -3.28125 2.21875 -3.28125 2.21875 -3.28125 C 2.59375 -1.84375 3.4375 -1.140625 4.828125 -1.140625 C 6.546875 -1.140625 7.609375 -2.171875 7.609375 -4.015625 C 7.609375 -5.90625 6.53125 -7 4.828125 -7 C 3.828125 -7 3.21875 -6.703125 2.484375 -5.8125 C 2.484375 -5.8125 1.03125 -5.8125 1.03125 -5.8125 C 1.03125 -5.8125 1.984375 -12.484375 1.984375 -12.484375 C 1.984375 -12.484375 8.5625 -12.484375 8.5625 -12.484375 C 8.5625 -12.484375 8.5625 -10.921875 8.5625 -10.921875 C 8.5625 -10.921875 3.265625 -10.921875 3.265625 -10.921875 C 3.265625 -10.921875 2.75 -7.625 2.75 -7.625 C 3.484375 -8.171875 4.21875 -8.40625 5.109375 -8.40625 C 7.5625 -8.40625 9.234375 -6.75 9.234375 -4.234375 Z M 9.234375 -4.234375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph9-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph9-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.125 -6.140625 C 9.125 -1.9375 7.65625 0.265625 4.953125 0.265625 C 2.21875 0.265625 0.78125 -1.9375 0.78125 -6.25 C 0.78125 -10.53125 2.203125 -12.765625 4.953125 -12.765625 C 7.71875 -12.765625 9.125 -10.5625 9.125 -6.140625 Z M 7.5 -6.28125 C 7.5 -9.703125 6.65625 -11.359375 4.953125 -11.359375 C 3.234375 -11.359375 2.390625 -9.71875 2.390625 -6.234375 C 2.390625 -2.734375 3.234375 -1.046875 4.90625 -1.046875 C 6.671875 -1.046875 7.5 -2.65625 7.5 -6.28125 Z M 7.5 -6.28125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph9-2-CBrESuN/">
+<path style="stroke:none;" d="M 3.4375 0 C 3.4375 0 1.5625 0 1.5625 0 C 1.5625 0 1.5625 -1.875 1.5625 -1.875 C 1.5625 -1.875 3.4375 -1.875 3.4375 -1.875 C 3.4375 -1.875 3.4375 0 3.4375 0 Z M 3.4375 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph10-0-CBrESuN/">
+<path style="stroke:none;" d="M -13.125 -0.359375 C -13.125 -0.359375 0 -0.359375 0 -0.359375 C 0 -0.359375 0 -8.453125 0 -8.453125 C 0 -8.453125 -13.125 -8.453125 -13.125 -8.453125 C -13.125 -8.453125 -13.125 -0.359375 -13.125 -0.359375 Z M -0.9375 -1.296875 C -0.9375 -1.296875 -12.1875 -1.296875 -12.1875 -1.296875 C -12.1875 -1.296875 -12.1875 -7.53125 -12.1875 -7.53125 C -12.1875 -7.53125 -0.9375 -7.53125 -0.9375 -7.53125 C -0.9375 -7.53125 -0.9375 -1.296875 -0.9375 -1.296875 Z M -0.9375 -1.296875 "/>
+</symbol>
+<symbol overflow="visible" id="glyph10-1-CBrESuN/">
+<path style="stroke:none;" d="M 0 -8.21875 C 0 -8.21875 0 -0.5625 0 -0.5625 C 0 -0.5625 -1.34375 -0.5625 -1.34375 -0.5625 C -1.34375 -0.5625 -8.125 -6.1875 -8.125 -6.1875 C -8.125 -6.1875 -8.125 -0.9375 -8.125 -0.9375 C -8.125 -0.9375 -9.4375 -0.9375 -9.4375 -0.9375 C -9.4375 -0.9375 -9.4375 -7.96875 -9.4375 -7.96875 C -9.4375 -7.96875 -8.09375 -7.96875 -8.09375 -7.96875 C -8.09375 -7.96875 -1.3125 -2.375 -1.3125 -2.375 C -1.3125 -2.375 -1.3125 -8.21875 -1.3125 -8.21875 C -1.3125 -8.21875 0 -8.21875 0 -8.21875 Z M 0 -8.21875 "/>
+</symbol>
+<symbol overflow="visible" id="glyph11-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph11-1-CBrESuN/">
+<path style="stroke:none;" d="M 5.109375 -4.3125 C 5.109375 -4.3125 0.828125 -4.3125 0.828125 -4.3125 C 0.828125 -4.3125 0.828125 -5.609375 0.828125 -5.609375 C 0.828125 -5.609375 5.109375 -5.609375 5.109375 -5.609375 C 5.109375 -5.609375 5.109375 -4.3125 5.109375 -4.3125 Z M 5.109375 -4.3125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph12-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph12-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.109375 -3.703125 C 9.109375 -1.296875 7.421875 0.265625 4.78125 0.265625 C 2.171875 0.265625 0.78125 -1.015625 0.578125 -3.859375 C 0.578125 -3.859375 2.15625 -3.859375 2.15625 -3.859375 C 2.265625 -2 3.109375 -1.140625 4.84375 -1.140625 C 6.5 -1.140625 7.484375 -2.09375 7.484375 -3.6875 C 7.484375 -5.109375 6.59375 -5.9375 4.84375 -5.9375 C 4.84375 -5.9375 3.984375 -5.9375 3.984375 -5.9375 C 3.984375 -5.9375 3.984375 -7.265625 3.984375 -7.265625 C 6.515625 -7.265625 7.109375 -7.828125 7.109375 -9.203125 C 7.109375 -10.546875 6.265625 -11.375 4.859375 -11.375 C 3.234375 -11.375 2.46875 -10.53125 2.4375 -8.640625 C 2.4375 -8.640625 0.84375 -8.640625 0.84375 -8.640625 C 0.90625 -11.359375 2.265625 -12.765625 4.84375 -12.765625 C 7.265625 -12.765625 8.734375 -11.453125 8.734375 -9.25 C 8.734375 -7.96875 8.140625 -7.140625 6.953125 -6.671875 C 8.484375 -6.15625 9.109375 -5.25 9.109375 -3.703125 Z M 9.109375 -3.703125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph13-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph13-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.125 -6.140625 C 9.125 -1.9375 7.65625 0.265625 4.953125 0.265625 C 2.21875 0.265625 0.78125 -1.9375 0.78125 -6.25 C 0.78125 -10.53125 2.203125 -12.765625 4.953125 -12.765625 C 7.71875 -12.765625 9.125 -10.5625 9.125 -6.140625 Z M 7.5 -6.28125 C 7.5 -9.703125 6.65625 -11.359375 4.953125 -11.359375 C 3.234375 -11.359375 2.390625 -9.71875 2.390625 -6.234375 C 2.390625 -2.734375 3.234375 -1.046875 4.90625 -1.046875 C 6.671875 -1.046875 7.5 -2.65625 7.5 -6.28125 Z M 7.5 -6.28125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph14-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph14-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.109375 -3.703125 C 9.109375 -1.296875 7.421875 0.265625 4.78125 0.265625 C 2.171875 0.265625 0.78125 -1.015625 0.578125 -3.859375 C 0.578125 -3.859375 2.15625 -3.859375 2.15625 -3.859375 C 2.265625 -2 3.109375 -1.140625 4.84375 -1.140625 C 6.5 -1.140625 7.484375 -2.09375 7.484375 -3.6875 C 7.484375 -5.109375 6.59375 -5.9375 4.84375 -5.9375 C 4.84375 -5.9375 3.984375 -5.9375 3.984375 -5.9375 C 3.984375 -5.9375 3.984375 -7.265625 3.984375 -7.265625 C 6.515625 -7.265625 7.109375 -7.828125 7.109375 -9.203125 C 7.109375 -10.546875 6.265625 -11.375 4.859375 -11.375 C 3.234375 -11.375 2.46875 -10.53125 2.4375 -8.640625 C 2.4375 -8.640625 0.84375 -8.640625 0.84375 -8.640625 C 0.90625 -11.359375 2.265625 -12.765625 4.84375 -12.765625 C 7.265625 -12.765625 8.734375 -11.453125 8.734375 -9.25 C 8.734375 -7.96875 8.140625 -7.140625 6.953125 -6.671875 C 8.484375 -6.15625 9.109375 -5.25 9.109375 -3.703125 Z M 9.109375 -3.703125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph15-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph15-1-CBrESuN/">
+<path style="stroke:none;" d="M 11.21875 -3.75 C 11.21875 -1.578125 9.703125 0 7.34375 0 C 7.34375 0 1.421875 0 1.421875 0 C 1.421875 0 1.421875 -13.125 1.421875 -13.125 C 1.421875 -13.125 6.75 -13.125 6.75 -13.125 C 9.234375 -13.125 10.640625 -11.703125 10.640625 -9.796875 C 10.640625 -8.453125 10.015625 -7.484375 8.8125 -6.9375 C 10.5 -6.28125 11.21875 -5.328125 11.21875 -3.75 Z M 8.96875 -9.5625 C 8.96875 -10.890625 8.1875 -11.640625 6.34375 -11.640625 C 6.34375 -11.640625 3.09375 -11.640625 3.09375 -11.640625 C 3.09375 -11.640625 3.09375 -7.46875 3.09375 -7.46875 C 3.09375 -7.46875 6.34375 -7.46875 6.34375 -7.46875 C 8.1875 -7.46875 8.96875 -8.21875 8.96875 -9.5625 Z M 9.546875 -3.71875 C 9.546875 -5 8.765625 -6 7.1875 -6 C 7.1875 -6 3.09375 -6 3.09375 -6 C 3.09375 -6 3.09375 -1.46875 3.09375 -1.46875 C 3.09375 -1.46875 7.1875 -1.46875 7.1875 -1.46875 C 8.765625 -1.46875 9.546875 -2.46875 9.546875 -3.71875 Z M 9.546875 -3.71875 "/>
+</symbol>
+<symbol overflow="visible" id="glyph15-2-CBrESuN/">
+<path style="stroke:none;" d="M 5.234375 3.8125 C 5.234375 3.8125 4.25 3.8125 4.25 3.8125 C 2.453125 1.453125 1.3125 -1.8125 1.3125 -4.65625 C 1.3125 -7.484375 2.453125 -10.765625 4.25 -13.125 C 4.25 -13.125 5.234375 -13.125 5.234375 -13.125 C 3.65625 -10.5625 2.765625 -7.53125 2.765625 -4.65625 C 2.765625 -1.78125 3.65625 1.234375 5.234375 3.8125 Z M 5.234375 3.8125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph16-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph16-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.125 -6.140625 C 9.125 -1.9375 7.65625 0.265625 4.953125 0.265625 C 2.21875 0.265625 0.78125 -1.9375 0.78125 -6.25 C 0.78125 -10.53125 2.203125 -12.765625 4.953125 -12.765625 C 7.71875 -12.765625 9.125 -10.5625 9.125 -6.140625 Z M 7.5 -6.28125 C 7.5 -9.703125 6.65625 -11.359375 4.953125 -11.359375 C 3.234375 -11.359375 2.390625 -9.71875 2.390625 -6.234375 C 2.390625 -2.734375 3.234375 -1.046875 4.90625 -1.046875 C 6.671875 -1.046875 7.5 -2.65625 7.5 -6.28125 Z M 7.5 -6.28125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph16-2-CBrESuN/">
+<path style="stroke:none;" d="M 9.203125 -9.015625 C 9.203125 -7.453125 8.28125 -6.125 6.5 -5.171875 C 6.5 -5.171875 4.703125 -4.1875 4.703125 -4.1875 C 3.125 -3.28125 2.5625 -2.609375 2.390625 -1.5625 C 2.390625 -1.5625 9.109375 -1.5625 9.109375 -1.5625 C 9.109375 -1.5625 9.109375 0 9.109375 0 C 9.109375 0 0.609375 0 0.609375 0 C 0.75 -2.8125 1.53125 -4.015625 4.1875 -5.53125 C 4.1875 -5.53125 5.84375 -6.46875 5.84375 -6.46875 C 6.984375 -7.109375 7.578125 -7.96875 7.578125 -8.984375 C 7.578125 -10.34375 6.5 -11.375 5.0625 -11.375 C 3.484375 -11.375 2.609375 -10.46875 2.484375 -8.328125 C 2.484375 -8.328125 0.90625 -8.328125 0.90625 -8.328125 C 0.984375 -11.4375 2.5 -12.765625 5.109375 -12.765625 C 7.53125 -12.765625 9.203125 -11.171875 9.203125 -9.015625 Z M 9.203125 -9.015625 "/>
+</symbol>
+<symbol overflow="visible" id="glyph16-3-CBrESuN/">
+<path style="stroke:none;" d="M 3.4375 0 C 3.4375 0 1.5625 0 1.5625 0 C 1.5625 0 1.5625 -1.875 1.5625 -1.875 C 1.5625 -1.875 3.4375 -1.875 3.4375 -1.875 C 3.4375 -1.875 3.4375 0 3.4375 0 Z M 3.4375 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph17-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph17-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.125 -6.140625 C 9.125 -1.9375 7.65625 0.265625 4.953125 0.265625 C 2.21875 0.265625 0.78125 -1.9375 0.78125 -6.25 C 0.78125 -10.53125 2.203125 -12.765625 4.953125 -12.765625 C 7.71875 -12.765625 9.125 -10.5625 9.125 -6.140625 Z M 7.5 -6.28125 C 7.5 -9.703125 6.65625 -11.359375 4.953125 -11.359375 C 3.234375 -11.359375 2.390625 -9.71875 2.390625 -6.234375 C 2.390625 -2.734375 3.234375 -1.046875 4.90625 -1.046875 C 6.671875 -1.046875 7.5 -2.65625 7.5 -6.28125 Z M 7.5 -6.28125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph17-2-CBrESuN/">
+<path style="stroke:none;" d="M 6.25 0 C 6.25 0 4.65625 0 4.65625 0 C 4.65625 0 4.65625 -9.09375 4.65625 -9.09375 C 4.65625 -9.09375 1.84375 -9.09375 1.84375 -9.09375 C 1.84375 -9.09375 1.84375 -10.21875 1.84375 -10.21875 C 4.28125 -10.53125 4.640625 -10.796875 5.203125 -12.765625 C 5.203125 -12.765625 6.25 -12.765625 6.25 -12.765625 C 6.25 -12.765625 6.25 0 6.25 0 Z M 6.25 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph18-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph18-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.109375 -3.703125 C 9.109375 -1.296875 7.421875 0.265625 4.78125 0.265625 C 2.171875 0.265625 0.78125 -1.015625 0.578125 -3.859375 C 0.578125 -3.859375 2.15625 -3.859375 2.15625 -3.859375 C 2.265625 -2 3.109375 -1.140625 4.84375 -1.140625 C 6.5 -1.140625 7.484375 -2.09375 7.484375 -3.6875 C 7.484375 -5.109375 6.59375 -5.9375 4.84375 -5.9375 C 4.84375 -5.9375 3.984375 -5.9375 3.984375 -5.9375 C 3.984375 -5.9375 3.984375 -7.265625 3.984375 -7.265625 C 6.515625 -7.265625 7.109375 -7.828125 7.109375 -9.203125 C 7.109375 -10.546875 6.265625 -11.375 4.859375 -11.375 C 3.234375 -11.375 2.46875 -10.53125 2.4375 -8.640625 C 2.4375 -8.640625 0.84375 -8.640625 0.84375 -8.640625 C 0.90625 -11.359375 2.265625 -12.765625 4.84375 -12.765625 C 7.265625 -12.765625 8.734375 -11.453125 8.734375 -9.25 C 8.734375 -7.96875 8.140625 -7.140625 6.953125 -6.671875 C 8.484375 -6.15625 9.109375 -5.25 9.109375 -3.703125 Z M 9.109375 -3.703125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph19-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph19-1-CBrESuN/">
+<path style="stroke:none;" d="M 12.21875 0 C 12.21875 0 10.1875 0 10.1875 0 C 9.953125 -0.546875 9.796875 -1.328125 9.8125 -2.140625 C 9.8125 -2.140625 9.828125 -3.3125 9.828125 -3.3125 C 9.84375 -4.9375 9.140625 -5.65625 7.671875 -5.65625 C 7.671875 -5.65625 3.34375 -5.65625 3.34375 -5.65625 C 3.34375 -5.65625 3.34375 0 3.34375 0 C 3.34375 0 1.671875 0 1.671875 0 C 1.671875 0 1.671875 -13.125 1.671875 -13.125 C 1.671875 -13.125 7.71875 -13.125 7.71875 -13.125 C 10.296875 -13.125 11.71875 -11.875 11.71875 -9.609375 C 11.71875 -8.125 11.125 -7.203125 9.640625 -6.484375 C 11.0625 -5.875 11.390625 -5.21875 11.4375 -3.0625 C 11.453125 -1.3125 11.59375 -0.84375 12.21875 -0.40625 C 12.21875 -0.40625 12.21875 0 12.21875 0 Z M 9.96875 -9.375 C 9.96875 -10.859375 9.265625 -11.640625 7.390625 -11.640625 C 7.390625 -11.640625 3.34375 -11.640625 3.34375 -11.640625 C 3.34375 -11.640625 3.34375 -7.125 3.34375 -7.125 C 3.34375 -7.125 7.390625 -7.125 7.390625 -7.125 C 9.1875 -7.125 9.96875 -7.828125 9.96875 -9.375 Z M 9.96875 -9.375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph19-2-CBrESuN/">
+<path style="stroke:none;" d="M 5.234375 3.8125 C 5.234375 3.8125 4.25 3.8125 4.25 3.8125 C 2.453125 1.453125 1.3125 -1.8125 1.3125 -4.65625 C 1.3125 -7.484375 2.453125 -10.765625 4.25 -13.125 C 4.25 -13.125 5.234375 -13.125 5.234375 -13.125 C 3.65625 -10.5625 2.765625 -7.53125 2.765625 -4.65625 C 2.765625 -1.78125 3.65625 1.234375 5.234375 3.8125 Z M 5.234375 3.8125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph20-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph20-1-CBrESuN/">
+<path style="stroke:none;" d="M 2.75 0 C 2.75 0 1.265625 0 1.265625 0 C 1.265625 0 1.265625 -9.4375 1.265625 -9.4375 C 1.265625 -9.4375 2.75 -9.4375 2.75 -9.4375 C 2.75 -9.4375 2.75 0 2.75 0 Z M 2.953125 -10.859375 C 2.953125 -10.859375 1.078125 -10.859375 1.078125 -10.859375 C 1.078125 -10.859375 1.078125 -12.71875 1.078125 -12.71875 C 1.078125 -12.71875 2.953125 -12.71875 2.953125 -12.71875 C 2.953125 -12.71875 2.953125 -10.859375 2.953125 -10.859375 Z M 2.953125 -10.859375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph20-2-CBrESuN/">
+<path style="stroke:none;" d="M 8.21875 0 C 8.21875 0 0.5625 0 0.5625 0 C 0.5625 0 0.5625 -1.34375 0.5625 -1.34375 C 0.5625 -1.34375 6.1875 -8.125 6.1875 -8.125 C 6.1875 -8.125 0.9375 -8.125 0.9375 -8.125 C 0.9375 -8.125 0.9375 -9.4375 0.9375 -9.4375 C 0.9375 -9.4375 7.96875 -9.4375 7.96875 -9.4375 C 7.96875 -9.4375 7.96875 -8.09375 7.96875 -8.09375 C 7.96875 -8.09375 2.375 -1.3125 2.375 -1.3125 C 2.375 -1.3125 8.21875 -1.3125 8.21875 -1.3125 C 8.21875 -1.3125 8.21875 0 8.21875 0 Z M 8.21875 0 "/>
+</symbol>
+<symbol overflow="visible" id="glyph21-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph21-1-CBrESuN/">
+<path style="stroke:none;" d="M 5.109375 -4.3125 C 5.109375 -4.3125 0.828125 -4.3125 0.828125 -4.3125 C 0.828125 -4.3125 0.828125 -5.609375 0.828125 -5.609375 C 0.828125 -5.609375 5.109375 -5.609375 5.109375 -5.609375 C 5.109375 -5.609375 5.109375 -4.3125 5.109375 -4.3125 Z M 5.109375 -4.3125 "/>
+</symbol>
+<symbol overflow="visible" id="glyph22-0-CBrESuN/">
+<path style="stroke:none;" d="M 0.359375 -13.125 C 0.359375 -13.125 0.359375 0 0.359375 0 C 0.359375 0 8.453125 0 8.453125 0 C 8.453125 0 8.453125 -13.125 8.453125 -13.125 C 8.453125 -13.125 0.359375 -13.125 0.359375 -13.125 Z M 1.296875 -0.9375 C 1.296875 -0.9375 1.296875 -12.1875 1.296875 -12.1875 C 1.296875 -12.1875 7.53125 -12.1875 7.53125 -12.1875 C 7.53125 -12.1875 7.53125 -0.9375 7.53125 -0.9375 C 7.53125 -0.9375 1.296875 -0.9375 1.296875 -0.9375 Z M 1.296875 -0.9375 "/>
+</symbol>
+<symbol overflow="visible" id="glyph22-1-CBrESuN/">
+<path style="stroke:none;" d="M 9.109375 -3.703125 C 9.109375 -1.296875 7.421875 0.265625 4.78125 0.265625 C 2.171875 0.265625 0.78125 -1.015625 0.578125 -3.859375 C 0.578125 -3.859375 2.15625 -3.859375 2.15625 -3.859375 C 2.265625 -2 3.109375 -1.140625 4.84375 -1.140625 C 6.5 -1.140625 7.484375 -2.09375 7.484375 -3.6875 C 7.484375 -5.109375 6.59375 -5.9375 4.84375 -5.9375 C 4.84375 -5.9375 3.984375 -5.9375 3.984375 -5.9375 C 3.984375 -5.9375 3.984375 -7.265625 3.984375 -7.265625 C 6.515625 -7.265625 7.109375 -7.828125 7.109375 -9.203125 C 7.109375 -10.546875 6.265625 -11.375 4.859375 -11.375 C 3.234375 -11.375 2.46875 -10.53125 2.4375 -8.640625 C 2.4375 -8.640625 0.84375 -8.640625 0.84375 -8.640625 C 0.90625 -11.359375 2.265625 -12.765625 4.84375 -12.765625 C 7.265625 -12.765625 8.734375 -11.453125 8.734375 -9.25 C 8.734375 -7.96875 8.140625 -7.140625 6.953125 -6.671875 C 8.484375 -6.15625 9.109375 -5.25 9.109375 -3.703125 Z M 9.109375 -3.703125 "/>
+</symbol>
+</g>
+</defs>
+<g id="surface1-CBrESuN/">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%25,100%25,100%25);fill-opacity:1;" d="M 0 0 L 637.5 0 L 637.5 337.5 L 0 337.5 Z M 0 0 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%25,100%25,100%25);fill-opacity:1;" d="M 60 275.25 L 221.25 275.25 L 221.25 12 L 60 12 Z M 60 275.25 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%25,100%25,100%25);fill-opacity:1;" d="M 262.5 275.25 L 423 275.25 L 423 12 L 262.5 12 Z M 262.5 275.25 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%25,100%25,100%25);fill-opacity:1;" d="M 465 275.25 L 625.5 275.25 L 625.5 12 L 465 12 Z M 465 275.25 "/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 89.760417 367 L 89.760417 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 138.630208 367 L 138.630208 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 187.5 367 L 187.5 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 236.369792 367 L 236.369792 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 285.239583 367 L 285.239583 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 80 288.744792 L 295 288.744792 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 80 191.5 L 295 191.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 80 94.255208 L 295 94.255208 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 379.182292 367 L 379.182292 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 418.088542 367 L 418.088542 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 457 367 L 457 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 495.911458 367 L 495.911458 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 534.817708 367 L 534.817708 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 350 288.744792 L 564 288.744792 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 350 191.5 L 564 191.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 350 94.255208 L 564 94.255208 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 629.729167 367 L 629.729167 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 727 367 L 727 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 824.270833 367 L 824.270833 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 620 287.229167 L 834 287.229167 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 620 191.5 L 834 191.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:0.12;stroke-miterlimit:2;" d="M 620 95.770833 L 834 95.770833 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph0-1-CBrESuN/" x="123.632973" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph1-1-CBrESuN/" x="136.628986" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph2-1-CBrESuN/" x="142.62299" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph2-2-CBrESuN/" x="151.622978" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph3-1-CBrESuN/" x="51.814779" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-1-CBrESuN/" x="57.808765" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph3-2-CBrESuN/" x="67.816767" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph3-3-CBrESuN/" x="72.820776" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph3-1-CBrESuN/" x="88.466394" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph5-1-CBrESuN/" x="94.460386" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-2-CBrESuN/" x="104.468399" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph6-1-CBrESuN/" x="109.472397" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-1-CBrESuN/" x="128.114994" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph8-1-CBrESuN/" x="138.12299" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-1-CBrESuN/" x="143.126999" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-3-CBrESuN/" x="164.766621" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-2-CBrESuN/" x="174.774628" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph8-2-CBrESuN/" x="179.778614" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-1-CBrESuN/" x="201.418213" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-2-CBrESuN/" x="211.426231" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph9-1-CBrESuN/" x="216.430206" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph10-1-CBrESuN/" x="28.073997" y="148.124989"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph11-1-CBrESuN/" x="35.748007" y="223.121063"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph12-1-CBrESuN/" x="41.741996" y="223.121063"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph13-1-CBrESuN/" x="41.741996" y="150.185989"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph14-1-CBrESuN/" x="41.741996" y="77.250921"/>
+</g>
+<path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,44.705883%25,69.803923%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 89.770833 351.046875 L 89.776042 345.979167 L 89.78125 340.916667 L 89.786458 335.848958 L 89.796875 330.786458 L 89.8125 325.71875 L 89.828125 320.65625 L 89.854167 315.588542 L 89.890625 310.526042 L 89.9375 305.463542 L 90 300.395833 L 90.083333 295.333333 L 90.203125 290.265625 L 90.364583 285.203125 L 90.583333 280.135417 L 90.880208 275.072917 L 91.291667 270.005208 L 91.84375 264.942708 L 92.598958 259.875 L 93.614583 254.8125 L 94.994792 249.744792 L 96.84375 244.682292 L 99.3125 239.614583 L 102.588542 234.552083 L 106.880208 229.489583 L 112.432292 224.421875 L 119.479167 219.359375 L 128.239583 214.291667 L 138.807292 209.229167 L 151.151042 204.161458 L 165.005208 199.098958 L 179.880208 194.03125 L 195.119792 188.96875 L 209.994792 183.901042 L 223.848958 178.838542 L 236.192708 173.770833 L 246.760417 168.708333 L 255.520833 163.640625 L 262.567708 158.578125 L 268.119792 153.510417 L 272.411458 148.447917 L 275.6875 143.385417 L 278.15625 138.317708 L 280.005208 133.255208 L 281.385417 128.1875 L 282.401042 123.125 L 283.15625 118.057292 L 283.708333 112.994792 L 284.119792 107.927083 L 284.416667 102.864583 L 284.635417 97.796875 L 284.796875 92.734375 L 284.916667 87.666667 L 285 82.604167 L 285.0625 77.536458 L 285.109375 72.473958 L 285.145833 67.411458 L 285.171875 62.34375 L 285.1875 57.28125 L 285.203125 52.213542 L 285.213542 47.151042 L 285.21875 42.083333 L 285.223958 37.020833 L 285.229167 31.953125 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph15-1-CBrESuN/" x="326.252998" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph15-2-CBrESuN/" x="338.258995" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph0-2-CBrESuN/" x="344.252975" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph0-3-CBrESuN/" x="353.252975" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-4-CBrESuN/" x="263.875351" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-1-CBrESuN/" x="269.869377" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-2-CBrESuN/" x="279.877373" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph9-1-CBrESuN/" x="284.881348" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-5-CBrESuN/" x="294.889343" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-3-CBrESuN/" x="293.057213" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-3-CBrESuN/" x="299.051216" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph9-2-CBrESuN/" x="309.059189" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-1-CBrESuN/" x="314.06321" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-4-CBrESuN/" x="324.071205" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph9-1-CBrESuN/" x="325.235985" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-2-CBrESuN/" x="335.244003" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph7-1-CBrESuN/" x="340.248001" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph9-1-CBrESuN/" x="350.255974" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph9-1-CBrESuN/" x="354.417801" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-2-CBrESuN/" x="364.425797" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph9-1-CBrESuN/" x="369.429817" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-1-CBrESuN/" x="379.43779" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph16-1-CBrESuN/" x="383.59964" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-2-CBrESuN/" x="393.607635" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph17-1-CBrESuN/" x="398.611588" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph16-2-CBrESuN/" x="408.619629" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph2-3-CBrESuN/" x="238.248001" y="223.121063"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph2-4-CBrESuN/" x="244.242004" y="223.121063"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-3-CBrESuN/" x="244.242004" y="150.185989"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph18-1-CBrESuN/" x="244.242004" y="77.250921"/>
+</g>
+<path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(100%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 359.729167 351.046875 L 359.729167 239.614583 L 359.734375 234.552083 L 359.744792 229.489583 L 359.786458 224.421875 L 359.927083 219.359375 L 360.427083 214.291667 L 362.145833 209.229167 L 367.916667 204.161458 L 385.59375 199.098958 L 427.552083 194.03125 L 486.447917 188.96875 L 528.40625 183.901042 L 546.083333 178.838542 L 551.854167 173.770833 L 553.572917 168.708333 L 554.072917 163.640625 L 554.213542 158.578125 L 554.255208 153.510417 L 554.265625 148.447917 L 554.270833 143.385417 L 554.270833 31.953125 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph19-1-CBrESuN/" x="526.259995" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph20-1-CBrESuN/" x="539.255951" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph19-2-CBrESuN/" x="543.251999" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph20-2-CBrESuN/" x="549.245956" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph2-2-CBrESuN/" x="558.246002" y="322.266014"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph16-1-CBrESuN/" x="454.781525" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-2-CBrESuN/" x="464.78952" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph17-1-CBrESuN/" x="469.793472" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph16-1-CBrESuN/" x="479.801514" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph17-1-CBrESuN/" x="527.735962" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph16-3-CBrESuN/" x="537.744003" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-3-CBrESuN/" x="542.748001" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-6-CBrESuN/" x="552.755951" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph16-1-CBrESuN/" x="600.690582" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-2-CBrESuN/" x="610.698578" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph17-2-CBrESuN/" x="615.70253" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph16-1-CBrESuN/" x="625.710571" y="299.045998"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph21-1-CBrESuN/" x="440.748001" y="221.981461"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph22-1-CBrESuN/" x="446.742004" y="221.981461"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-3-CBrESuN/" x="446.742004" y="150.185989"/>
+</g>
+<g style="fill:rgb(0%25,0%25,0%25);fill-opacity:1;">
+  <use xlink:href="%23glyph4-7-CBrESuN/" x="446.742004" y="78.390564"/>
+</g>
+<path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 629.729167 351.046875 L 629.729167 251.328125 L 629.734375 246.34375 L 629.744792 241.359375 L 629.776042 236.369792 L 629.854167 231.385417 L 630.067708 226.401042 L 630.661458 221.416667 L 632.338542 216.427083 L 637.197917 211.442708 L 651.322917 206.458333 L 689.786458 201.473958 L 767.75 196.484375 L 824.270833 191.5 L 767.75 186.515625 L 689.786458 181.526042 L 651.322917 176.541667 L 637.197917 171.557292 L 632.338542 166.572917 L 630.661458 161.583333 L 630.067708 156.598958 L 629.854167 151.614583 L 629.776042 146.630208 L 629.744792 141.640625 L 629.734375 136.65625 L 629.729167 131.671875 L 629.729167 31.953125 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 89.760417 367.5 L 89.760417 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 138.630208 367.5 L 138.630208 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 187.5 367.5 L 187.5 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 236.369792 367.5 L 236.369792 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 285.239583 367.5 L 285.239583 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 79.5 288.744792 L 73.5 288.744792 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 79.5 191.5 L 73.5 191.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 79.5 94.255208 L 73.5 94.255208 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 379.182292 367.5 L 379.182292 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 418.088542 367.5 L 418.088542 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 457 367.5 L 457 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 495.911458 367.5 L 495.911458 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 534.817708 367.5 L 534.817708 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 349.5 288.744792 L 343.5 288.744792 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 349.5 191.5 L 343.5 191.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 349.5 94.255208 L 343.5 94.255208 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 629.729167 367.5 L 629.729167 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 727 367.5 L 727 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 824.270833 367.5 L 824.270833 373.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 619.5 287.229167 L 613.5 287.229167 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 619.5 191.5 L 613.5 191.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 619.5 95.770833 L 613.5 95.770833 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 79.5 367 L 295.5 367 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 80 367.5 L 80 15.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 79.5 16 L 295.5 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 295 367.5 L 295 15.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 349.5 367 L 564.5 367 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 350 367.5 L 350 15.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 349.5 16 L 564.5 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 564 367.5 L 564 15.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 619.5 367 L 834.5 367 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 620 367.5 L 620 15.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 619.5 16 L 834.5 16 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+<path style="fill:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%25,0%25,0%25);stroke-opacity:1;stroke-miterlimit:2;" d="M 834 367.5 L 834 15.5 " transform="matrix(0.75,0,0,0.75,0,0)"/>
+</g>
+</svg>
+'/><p>In unstable flows it is often useful to determine the dominant spatial structure of the instability and the growth rate at which the instability grows. If the simulation idealizes a physical flow, this can be used to make predictions as to what should develop and how quickly. Since these instabilities are often attributed to a linear instability, we can determine information about the structure and the growth rate of the instability by analyzing the linear operator that governs small perturbations about a base state, or by solving for the linear dynamics.</p><p>Here, we discuss first briefly linear instabilities and how one can obtain growth rates and structures of most unstable modes via eigenanalysis. Then we present an alternative method for approximating the eigenanalysis results when one does not have access to the linear dynamics or the linear operator about the base state.</p><h1 id="Linear-Instabilities"><a class="docs-heading-anchor" href="#Linear-Instabilities">Linear Instabilities</a><a id="Linear-Instabilities-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Instabilities" title="Permalink"></a></h1><p>The base state <span>$U(z)$</span>, <span>$B(z)$</span> is a solution of the inviscid equations of motion. Whether the base state is stable or not is determined by whether small perturbations about this base state grow or decay. To formalize this, we study the linearized dynamics satisfied by perturbations about the base state:</p><p class="math-container">\[\partial_t \Phi = L \Phi \, .\]</p><p>where <span>$\Phi = (u, v, w, b)$</span> is a vector of the perturbation velocities <span>$u, v, w$</span> and perturbation buoyancy <span>$b$</span> and <span>$L$</span> a linear operator that depends on the base state, <span>$L = L(U(z), B(z))$</span> (the <code>background_fields</code>). Eigenanalysis of the linear operator <span>$L$</span> determines the stability of the base state, such as the Kelvin-Helmholtz instability. That is, by using the ansantz</p><p class="math-container">\[\Phi(x, y, z, t) = \phi(x, y, z) \, \exp(\lambda t) \, ,\]</p><p>then <span>$\lambda$</span> and <span>$\phi$</span> are respectively eigenvalues and eigenmodes of <span>$L$</span>, i.e., they obey</p><p class="math-container">\[L \, \phi_j = \lambda_j \, \phi_j \quad j=1,2,\dots \, .\]</p><p>From hereafter we&#39;ll use the convention that the eigenvalues are ordered according to their real part, <span>$\mathrm{Re}(\lambda_1) \ge \mathrm{Re}(\lambda_2) \ge \dotsb$</span>.</p><p>Remarks:</p><p>As we touched upon briefly above, Oceananigans.jl, does not include the linearized version of the equations. Furthermore, Oceananigans.jl does not give us access to the linear operator <span>$L$</span> so that we can perform eigenanalysis. Below we discuss an alternative way of approximating the eigenanalysis results. The method boils down to solving the nonlinear equations while continually renormalize the magnitude of the perturbations to ensure that nonlinear terms (terms that are quadratic or higher in perturbations) remain negligibly small, i.e.,much smaller than the background flow.</p><h1 id="The-power-method-algorithm"><a class="docs-heading-anchor" href="#The-power-method-algorithm">The power method algorithm</a><a id="The-power-method-algorithm-1"></a><a class="docs-heading-anchor-permalink" href="#The-power-method-algorithm" title="Permalink"></a></h1><p>Successive application of <span>$L$</span> to a random initial state will eventually render it parallel with eigenmode <span>$\phi_1$</span>:</p><p class="math-container">\[\lim_{n \to \infty} L^n \Phi \propto \phi_1 \, .\]</p><p>Of course, if <span>$\phi_1$</span> is an unstable mode (i.e., <span>$\sigma_1 = \mathrm{Re}(\lambda_1) &gt; 0$</span>), then successive application of <span>$L$</span> will lead to exponential amplification. (Similarly, if <span>$\sigma_1 &lt; 0$</span>, successive application of <span>$L$</span> will lead to exponential decay of <span>$\Phi$</span> down to machine precision.) Therefore, after each application of the linear operator <span>$L$</span>, we rescale the output <span>$L \Phi$</span> back to a pre-selected amplitude.</p><p>So, we initialize a <code>simulation</code> with random initial conditions with amplitude much less than those of the base state (which are <span>$O(1)$</span>). Instead of &quot;applying&quot; <span>$L$</span> on our initial state, we evolve the (approximately) linear dynamics for interval <span>$\Delta \tau$</span>. We measure how much the energy has grown during that interval, rescale the perturbations back to original energy amplitude and repeat. After some iterations the state will converge to the most unstable eigenmode.</p><p>In summary, each iteration of the power method includes:</p><ul><li>compute the perturbation energy, <span>$E_0$</span>,</li><li>evolve the system for a time-interval <span>$\Delta \tau$</span>,</li><li>compute the perturbation energy, <span>$E_1$</span>,</li><li>determine the exponential growth of the most unstable mode during the interval <span>$\Delta \tau$</span> as  <span>$\log(E_1 / E_0) / (2 \Delta \tau)$</span>,</li><li>repeat the above until growth rate converges.</li></ul><p>By fiddling a bit with <span>$\Delta t$</span> we can get convergence after only a few iterations.</p><p>Let&#39;s apply all these to our example.</p><h1 id="The-model"><a class="docs-heading-anchor" href="#The-model">The model</a><a id="The-model-1"></a><a class="docs-heading-anchor-permalink" href="#The-model" title="Permalink"></a></h1><pre><code class="language-julia hljs">model = NonhydrostaticModel(timestepper = :RungeKutta3,
+                              advection = UpwindBiasedFifthOrder(),
+                                   grid = grid,
+                               coriolis = nothing,
+                      background_fields = (u=U, b=B),
+                                closure = ScalarDiffusivity(ν=2e-4, κ=2e-4),
+                               buoyancy = BuoyancyTracer(),
+                                tracers = :b)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">NonhydrostaticModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── grid: 64×1×64 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+├── timestepper: RungeKutta3TimeStepper
+├── tracers: b
+├── closure: ScalarDiffusivity{ExplicitTimeDiscretization}(ν=0.0002, κ=(b=0.0002,))
+├── buoyancy: BuoyancyTracer with ĝ = NegativeZDirection()
+└── coriolis: Nothing</code></pre><p>We have included a &quot;pinch&quot; of viscosity and diffusivity in anticipation of what will follow furtherdown: viscosity and diffusivity will ensure numerical stability when we evolve the unstable mode to the point it becomes nonlinear.</p><p>Here, we take <span>$\Delta \tau = 15$</span>.</p><pre><code class="language-julia hljs">simulation = Simulation(model, Δt=0.1, stop_iteration=150)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Simulation of NonhydrostaticModel{CPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── Next time step: 100 ms
+├── Elapsed wall time: 0 seconds
+├── Wall time per iteration: NaN days
+├── Stop time: Inf days
+├── Stop iteration : 150.0
+├── Wall time limit: Inf
+├── Callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; Callback of stop_time_exceeded on IterationInterval(1)
+│   ├── stop_iteration_exceeded =&gt; Callback of stop_iteration_exceeded on IterationInterval(1)
+│   ├── wall_time_limit_exceeded =&gt; Callback of wall_time_limit_exceeded on IterationInterval(1)
+│   └── nan_checker =&gt; Callback of NaNChecker for u on IterationInterval(100)
+├── Output writers: OrderedDict with no entries
+└── Diagnostics: OrderedDict with no entries</code></pre><p>Now some helper functions that will be used during for the power method algorithm.</p><p>First a function that evolves the state for <span>$\Delta \tau$</span> and measure the energy growth over that period.</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    grow_instability!(simulation, energy)
+
+Grow an instability by running `simulation`.
+
+Estimates the growth rate ``σ`` of the instability
+using the fractional change in volume-mean kinetic energy,
+over the course of the `simulation`
+
+``
+energy(t₀ + Δτ) / energy(t₀) ≈ exp(2 σ Δτ)
+``
+
+where ``t₀`` is the starting time of the simulation and ``t₀ + Δτ``
+the ending time of the simulation. We thus find that the growth rate
+is measured by
+
+``
+σ = log(energy(t₀ + Δτ) / energy(t₀)) / (2 Δτ) .
+``
+&quot;&quot;&quot;
+function grow_instability!(simulation, energy)
+    # Initialize
+    simulation.model.clock.iteration = 0
+    t₀ = simulation.model.clock.time = 0
+    compute!(energy)
+    energy₀ = energy[1, 1, 1]
+
+    # Grow
+    run!(simulation)
+
+    # Analyze
+    compute!(energy)
+    energy₁ = energy[1, 1, 1]
+    Δτ = simulation.model.clock.time - t₀
+
+    # ½(u² + v²) ~ exp(2 σ Δτ)
+    σ = growth_rate = log(energy₁ / energy₀) / 2Δτ
+
+    return growth_rate
+end</code></pre><p>Finally, we write a function that rescales the state. The rescaling is done via computing the kinetic energy and then rescaling all flow fields so that the kinetic energy assumes a targetted value.</p><p>(Measuring the perturbation growth via the kinetic energy works fine <em>unless</em> an unstable mode <em>only</em> has buoyancy structure. In that case, the total perturbation energy is more adequate.)</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    rescale!(model, energy; target_kinetic_energy = 1e-3)
+
+Rescales all model fields so that `energy = target_kinetic_energy`.
+&quot;&quot;&quot;
+function rescale!(model, energy; target_kinetic_energy = 1e-6)
+    compute!(energy)
+    rescale_factor = √(target_kinetic_energy / energy[1, 1, 1])
+
+    for f in merge(model.velocities, model.tracers)
+        f .*= rescale_factor
+    end
+
+    return nothing
+end
+
+using Printf</code></pre><p>Another helper function for the power method,</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    convergence(σ)
+
+Check if the growth rate has converged. If the array `σ` has at least 2 elements then returns the
+relative difference between ``σ[end]`` and ``σ[end-1]``.
+&quot;&quot;&quot;
+convergence(σ) = length(σ) &gt; 1 ? abs((σ[end] - σ[end-1]) / σ[end]) : 9.1e18 # pretty big (not Inf tho)</code></pre><p>and the main function that performs the power method iteration.</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+    estimate_growth_rate(simulation, energy, ω; convergence_criterion=1e-3)
+
+Estimates the growth rate iteratively until the relative change
+in the estimated growth rate ``σ`` falls below `convergence_criterion`.
+
+Returns ``σ``.
+&quot;&quot;&quot;
+function estimate_growth_rate(simulation, energy, ω, b; convergence_criterion=1e-3)
+    σ = []
+    power_method_data = []
+    compute!(ω)
+    push!(power_method_data, (ω=collect(interior(ω)[:, 1, :]), b=collect(interior(b)[:, 1, :]), σ=deepcopy(σ)))
+
+    while convergence(σ) &gt; convergence_criterion
+        compute!(energy)
+
+        @info @sprintf(&quot;About to start power method iteration %d; kinetic energy: %.2e&quot;, length(σ)+1, energy[1, 1, 1])
+        push!(σ, grow_instability!(simulation, energy))
+        compute!(energy)
+
+        @info @sprintf(&quot;Power method iteration %d, kinetic energy: %.2e, σⁿ: %.2e, relative Δσ: %.2e&quot;,
+                       length(σ), energy[1, 1, 1], σ[end], convergence(σ))
+
+        compute!(ω)
+        rescale!(simulation.model, energy)
+        push!(power_method_data, (ω=collect(interior(ω)[:, 1, :]), b=collect(interior(b)[:, 1, :]), σ=deepcopy(σ)))
+    end
+
+    return σ, power_method_data
+end</code></pre><h1 id="Eigenplotting"><a class="docs-heading-anchor" href="#Eigenplotting">Eigenplotting</a><a id="Eigenplotting-1"></a><a class="docs-heading-anchor-permalink" href="#Eigenplotting" title="Permalink"></a></h1><p>A good algorithm wouldn&#39;t be complete without a good visualization,</p><pre><code class="language-julia hljs">u, v, w = model.velocities
+b = model.tracers.b
+
+perturbation_vorticity = Field(∂z(u) - ∂x(w))
+
+xω, yω, zω = nodes(perturbation_vorticity)
+xb, yb, zb = nodes(b)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">([-4.921875, -4.765625, -4.609375, -4.453125, -4.296875, -4.140625, -3.984375, -3.828125, -3.671875, -3.515625  …  3.515625, 3.671875, 3.828125, 3.984375, 4.140625, 4.296875, 4.453125, 4.609375, 4.765625, 4.921875], StepRangeLen(1.0, 0.0, 1), [-4.921875, -4.765625, -4.609375, -4.453125, -4.296875, -4.140625, -3.984375, -3.828125, -3.671875, -3.515625  …  3.515625, 3.671875, 3.828125, 3.984375, 4.140625, 4.296875, 4.453125, 4.609375, 4.765625, 4.921875])</code></pre><h1 id="Rev-your-engines..."><a class="docs-heading-anchor" href="#Rev-your-engines...">Rev your engines...</a><a id="Rev-your-engines...-1"></a><a class="docs-heading-anchor-permalink" href="#Rev-your-engines..." title="Permalink"></a></h1><p>We initialize the power iteration with random noise and rescale to have a <code>target_kinetic_energy</code></p><pre><code class="language-julia hljs">using Random, Statistics
+
+mean_perturbation_kinetic_energy = Field(Average(1/2 * (u^2 + w^2)))
+noise(x, y, z) = randn()
+set!(model, u=noise, w=noise, b=noise)
+rescale!(simulation.model, mean_perturbation_kinetic_energy, target_kinetic_energy=1e-6)
+growth_rates, power_method_data = estimate_growth_rate(simulation, mean_perturbation_kinetic_energy, perturbation_vorticity, b)
+
+@info &quot;Power iterations converged! Estimated growth rate: $(growth_rates[end])&quot;</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: About to start power method iteration 1; kinetic energy: 1.82e-03
+[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (109.827 ms)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (14.455 seconds).
+[ Info: Simulation is stopping after running for 20.204 seconds.
+[ Info: Model iteration 150 equals or exceeds stop iteration 150.
+[ Info: Power method iteration 1, kinetic energy: 5.50e-06, σⁿ: -1.93e-01, relative Δσ: 9.10e+18
+[ Info: About to start power method iteration 2; kinetic energy: 1.01e-06
+[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (672.464 μs)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (38.081 ms).
+[ Info: Simulation is stopping after running for 5.641 seconds.
+[ Info: Model iteration 150 equals or exceeds stop iteration 150.
+[ Info: Power method iteration 2, kinetic energy: 2.86e-06, σⁿ: 3.47e-02, relative Δσ: 6.57e+00
+[ Info: About to start power method iteration 3; kinetic energy: 1.01e-06
+[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (623.576 μs)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (37.487 ms).
+[ Info: Simulation is stopping after running for 5.616 seconds.
+[ Info: Model iteration 150 equals or exceeds stop iteration 150.
+[ Info: Power method iteration 3, kinetic energy: 4.57e-06, σⁿ: 5.04e-02, relative Δσ: 3.11e-01
+[ Info: About to start power method iteration 4; kinetic energy: 1.01e-06
+[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (693.874 μs)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (38.348 ms).
+[ Info: Simulation is stopping after running for 5.625 seconds.
+[ Info: Model iteration 150 equals or exceeds stop iteration 150.
+[ Info: Power method iteration 4, kinetic energy: 1.28e-05, σⁿ: 8.45e-02, relative Δσ: 4.03e-01
+[ Info: About to start power method iteration 5; kinetic energy: 1.07e-06
+[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (605.601 μs)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (37.361 ms).
+[ Info: Simulation is stopping after running for 5.668 seconds.
+[ Info: Model iteration 150 equals or exceeds stop iteration 150.
+[ Info: Power method iteration 5, kinetic energy: 1.66e-05, σⁿ: 9.13e-02, relative Δσ: 7.50e-02
+[ Info: About to start power method iteration 6; kinetic energy: 1.10e-06
+[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (416.058 μs)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (37.206 ms).
+[ Info: Simulation is stopping after running for 5.668 seconds.
+[ Info: Model iteration 150 equals or exceeds stop iteration 150.
+[ Info: Power method iteration 6, kinetic energy: 1.71e-05, σⁿ: 9.15e-02, relative Δσ: 1.94e-03
+[ Info: About to start power method iteration 7; kinetic energy: 1.10e-06
+[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (547.942 μs)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (37.332 ms).
+[ Info: Simulation is stopping after running for 5.623 seconds.
+[ Info: Model iteration 150 equals or exceeds stop iteration 150.
+[ Info: Power method iteration 7, kinetic energy: 1.72e-05, σⁿ: 9.15e-02, relative Δσ: 2.13e-04
+[ Info: Power iterations converged! Estimated growth rate: 0.0915400183249263</code></pre><h1 id="Powerful-convergence"><a class="docs-heading-anchor" href="#Powerful-convergence">Powerful convergence</a><a id="Powerful-convergence-1"></a><a class="docs-heading-anchor-permalink" href="#Powerful-convergence" title="Permalink"></a></h1><p>We animate the power method steps. A scatter plot illustrates how the growth rate converges as the power method iterates.</p><pre><code class="language-julia hljs">n = Observable(1)
+
+fig = Figure(resolution=(800, 600))
+
+kwargs = (xlabel=&quot;x&quot;, ylabel=&quot;z&quot;, limits = ((xω[1], xω[end]), (zω[1], zω[end])), aspect=1,)
+
+ω_title(t) = t === nothing ? @sprintf(&quot;vorticity&quot;) : @sprintf(&quot;vorticity at t = %.2f&quot;, t)
+b_title(t) = t === nothing ? @sprintf(&quot;buoyancy&quot;)  : @sprintf(&quot;buoyancy at t = %.2f&quot;, t)
+
+ax_ω = Axis(fig[2, 1]; title = ω_title(nothing), kwargs...)
+
+ax_b = Axis(fig[2, 3]; title = b_title(nothing), kwargs...)
+
+ωₙ = @lift power_method_data[$n].ω
+bₙ = @lift power_method_data[$n].b
+
+σₙ = @lift [(i-1, i==1 ? NaN : growth_rates[i-1]) for i in 1:$n]
+
+ω_lims = @lift (-maximum(abs, power_method_data[$n].ω) - 1e-16, maximum(abs, power_method_data[$n].ω) + 1e-16)
+b_lims = @lift (-maximum(abs, power_method_data[$n].b) - 1e-16, maximum(abs, power_method_data[$n].b) + 1e-16)
+
+hm_ω = heatmap!(ax_ω, xω, zω, ωₙ; colorrange = ω_lims, colormap = :balance)
+Colorbar(fig[2, 2], hm_ω)
+
+hm_b = heatmap!(ax_b, xb, zb, bₙ; colorrange = b_lims, colormap = :balance)
+Colorbar(fig[2, 4], hm_b)
+
+eigentitle(σ, t) = length(σ) &gt; 0 ? @sprintf(&quot;Iteration #%i; growth rate %.2e&quot;, length(σ), σ[end]) : @sprintf(&quot;Initial perturbation fields&quot;)
+σ_title = @lift eigentitle(power_method_data[$n].σ, nothing)
+
+ax_σ = Axis(fig[1, :];
+            xlabel = &quot;Power iteration&quot;,
+            ylabel = &quot;Growth rate&quot;,
+            title = σ_title,
+            xticks = 1:length(power_method_data)-1,
+            limits = ((0.5, length(power_method_data)-0.5), (-0.25, 0.25)))
+
+scatter!(ax_σ, σₙ; color = :blue)
+
+frames = 1:length(power_method_data)
+
+record(fig, &quot;powermethod.mp4&quot;, frames, framerate=1) do i
+       @info &quot;Plotting frame $i of $(frames[end])...&quot;
+       n[] = i
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: Plotting frame 1 of 8...
+[ Info: Plotting frame 2 of 8...
+[ Info: Plotting frame 3 of 8...
+[ Info: Plotting frame 4 of 8...
+[ Info: Plotting frame 5 of 8...
+[ Info: Plotting frame 6 of 8...
+[ Info: Plotting frame 7 of 8...
+[ Info: Plotting frame 8 of 8...</code></pre><p><video src="../powermethod.mp4" controls="true" title><a href="../powermethod.mp4"></a></video></p><h1 id="Now-for-the-fun-part"><a class="docs-heading-anchor" href="#Now-for-the-fun-part">Now for the fun part</a><a id="Now-for-the-fun-part-1"></a><a class="docs-heading-anchor-permalink" href="#Now-for-the-fun-part" title="Permalink"></a></h1><p>Now we simulate the nonlinear evolution of the eigenmode we&#39;ve isolated for a few e-folding times <span>$1/\sigma$</span>,</p><pre><code class="language-julia hljs"># Reset the clock
+model.clock.iteration = 0
+model.clock.time = 0
+
+estimated_growth_rate = growth_rates[end]
+
+simulation.stop_time = 5 / estimated_growth_rate
+simulation.stop_iteration = 9.1e18 # pretty big (not Inf tho)
+
+# Rescale the eigenmode
+initial_eigenmode_energy = 5e-5
+rescale!(simulation.model, mean_perturbation_kinetic_energy, target_kinetic_energy=initial_eigenmode_energy)</code></pre><p>Let&#39;s save and plot the perturbation vorticity and buoyancy and also the total vorticity and buoyancy (perturbation + basic state). It&#39;ll be also neat to plot the kinetic energy time-series and confirm it grows with the estimated growth rate.</p><pre><code class="language-julia hljs">total_vorticity = Field(∂z(u) + ∂z(model.background_fields.velocities.u) - ∂x(w))
+
+total_b = Field(b + model.background_fields.tracers.b)
+
+simulation.output_writers[:vorticity] =
+    JLD2OutputWriter(model, (ω=perturbation_vorticity, Ω=total_vorticity, b=b, B=total_b, KE=mean_perturbation_kinetic_energy),
+                     schedule = TimeInterval(0.10 / estimated_growth_rate),
+                     filename = &quot;kelvin_helmholtz_instability.jld2&quot;,
+                     overwrite_existing = true)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">JLD2OutputWriter scheduled on TimeInterval(1.092 seconds):
+├── filepath: ./kelvin_helmholtz_instability.jld2
+├── 5 outputs: (ω, Ω, b, B, KE)
+├── array type: Array{Float64}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+└── max filesize: Inf YiB</code></pre><p>And now we...</p><pre><code class="language-julia hljs">@info &quot;*** Running a simulation of Kelvin-Helmholtz instability...&quot;
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: *** Running a simulation of Kelvin-Helmholtz instability...
+[ Info: Initializing simulation...
+[ Info:     ... simulation initialization complete (17.199 seconds)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (38.072 ms).
+[ Info: Simulation is stopping after running for 54.404 seconds.
+[ Info: Simulation time 54.621 seconds equals or exceeds stop time 54.621 seconds.</code></pre><h2 id="Pretty-things"><a class="docs-heading-anchor" href="#Pretty-things">Pretty things</a><a id="Pretty-things-1"></a><a class="docs-heading-anchor-permalink" href="#Pretty-things" title="Permalink"></a></h2><p>First we plot the nonlinear equilibration of the perturbation fields together with the evolution of the kinetic energy,</p><pre><code class="language-julia hljs">@info &quot;Making a neat movie of stratified shear flow...&quot;
+
+filepath = simulation.output_writers[:vorticity].filepath
+
+ω_timeseries = FieldTimeSeries(filepath, &quot;ω&quot;)
+b_timeseries = FieldTimeSeries(filepath, &quot;b&quot;)
+Ω_timeseries = FieldTimeSeries(filepath, &quot;Ω&quot;)
+B_timeseries = FieldTimeSeries(filepath, &quot;B&quot;)
+KE_timeseries = FieldTimeSeries(filepath, &quot;KE&quot;)
+
+times = ω_timeseries.times
+
+t_final = times[end]
+
+n = Observable(1)
+
+ωₙ = @lift interior(ω_timeseries, :, 1, :, $n)
+bₙ = @lift interior(b_timeseries, :, 1, :, $n)
+
+fig = Figure(resolution=(800, 600))
+
+kwargs = (xlabel=&quot;x&quot;, ylabel=&quot;z&quot;, limits = ((xω[1], xω[end]), (zω[1], zω[end])), aspect=1,)
+
+title = @lift @sprintf(&quot;t = %.2f&quot;, times[$n])
+
+ax_ω = Axis(fig[2, 1]; title = &quot;perturbation vorticity&quot;, kwargs...)
+
+ax_b = Axis(fig[2, 3]; title = &quot;perturbation buoyancy&quot;, kwargs...)
+
+ax_KE = Axis(fig[3, :];
+             yscale = log10,
+             limits = ((0, t_final), (initial_eigenmode_energy, 1e-1)),
+             xlabel = &quot;time&quot;)
+
+fig[1, :] = Label(fig, title, fontsize=24, tellwidth=false)
+
+ω_lims = @lift (-maximum(abs, interior(ω_timeseries, :, 1, :, $n)) - 1e-16, maximum(abs, interior(ω_timeseries, :, 1, :, $n)) + 1e-16)
+b_lims = @lift (-maximum(abs, interior(b_timeseries, :, 1, :, $n)) - 1e-16, maximum(abs, interior(b_timeseries, :, 1, :, $n)) + 1e-16)
+
+hm_ω = heatmap!(ax_ω, xω, zω, ωₙ; colorrange = ω_lims, colormap = :balance)
+Colorbar(fig[2, 2], hm_ω)
+
+hm_b = heatmap!(ax_b, xb, zb, bₙ; colorrange = b_lims, colormap = :balance)
+Colorbar(fig[2, 4], hm_b)
+
+tₙ = @lift times[1:$n]
+KEₙ = @lift KE_timeseries[1:$n]
+
+lines!(ax_KE, [0, t_final], @. initial_eigenmode_energy * exp(2 * estimated_growth_rate * [0, t_final]);
+       label = &quot;~ exp(2 σ t)&quot;,
+       linewidth = 2,
+       color = :black)
+
+lines!(ax_KE, times, KE_timeseries[:];
+       label = &quot;perturbation kinetic energy&quot;,
+       linewidth = 4, color = :blue, alpha = 0.4)
+
+KE_point = @lift Point2f[(times[$n], KE_timeseries[$n][1, 1, 1])]
+
+scatter!(ax_KE, KE_point;
+         marker = :circle, markersize = 16, color = :blue)
+
+frames = 1:length(times)
+
+record(fig, &quot;kelvin_helmholtz_instability_perturbations.mp4&quot;, frames, framerate=8) do i
+    @info &quot;Plotting frame $i of $(frames[end])...&quot;
+    n[] = i
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: Making a neat movie of stratified shear flow...
+[ Info: Plotting frame 1 of 51...
+[ Info: Plotting frame 2 of 51...
+[ Info: Plotting frame 3 of 51...
+[ Info: Plotting frame 4 of 51...
+[ Info: Plotting frame 5 of 51...
+[ Info: Plotting frame 6 of 51...
+[ Info: Plotting frame 7 of 51...
+[ Info: Plotting frame 8 of 51...
+[ Info: Plotting frame 9 of 51...
+[ Info: Plotting frame 10 of 51...
+[ Info: Plotting frame 11 of 51...
+[ Info: Plotting frame 12 of 51...
+[ Info: Plotting frame 13 of 51...
+[ Info: Plotting frame 14 of 51...
+[ Info: Plotting frame 15 of 51...
+[ Info: Plotting frame 16 of 51...
+[ Info: Plotting frame 17 of 51...
+[ Info: Plotting frame 18 of 51...
+[ Info: Plotting frame 19 of 51...
+[ Info: Plotting frame 20 of 51...
+[ Info: Plotting frame 21 of 51...
+[ Info: Plotting frame 22 of 51...
+[ Info: Plotting frame 23 of 51...
+[ Info: Plotting frame 24 of 51...
+[ Info: Plotting frame 25 of 51...
+[ Info: Plotting frame 26 of 51...
+[ Info: Plotting frame 27 of 51...
+[ Info: Plotting frame 28 of 51...
+[ Info: Plotting frame 29 of 51...
+[ Info: Plotting frame 30 of 51...
+[ Info: Plotting frame 31 of 51...
+[ Info: Plotting frame 32 of 51...
+[ Info: Plotting frame 33 of 51...
+[ Info: Plotting frame 34 of 51...
+[ Info: Plotting frame 35 of 51...
+[ Info: Plotting frame 36 of 51...
+[ Info: Plotting frame 37 of 51...
+[ Info: Plotting frame 38 of 51...
+[ Info: Plotting frame 39 of 51...
+[ Info: Plotting frame 40 of 51...
+[ Info: Plotting frame 41 of 51...
+[ Info: Plotting frame 42 of 51...
+[ Info: Plotting frame 43 of 51...
+[ Info: Plotting frame 44 of 51...
+[ Info: Plotting frame 45 of 51...
+[ Info: Plotting frame 46 of 51...
+[ Info: Plotting frame 47 of 51...
+[ Info: Plotting frame 48 of 51...
+[ Info: Plotting frame 49 of 51...
+[ Info: Plotting frame 50 of 51...
+[ Info: Plotting frame 51 of 51...</code></pre><p><video src="../kelvin_helmholtz_instability_perturbations.mp4" controls="true" title><a href="../kelvin_helmholtz_instability_perturbations.mp4"></a></video></p><p>And then the same for total vorticity &amp; buoyancy of the fluid.</p><pre><code class="language-julia hljs">n = Observable(1)
+
+Ωₙ = @lift interior(Ω_timeseries, :, 1, :, $n)
+Bₙ = @lift interior(B_timeseries, :, 1, :, $n)
+
+fig = Figure(resolution=(800, 600))
+
+kwargs = (xlabel=&quot;x&quot;, ylabel=&quot;z&quot;, limits = ((xω[1], xω[end]), (zω[1], zω[end])), aspect=1,)
+
+title = @lift @sprintf(&quot;t = %.2f&quot;, times[$n])
+
+ax_Ω = Axis(fig[2, 1]; title = &quot;total vorticity&quot;, kwargs...)
+
+ax_B = Axis(fig[2, 3]; title = &quot;total buoyancy&quot;, kwargs...)
+
+ax_KE = Axis(fig[3, :];
+             yscale = log10,
+             limits = ((0, t_final), (initial_eigenmode_energy, 1e-1)),
+             xlabel = &quot;time&quot;)
+
+fig[1, :] = Label(fig, title, fontsize=24, tellwidth=false)
+
+hm_Ω = heatmap!(ax_Ω, xω, zω, Ωₙ; colorrange = (-1, 1), colormap = :balance)
+Colorbar(fig[2, 2], hm_Ω)
+
+hm_B = heatmap!(ax_B, xb, zb, Bₙ; colorrange = (-0.05, 0.05), colormap = :balance)
+Colorbar(fig[2, 4], hm_B)
+
+tₙ = @lift times[1:$n]
+KEₙ = @lift KE_timeseries[1, 1, 1, 1:$n]
+
+lines!(ax_KE, [0, t_final], @. initial_eigenmode_energy * exp(2 * estimated_growth_rate * [0, t_final]);
+       label = &quot;~ exp(2 σ t)&quot;,
+       linewidth = 2,
+       color = :black)
+
+lines!(ax_KE, times, KE_timeseries[:];
+       label = &quot;perturbation kinetic energy&quot;,
+       linewidth = 4, color = :blue, alpha = 0.4)
+
+KE_point = @lift Point2f[(times[$n], KE_timeseries[$n][1, 1, 1])]
+
+scatter!(ax_KE, KE_point;
+         marker = :circle, markersize = 16, color = :blue)
+
+axislegend(ax_KE; position = :rb)
+
+record(fig, &quot;kelvin_helmholtz_instability_total.mp4&quot;, frames, framerate=8) do i
+       @info &quot;Plotting frame $i of $(frames[end])...&quot;
+       n[] = i
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: Plotting frame 1 of 51...
+[ Info: Plotting frame 2 of 51...
+[ Info: Plotting frame 3 of 51...
+[ Info: Plotting frame 4 of 51...
+[ Info: Plotting frame 5 of 51...
+[ Info: Plotting frame 6 of 51...
+[ Info: Plotting frame 7 of 51...
+[ Info: Plotting frame 8 of 51...
+[ Info: Plotting frame 9 of 51...
+[ Info: Plotting frame 10 of 51...
+[ Info: Plotting frame 11 of 51...
+[ Info: Plotting frame 12 of 51...
+[ Info: Plotting frame 13 of 51...
+[ Info: Plotting frame 14 of 51...
+[ Info: Plotting frame 15 of 51...
+[ Info: Plotting frame 16 of 51...
+[ Info: Plotting frame 17 of 51...
+[ Info: Plotting frame 18 of 51...
+[ Info: Plotting frame 19 of 51...
+[ Info: Plotting frame 20 of 51...
+[ Info: Plotting frame 21 of 51...
+[ Info: Plotting frame 22 of 51...
+[ Info: Plotting frame 23 of 51...
+[ Info: Plotting frame 24 of 51...
+[ Info: Plotting frame 25 of 51...
+[ Info: Plotting frame 26 of 51...
+[ Info: Plotting frame 27 of 51...
+[ Info: Plotting frame 28 of 51...
+[ Info: Plotting frame 29 of 51...
+[ Info: Plotting frame 30 of 51...
+[ Info: Plotting frame 31 of 51...
+[ Info: Plotting frame 32 of 51...
+[ Info: Plotting frame 33 of 51...
+[ Info: Plotting frame 34 of 51...
+[ Info: Plotting frame 35 of 51...
+[ Info: Plotting frame 36 of 51...
+[ Info: Plotting frame 37 of 51...
+[ Info: Plotting frame 38 of 51...
+[ Info: Plotting frame 39 of 51...
+[ Info: Plotting frame 40 of 51...
+[ Info: Plotting frame 41 of 51...
+[ Info: Plotting frame 42 of 51...
+[ Info: Plotting frame 43 of 51...
+[ Info: Plotting frame 44 of 51...
+[ Info: Plotting frame 45 of 51...
+[ Info: Plotting frame 46 of 51...
+[ Info: Plotting frame 47 of 51...
+[ Info: Plotting frame 48 of 51...
+[ Info: Plotting frame 49 of 51...
+[ Info: Plotting frame 50 of 51...
+[ Info: Plotting frame 51 of 51...</code></pre><p><video src="../kelvin_helmholtz_instability_total.mp4" controls="true" title><a href="../kelvin_helmholtz_instability_total.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../baroclinic_adjustment/">« Baroclinic adjustment</a><a class="docs-footer-nextpage" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Wednesday 7 June 2023 00:49">Wednesday 7 June 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

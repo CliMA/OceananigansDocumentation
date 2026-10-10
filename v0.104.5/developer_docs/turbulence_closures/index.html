@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Implementing turbulence closures · Oceananigans.jl</title><meta name="title" content="Implementing turbulence closures · Oceananigans.jl"/><meta property="og:title" content="Implementing turbulence closures · Oceananigans.jl"/><meta property="twitter:title" content="Implementing turbulence closures · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/developer_docs/turbulence_closures/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/developer_docs/turbulence_closures/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/developer_docs/turbulence_closures/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../literated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../../literated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../../literated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../../literated/internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../../literated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../../literated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../../literated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../../literated/baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../../literated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../../literated/hydrostatic_lock_exchange/">Hydrostatic lock exchange with CATKE</a></li><li><a class="tocitem" href="../../literated/shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../../literated/horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../../literated/tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li><li><a class="tocitem" href="../../literated/spherical_baroclinic_instability/">Spherical baroclinic instability</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../models/models_overview/">Overview</a></li><li><a class="tocitem" href="../../models/coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../../models/buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../../models/stokes_drift/">Stokes drift</a></li><li><a class="tocitem" href="../../models/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../models/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../models/forcing_functions/">Forcings</a></li><li><a class="tocitem" href="../../models/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../models/background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../simulations/simulations_overview/">Overview</a></li><li><a class="tocitem" href="../../simulations/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../../simulations/schedules/">Schedules</a></li><li><a class="tocitem" href="../../simulations/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../simulations/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/coordinate_systems/">Coordinate systems</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox" checked/><label class="tocitem" for="menuitem-12"><span class="docs-label">For developers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../model_interface/">Model interface</a></li><li class="is-active"><a class="tocitem" href>Implementing turbulence closures</a><ul class="internal"><li><a class="tocitem" href="#Overview"><span>Overview</span></a></li><li><a class="tocitem" href="#Step-by-step-implementation"><span>Step-by-step implementation</span></a></li><li><a class="tocitem" href="#Simulating-a-wind-driven-boundary-layer"><span>Simulating a wind-driven boundary layer</span></a></li><li><a class="tocitem" href="#How-diffusivities-become-fluxes"><span>How diffusivities become fluxes</span></a></li><li><a class="tocitem" href="#Time-discretization"><span>Time discretization</span></a></li><li><a class="tocitem" href="#Advanced-features"><span>Advanced features</span></a></li><li><a class="tocitem" href="#Testing"><span>Testing</span></a></li><li><a class="tocitem" href="#Contributing-your-closure-to-Oceananigans"><span>Contributing your closure to Oceananigans</span></a></li><li><a class="tocitem" href="#Summary"><span>Summary</span></a></li></ul></li><li><a class="tocitem" href="../AGENTS/">Rules for agent-assisted development</a></li></ul></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">For developers</a></li><li class="is-active"><a href>Implementing turbulence closures</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Implementing turbulence closures</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/docs/src/developer_docs/turbulence_closures.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Implementing-Turbulence-Closures"><a class="docs-heading-anchor" href="#Implementing-Turbulence-Closures">Implementing Turbulence Closures</a><a id="Implementing-Turbulence-Closures-1"></a><a class="docs-heading-anchor-permalink" href="#Implementing-Turbulence-Closures" title="Permalink"></a></h1><p>This guide shows how to implement a turbulence closure in Oceananigans. We&#39;ll build <code>PacanowskiPhilanderVerticalDiffusivity</code>, a Richardson number-based mixing parameterization from <a href="../../references/#PacanowskiPhilander81">Pacanowski and Philander (1981)</a>.</p><p>The Pacanowski-Philander formulation computes eddy viscosity <span>$\nu$</span> and diffusivity <span>$\kappa$</span> as</p><p class="math-container">\[\nu = \nu_0 + \frac{\nu_1}{(1 + c \, Ri)^n}, \quad
+\kappa = \kappa_0 + \frac{\nu_1}{(1 + c \, Ri)^{n+1}}\]</p><p>where <span>$Ri = N^2 / S^2$</span> is the gradient Richardson number (stratification over shear squared).</p><p>Julia&#39;s multiple dispatch lets us implement this closure anywhere—a script, a package, or within Oceananigans itself—and it will integrate seamlessly with <a href="../../models/models_overview/#Oceananigans.Models.NonhydrostaticModels.NonhydrostaticModel"><code>NonhydrostaticModel</code></a> and <a href="../../numerical_implementation/time_stepping/#HydrostaticFreeSurfaceModel"><code>HydrostaticFreeSurfaceModel</code></a>.</p><h2 id="Overview"><a class="docs-heading-anchor" href="#Overview">Overview</a><a id="Overview-1"></a><a class="docs-heading-anchor-permalink" href="#Overview" title="Permalink"></a></h2><p>Turbulence closures add diffusive fluxes to the momentum and tracer equations. The key components are:</p><ol><li><strong>Abstract types</strong> for dispatch</li><li><strong>Diffusivity computation</strong> before each time step</li><li><strong>Flux functions</strong> that use precomputed diffusivities</li><li><strong>Time discretization</strong> (explicit or vertically implicit)</li></ol><p>All closures inherit from <code>AbstractTurbulenceClosure{TimeDiscretization, RequiredHalo}</code>. For scalar diffusivities, we use <code>AbstractScalarDiffusivity{TD, Formulation, RequiredHalo}</code> where <code>Formulation</code> is <code>VerticalFormulation</code>, <code>HorizontalFormulation</code>, or <code>ThreeDimensionalFormulation</code>. See the <a href="../../models/turbulence_closures/#turbulence_closures">Turbulence closures</a> documentation for a list of built-in closures.</p><h2 id="Step-by-step-implementation"><a class="docs-heading-anchor" href="#Step-by-step-implementation">Step-by-step implementation</a><a id="Step-by-step-implementation-1"></a><a class="docs-heading-anchor-permalink" href="#Step-by-step-implementation" title="Permalink"></a></h2><h3 id="Step-1:-Define-the-struct"><a class="docs-heading-anchor" href="#Step-1:-Define-the-struct">Step 1: Define the struct</a><a id="Step-1:-Define-the-struct-1"></a><a class="docs-heading-anchor-permalink" href="#Step-1:-Define-the-struct" title="Permalink"></a></h3><p>The closure struct holds its parameters:</p><pre><code class="language-julia hljs">using Oceananigans.TurbulenceClosures: AbstractScalarDiffusivity, VerticalFormulation
+
+struct PacanowskiPhilanderVerticalDiffusivity{TD, FT} &lt;: AbstractScalarDiffusivity{TD, VerticalFormulation, 1}
+    ν₀ :: FT  # Background viscosity
+    ν₁ :: FT  # Shear-driven viscosity coefficient
+    κ₀ :: FT  # Background diffusivity
+    c  :: FT  # Richardson number scaling coefficient
+    n  :: FT  # Exponent for viscosity
+    maximum_diffusivity :: FT
+    maximum_viscosity :: FT
+end</code></pre><p>Key points:</p><ul><li><strong>Type parameters</strong>: <code>TD</code> is the time discretization, <code>FT</code> is the float type</li><li><strong>Supertype</strong>: <code>AbstractScalarDiffusivity{TD, VerticalFormulation, 1}</code> indicates:<ul><li>This closure uses scalar (not tensor) diffusivities</li><li>It only acts in the vertical direction (<code>VerticalFormulation</code>)</li><li>It requires a halo size of 1</li></ul></li><li><strong>All fields are concretely typed</strong>: This is essential for type stability and GPU performance</li></ul><h3 id="Step-2:-Create-the-constructor"><a class="docs-heading-anchor" href="#Step-2:-Create-the-constructor">Step 2: Create the constructor</a><a id="Step-2:-Create-the-constructor-1"></a><a class="docs-heading-anchor-permalink" href="#Step-2:-Create-the-constructor" title="Permalink"></a></h3><p>Provide a user-friendly constructor with sensible defaults:</p><pre><code class="language-julia hljs">using Oceananigans: VerticallyImplicitTimeDiscretization
+
+function PacanowskiPhilanderVerticalDiffusivity(time_discretization = VerticallyImplicitTimeDiscretization(),
+                                                FT = Float64;
+                                                ν₀ = 1e-4, ν₁ = 1e-2, κ₀ = 1e-5,
+                                                c  = 5.0, n  = 2.0,
+                                                maximum_diffusivity = Inf,
+                                                maximum_viscosity = Inf)
+
+    TD = typeof(time_discretization)
+
+    return PacanowskiPhilanderVerticalDiffusivity{TD, FT}(
+        convert(FT, ν₀),
+        convert(FT, ν₁),
+        convert(FT, κ₀),
+        convert(FT, c),
+        convert(FT, n),
+        convert(FT, maximum_diffusivity),
+        convert(FT, maximum_viscosity))
+end
+
+# Test it works
+PacanowskiPhilanderVerticalDiffusivity()</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Main.PacanowskiPhilanderVerticalDiffusivity{VerticallyImplicitTimeDiscretization, Float64}(0.0001, 0.01, 1.0e-5, 5.0, 2.0, Inf, Inf)</code></pre><p>Important conventions:</p><ul><li>The first positional argument is <code>time_discretization</code></li><li>The second positional argument is the float type <code>FT</code></li><li>All physics parameters are keyword arguments</li><li><strong>Always <code>convert</code> to <code>FT</code></strong> to ensure type consistency</li></ul><h3 id="Step-3:-Define-locations-and-accessors"><a class="docs-heading-anchor" href="#Step-3:-Define-locations-and-accessors">Step 3: Define locations and accessors</a><a id="Step-3:-Define-locations-and-accessors-1"></a><a class="docs-heading-anchor-permalink" href="#Step-3:-Define-locations-and-accessors" title="Permalink"></a></h3><p>Diffusivities live at specific grid locations. Vertical diffusivities that multiply vertical gradients belong at <code>(Center, Center, Face)</code>. We also define accessors that extract the viscosity and diffusivity from the precomputed fields:</p><pre><code class="language-julia hljs">using Oceananigans.Grids: Center, Face
+using Oceananigans.TurbulenceClosures
+
+const PPVD = PacanowskiPhilanderVerticalDiffusivity
+
+## Locations
+@inline TurbulenceClosures.viscosity_location(::PPVD) = (Center(), Center(), Face())
+@inline TurbulenceClosures.diffusivity_location(::PPVD) = (Center(), Center(), Face())
+
+## Accessors (extract from precomputed fields)
+@inline TurbulenceClosures.viscosity(::PPVD, diffusivities) = diffusivities.νz
+@inline TurbulenceClosures.diffusivity(::PPVD, diffusivities, id) = diffusivities.κz</code></pre><p>The <code>id</code> argument is the tracer index, useful for closures with tracer-specific diffusivities.</p><h3 id="Step-4:-Build-closure-fields"><a class="docs-heading-anchor" href="#Step-4:-Build-closure-fields">Step 4: Build closure fields</a><a id="Step-4:-Build-closure-fields-1"></a><a class="docs-heading-anchor-permalink" href="#Step-4:-Build-closure-fields" title="Permalink"></a></h3><p>Closures that precompute diffusivities need storage <a href="../../appendix/library/#Oceananigans.Fields.Field-Union{Tuple{Oceananigans.Grids.AbstractGrid}, Tuple{LZ}, Tuple{LY}, Tuple{LX}, Tuple{Oceananigans.Grids.AbstractGrid, DataType}} where {LX, LY, LZ}"><code>Field</code></a>s. Define <code>build_closure_fields</code> to create them:</p><pre><code class="language-julia hljs">using Oceananigans.Fields: Field
+
+function TurbulenceClosures.build_closure_fields(grid, clock, tracer_names, bcs, closure::PPVD)
+    κz = Field{Center, Center, Face}(grid)
+    νz = Field{Center, Center, Face}(grid)
+    return (; κz, νz)
+end</code></pre><p>The returned <code>NamedTuple</code> becomes <code>model.closure_fields</code> and is passed to <code>compute_diffusivities!</code> and flux functions.</p><h3 id="Step-5:-Implement-diffusivity-computation"><a class="docs-heading-anchor" href="#Step-5:-Implement-diffusivity-computation">Step 5: Implement diffusivity computation</a><a id="Step-5:-Implement-diffusivity-computation-1"></a><a class="docs-heading-anchor-permalink" href="#Step-5:-Implement-diffusivity-computation" title="Permalink"></a></h3><p>The core of the closure is <code>compute_diffusivities!</code>, which updates diffusivity fields each time step. First, helper functions for the Richardson number:</p><pre><code class="language-julia hljs">using Oceananigans.BuoyancyFormulations: ∂z_b
+using Oceananigans.Operators: ℑxᶜᵃᵃ, ℑyᵃᶜᵃ, ∂zᶠᶜᶠ, ∂zᶜᶠᶠ
+
+## Square a function evaluation at a point
+@inline ϕ²(i, j, k, grid, ϕ, args...) = ϕ(i, j, k, grid, args...)^2
+
+## Compute vertical shear squared at (Center, Center, Face)
+@inline function shear_squaredᶜᶜᶠ(i, j, k, grid, velocities)
+    ∂z_u² = ℑxᶜᵃᵃ(i, j, k, grid, ϕ², ∂zᶠᶜᶠ, velocities.u)
+    ∂z_v² = ℑyᵃᶜᵃ(i, j, k, grid, ϕ², ∂zᶜᶠᶠ, velocities.v)
+    return ∂z_u² + ∂z_v²
+end
+
+## Compute Richardson number at (Center, Center, Face)
+@inline function Riᶜᶜᶠ(i, j, k, grid, velocities, buoyancy, tracers)
+    S² = shear_squaredᶜᶜᶠ(i, j, k, grid, velocities)
+    N² = ∂z_b(i, j, k, grid, buoyancy, tracers)
+    S²_min = eps(eltype(grid))
+    Ri = max(zero(grid), N²) / max(S², S²_min)
+    return Ri
+end</code></pre><p>Now the main function and GPU kernel:</p><pre><code class="language-julia hljs">using Oceananigans.Utils: launch!
+using Oceananigans.TurbulenceClosures: buoyancy_tracers, buoyancy_force
+using KernelAbstractions: @kernel, @index
+
+function TurbulenceClosures.compute_diffusivities!(diffusivities, closure::PPVD, model; parameters = :xyz)
+    arch = model.architecture
+    grid = model.grid
+    tracers = buoyancy_tracers(model)
+    buoyancy = buoyancy_force(model)
+    velocities = model.velocities
+
+    launch!(arch, grid, parameters,
+            compute_pp_diffusivities!, diffusivities, grid, closure, velocities, tracers, buoyancy)
+
+    return nothing
+end
+
+@kernel function compute_pp_diffusivities!(diffusivities, grid, closure, velocities, tracers, buoyancy)
+    i, j, k = @index(Global, NTuple)
+
+    Ri = Riᶜᶜᶠ(i, j, k, grid, velocities, buoyancy, tracers)
+
+    ## Extract parameters
+    ν₀ = closure.ν₀
+    ν₁ = closure.ν₁
+    κ₀ = closure.κ₀
+    c  = closure.c
+    n  = closure.n
+
+    ## Pacanowski-Philander formulas
+    denominator = 1 + c * Ri
+    νz = ν₀ + ν₁ / denominator^n
+    κz = κ₀ + ν₁ / denominator^(n + 1)
+
+    ## Apply maximum limits
+    νz = min(νz, closure.maximum_viscosity)
+    κz = min(κz, closure.maximum_diffusivity)
+
+    @inbounds diffusivities.νz[i, j, k] = νz
+    @inbounds diffusivities.κz[i, j, k] = κz
+end</code></pre><p><strong>GPU compatibility rules for kernels:</strong></p><ul><li>Use <code>@kernel</code> from KernelAbstractions.jl</li><li>Use <code>@index(Global, NTuple)</code> to get indices</li><li>Use <code>@inbounds</code> for array access</li><li><strong>Never use <code>if</code>/<code>else</code> with different types</strong>—use <code>ifelse</code> instead</li><li><strong>Never throw errors</strong>—GPU kernels cannot print or throw</li><li>Avoid allocations</li></ul><h3 id="Step-6:-Implement-show-methods"><a class="docs-heading-anchor" href="#Step-6:-Implement-show-methods">Step 6: Implement <code>show</code> methods</a><a id="Step-6:-Implement-show-methods-1"></a><a class="docs-heading-anchor-permalink" href="#Step-6:-Implement-show-methods" title="Permalink"></a></h3><p>Good display methods help users understand their closures:</p><pre><code class="language-julia hljs">using Oceananigans.Utils: prettysummary
+
+Base.summary(closure::PPVD{TD}) where TD =
+    string(&quot;PacanowskiPhilanderVerticalDiffusivity{$TD}&quot;)
+
+function Base.show(io::IO, closure::PPVD)
+    print(io, summary(closure), &quot;:\n&quot;)
+    print(io, &quot;├── ν₀: &quot;, prettysummary(closure.ν₀), &#39;\n&#39;)
+    print(io, &quot;├── ν₁: &quot;, prettysummary(closure.ν₁), &#39;\n&#39;)
+    print(io, &quot;├── κ₀: &quot;, prettysummary(closure.κ₀), &#39;\n&#39;)
+    print(io, &quot;├── c: &quot;, prettysummary(closure.c), &#39;\n&#39;)
+    print(io, &quot;└── n: &quot;, prettysummary(closure.n))
+end
+
+# Test it
+PacanowskiPhilanderVerticalDiffusivity()</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">PacanowskiPhilanderVerticalDiffusivity{VerticallyImplicitTimeDiscretization}:
+├── ν₀: 0.0001
+├── ν₁: 0.01
+├── κ₀: 1.0e-5
+├── c: 5.0
+└── n: 2.0</code></pre><h2 id="Simulating-a-wind-driven-boundary-layer"><a class="docs-heading-anchor" href="#Simulating-a-wind-driven-boundary-layer">Simulating a wind-driven boundary layer</a><a id="Simulating-a-wind-driven-boundary-layer-1"></a><a class="docs-heading-anchor-permalink" href="#Simulating-a-wind-driven-boundary-layer" title="Permalink"></a></h2><p>Let&#39;s test the closure by comparing it with <a href="../../models/turbulence_closures/#CATKEVerticalDiffusivity"><code>CATKEVerticalDiffusivity</code></a> and <a href="../../models/turbulence_closures/#TKEDissipationVerticalDiffusivity"><code>TKEDissipationVerticalDiffusivity</code></a> in a wind-driven boundary layer simulation.</p><p>First, we set up the simulation parameters:</p><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units
+
+Lz = 256       # Domain depth (m)
+Nz = 64        # Vertical resolution
+N² = 1e-5      # Background stratification (s⁻²)
+τˣ = -1e-4     # Surface kinematic stress (m² s⁻²), i.e. wind stress / density
+Jᵇ = 0         # Surface buoyancy flux (m² s⁻³)
+f  = 1e-4      # Coriolis parameter (s⁻¹)
+
+stop_time = 2days</code></pre><p>We&#39;ll create a helper function to set up and run simulations:</p><pre><code class="language-julia hljs">function run_boundary_layer(closure; stop_time)
+    grid = RectilinearGrid(size=Nz, z=(-Lz, 0), topology=(Flat, Flat, Bounded))
+
+    u_bcs = FieldBoundaryConditions(top = FluxBoundaryCondition(τˣ))
+    b_bcs = FieldBoundaryConditions(top = FluxBoundaryCondition(Jᵇ))
+
+    model = HydrostaticFreeSurfaceModel(grid;
+                                        closure,
+                                        buoyancy = BuoyancyTracer(),
+                                        tracers = :b,
+                                        coriolis = FPlane(f=f),
+                                        boundary_conditions = (u=u_bcs, b=b_bcs))
+
+    set!(model, b = z -&gt; N² * z)  # linear stratification
+
+    simulation = Simulation(model; Δt=10minutes, stop_time)
+    conjure_time_step_wizard!(simulation, cfl=0.5, max_Δt=10minutes)
+    run!(simulation)
+
+    return model
+end</code></pre><p>Run all three closures:</p><pre><code class="language-julia hljs">## Run with Pacanowski-Philander
+pp_closure = PacanowskiPhilanderVerticalDiffusivity(ν₁=5e-3, c=5.0)
+model_pp = run_boundary_layer(pp_closure; stop_time)
+
+## Run with CATKE
+catke_closure = CATKEVerticalDiffusivity()
+model_catke = run_boundary_layer(catke_closure; stop_time)
+
+## Run with TKE-Dissipation (k-ε style)
+tked_closure = TKEDissipationVerticalDiffusivity()
+model_tked = run_boundary_layer(tked_closure; stop_time)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (675.802 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (5.470 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 8.490 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 2 days equals or exceeds stop time 2 days.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (98.597 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (3.872 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 4.067 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 2 days equals or exceeds stop time 2 days.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (96.135 ms)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (4.492 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 4.695 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 2 days equals or exceeds stop time 2 days.</code></pre><p>Let&#39;s visualize the resulting boundary layer profiles:</p><pre><code class="language-julia hljs">using CairoMakie
+
+fig = Figure(size=(1000, 400))
+
+z_pp = znodes(model_pp.tracers.b)
+z_catke = znodes(model_catke.tracers.b)
+z_tked = znodes(model_tked.tracers.b)
+
+## Buoyancy profiles
+ax1 = Axis(fig[1, 1], xlabel=&quot;Buoyancy (m s⁻²)&quot;, ylabel=&quot;z (m)&quot;,
+           title=&quot;Buoyancy profile&quot;)
+
+lpp = lines!(ax1, interior(model_pp.tracers.b, 1, 1, :), z_pp,
+             label=&quot;Pacanowski-Philander&quot;, linewidth=2)
+lcatke = lines!(ax1, interior(model_catke.tracers.b, 1, 1, :), z_catke,
+                label=&quot;CATKE&quot;, linewidth=2, linestyle=:dash)
+ltked = lines!(ax1, interior(model_tked.tracers.b, 1, 1, :), z_tked,
+               label=&quot;TKE-Dissipation&quot;, linewidth=2, linestyle=:dot)
+
+## Velocity profiles
+ax2 = Axis(fig[1, 2], xlabel=&quot;Velocity (m s⁻¹)&quot;, ylabel=&quot;z (m)&quot;,
+           title=&quot;Zonal velocity&quot;)
+
+lines!(ax2, interior(model_pp.velocities.u, 1, 1, :), z_pp,
+       label=&quot;PP&quot;, linewidth=2)
+lines!(ax2, interior(model_catke.velocities.u, 1, 1, :), z_catke,
+       label=&quot;CATKE&quot;, linewidth=2, linestyle=:dash)
+lines!(ax2, interior(model_tked.velocities.u, 1, 1, :), z_tked,
+       label=&quot;TKE-ϵ&quot;, linewidth=2, linestyle=:dot)
+
+## Diffusivity profiles
+ax3 = Axis(fig[1, 3], xlabel=&quot;Diffusivity (m² s⁻¹)&quot;, ylabel=&quot;z (m)&quot;,
+           title=&quot;Tracer diffusivity&quot;, xscale=log10)
+
+z_face_pp = znodes(model_pp.closure_fields.κz)
+κ_pp = interior(model_pp.closure_fields.κz, 1, 1, :)
+κ_pp_plot = max.(κ_pp, 1e-6)  ## Avoid log of zero
+lines!(ax3, κ_pp_plot, z_face_pp, label=&quot;PP&quot;, linewidth=2)
+
+z_face_catke = znodes(model_catke.closure_fields.κc)
+κ_catke = interior(model_catke.closure_fields.κc, 1, 1, :)
+κ_catke_plot = max.(κ_catke, 1e-6)
+lines!(ax3, κ_catke_plot, z_face_catke, label=&quot;CATKE&quot;, linewidth=2, linestyle=:dash)
+
+z_face_tked = znodes(model_tked.closure_fields.κu)
+κ_tked = interior(model_tked.closure_fields.κu, 1, 1, :)
+κ_tked_plot = max.(κ_tked, 1e-6)
+lines!(ax3, κ_tked_plot, z_face_tked, label=&quot;TKE-ε&quot;, linewidth=2, linestyle=:dot)
+
+fig[2, :] = Legend(fig, [lpp, lcatke, ltked], [&quot;Pacanowski-Philander&quot;, &quot;CATKE&quot;, &quot;TKE-ε&quot;],
+                   orientation = :horizontal, tellwidth = false, framevisible = false)
+
+rowsize!(fig.layout, 2, Auto(0.15))  # adjust legend row height
+rowgap!(fig.layout, 10)
+
+fig</code></pre><img src="40648365.png" alt="Example block output"/><p>The comparison reveals differences in how the closures parameterize mixing:</p><ul><li><strong>Pacanowski-Philander</strong> uses a local Richardson number formulation, producing smooth diffusivity profiles that respond directly to the local shear and stratification</li><li><a href="../../models/turbulence_closures/#CATKEVerticalDiffusivity"><code>CATKEVerticalDiffusivity</code></a> uses a prognostic TKE equation that captures non-local effects and produces sharper transitions at the boundary layer base</li><li><a href="../../models/turbulence_closures/#TKEDissipationVerticalDiffusivity"><code>TKEDissipationVerticalDiffusivity</code></a> (k-ε) uses two prognostic equations (for TKE and dissipation rate) allowing independent control of mixing length scales</li></ul><h2 id="How-diffusivities-become-fluxes"><a class="docs-heading-anchor" href="#How-diffusivities-become-fluxes">How diffusivities become fluxes</a><a id="How-diffusivities-become-fluxes-1"></a><a class="docs-heading-anchor-permalink" href="#How-diffusivities-become-fluxes" title="Permalink"></a></h2><ol><li><code>compute_diffusivities!</code> is called during <code>update_state!</code></li><li>Precomputed diffusivities are stored in <code>model.closure_fields</code></li><li>During tendency computation, flux functions (<code>diffusive_flux_z</code>, <code>viscous_flux_uz</code>, etc.) use the <code>viscosity()</code> and <code>diffusivity()</code> accessors</li></ol><p>For <code>AbstractScalarDiffusivity</code>, flux functions are already implemented—you don&#39;t need to write them.</p><h2 id="Time-discretization"><a class="docs-heading-anchor" href="#Time-discretization">Time discretization</a><a id="Time-discretization-1"></a><a class="docs-heading-anchor-permalink" href="#Time-discretization" title="Permalink"></a></h2><p>Two options for diffusive terms:</p><p><code>ExplicitTimeDiscretization</code> — simple but has a diffusive CFL constraint:</p><pre><code class="language-julia hljs">using Oceananigans.TurbulenceClosures: ExplicitTimeDiscretization
+
+closure = PacanowskiPhilanderVerticalDiffusivity(ExplicitTimeDiscretization())</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">PacanowskiPhilanderVerticalDiffusivity{ExplicitTimeDiscretization}:
+├── ν₀: 0.0001
+├── ν₁: 0.01
+├── κ₀: 1.0e-5
+├── c: 5.0
+└── n: 2.0</code></pre><p><code>VerticallyImplicitTimeDiscretization</code> (default) — stable for large diffusivities, uses a tridiagonal solver:</p><pre><code class="language-julia hljs">closure = PacanowskiPhilanderVerticalDiffusivity(VerticallyImplicitTimeDiscretization())</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">PacanowskiPhilanderVerticalDiffusivity{VerticallyImplicitTimeDiscretization}:
+├── ν₀: 0.0001
+├── ν₁: 0.01
+├── κ₀: 1.0e-5
+├── c: 5.0
+└── n: 2.0</code></pre><h2 id="Advanced-features"><a class="docs-heading-anchor" href="#Advanced-features">Advanced features</a><a id="Advanced-features-1"></a><a class="docs-heading-anchor-permalink" href="#Advanced-features" title="Permalink"></a></h2><h3 id="Closures-that-require-extra-tracers"><a class="docs-heading-anchor" href="#Closures-that-require-extra-tracers">Closures that require extra tracers</a><a id="Closures-that-require-extra-tracers-1"></a><a class="docs-heading-anchor-permalink" href="#Closures-that-require-extra-tracers" title="Permalink"></a></h3><p>Some closures (like <a href="../../models/turbulence_closures/#CATKEVerticalDiffusivity"><code>CATKEVerticalDiffusivity</code></a>) require prognostic equations for additional quantities (like TKE). Implement:</p><pre><code class="language-julia hljs">closure_required_tracers(::MyClosure) = (:e,)  # requires tracer named :e</code></pre><h3 id="Closures-that-modify-boundary-conditions"><a class="docs-heading-anchor" href="#Closures-that-modify-boundary-conditions">Closures that modify boundary conditions</a><a id="Closures-that-modify-boundary-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Closures-that-modify-boundary-conditions" title="Permalink"></a></h3><p>Some closures need special boundary conditions. Implement:</p><pre><code class="language-julia hljs">add_closure_specific_boundary_conditions(closure::MyClosure, bcs, args...) = modified_bcs</code></pre><h3 id="Custom-flux-functions"><a class="docs-heading-anchor" href="#Custom-flux-functions">Custom flux functions</a><a id="Custom-flux-functions-1"></a><a class="docs-heading-anchor-permalink" href="#Custom-flux-functions" title="Permalink"></a></h3><p>For non-standard flux formulations (like tensor diffusivities for isopycnal mixing), you can override the flux functions directly. See <a href="../../models/turbulence_closures/#IsopycnalSkewSymmetricDiffusivity"><code>IsopycnalSkewSymmetricDiffusivity</code></a> for an example.</p><h2 id="Testing"><a class="docs-heading-anchor" href="#Testing">Testing</a><a id="Testing-1"></a><a class="docs-heading-anchor-permalink" href="#Testing" title="Permalink"></a></h2><p>Create tests that verify:</p><ol><li><strong>Construction</strong>: The closure constructs with default and custom parameters</li><li><strong>Type stability</strong>: Use <code>@code_warntype</code> on critical functions</li><li><strong>GPU compatibility</strong>: Run on GPU to catch dynamic dispatch issues</li><li><strong>Physical behavior</strong>: Test that diffusivities respond correctly to flow conditions</li><li><strong>Conservation</strong>: Verify that the closure doesn&#39;t create or destroy tracer mass</li></ol><p>Example test:</p><pre><code class="language-julia hljs">using Test
+
+closure = PacanowskiPhilanderVerticalDiffusivity()
+grid = RectilinearGrid(size=(4, 4, 4), extent=(1, 1, 1))
+model = NonhydrostaticModel(grid; closure=closure, buoyancy=BuoyancyTracer(), tracers=:b)
+
+@test model isa NonhydrostaticModel
+
+time_step!(model, 1)
+@test model.clock.time == 1</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr32"><span class="sgr1">Test Passed</span></span></code></pre><h2 id="Contributing-your-closure-to-Oceananigans"><a class="docs-heading-anchor" href="#Contributing-your-closure-to-Oceananigans">Contributing your closure to Oceananigans</a><a id="Contributing-your-closure-to-Oceananigans-1"></a><a class="docs-heading-anchor-permalink" href="#Contributing-your-closure-to-Oceananigans" title="Permalink"></a></h2><p>The closure we implemented above works immediately—you can use it in any script or package. Julia&#39;s multiple dispatch means the methods we defined integrate seamlessly with Oceananigans without modifying the source code.</p><p>If you&#39;d like to contribute your closure to Oceananigans itself, here are the additional steps:</p><h3 id="1.-Create-a-source-file"><a class="docs-heading-anchor" href="#1.-Create-a-source-file">1. Create a source file</a><a id="1.-Create-a-source-file-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Create-a-source-file" title="Permalink"></a></h3><p>Place your implementation in a file under <code>src/TurbulenceClosures/turbulence_closure_implementations/</code>. For example:</p><pre><code class="nohighlight hljs">src/TurbulenceClosures/turbulence_closure_implementations/pacanowski_philander_vertical_diffusivity.jl</code></pre><h3 id="2.-Include-the-file"><a class="docs-heading-anchor" href="#2.-Include-the-file">2. Include the file</a><a id="2.-Include-the-file-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Include-the-file" title="Permalink"></a></h3><p>Add an <code>include</code> statement in <code>src/TurbulenceClosures/TurbulenceClosures.jl</code>:</p><pre><code class="language-julia hljs">include(&quot;turbulence_closure_implementations/pacanowski_philander_vertical_diffusivity.jl&quot;)</code></pre><h3 id="3.-Export-the-closure"><a class="docs-heading-anchor" href="#3.-Export-the-closure">3. Export the closure</a><a id="3.-Export-the-closure-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Export-the-closure" title="Permalink"></a></h3><p>Add the closure to the exports in <code>TurbulenceClosures.jl</code>:</p><pre><code class="language-julia hljs">export PacanowskiPhilanderVerticalDiffusivity</code></pre><p>And if it should be part of the top-level public API, also export it from <code>src/Oceananigans.jl</code>.</p><h3 id="4.-Add-documentation"><a class="docs-heading-anchor" href="#4.-Add-documentation">4. Add documentation</a><a id="4.-Add-documentation-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Add-documentation" title="Permalink"></a></h3><ul><li>Add a docstring to the constructor</li><li>Add an entry to the <a href="../../models/turbulence_closures/#turbulence_closures">Turbulence closures</a> documentation page</li><li>Add any references to <code>docs/oceananigans.bib</code></li></ul><h3 id="5.-Write-tests"><a class="docs-heading-anchor" href="#5.-Write-tests">5. Write tests</a><a id="5.-Write-tests-1"></a><a class="docs-heading-anchor-permalink" href="#5.-Write-tests" title="Permalink"></a></h3><p>Add tests to the test suite in <code>test/</code> following existing patterns.</p><h3 id="6.-Open-a-pull-request"><a class="docs-heading-anchor" href="#6.-Open-a-pull-request">6. Open a pull request</a><a id="6.-Open-a-pull-request-1"></a><a class="docs-heading-anchor-permalink" href="#6.-Open-a-pull-request" title="Permalink"></a></h3><p>Follow the <a href="../contributing/#Contributors-Guide">Contributors Guide</a> to submit your implementation for review.</p><h2 id="Summary"><a class="docs-heading-anchor" href="#Summary">Summary</a><a id="Summary-1"></a><a class="docs-heading-anchor-permalink" href="#Summary" title="Permalink"></a></h2><p>To implement a turbulence closure:</p><ol><li><strong>Define a struct</strong> inheriting from an appropriate abstract type</li><li><strong>Create a constructor</strong> with sensible defaults</li><li><strong>Specify locations and accessors</strong> for viscosity/diffusivity</li><li><strong>Build fields</strong> with <code>build_closure_fields</code></li><li><strong>Compute diffusivities</strong> with <code>compute_diffusivities!</code></li><li><strong>Add display methods</strong> with <code>summary</code> and <code>show</code></li></ol><p>That&#39;s it! Your closure is ready to use. Contributing to Oceananigans is optional but helps the community benefit from your work.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../model_interface/">« Model interface</a><a class="docs-footer-nextpage" href="../AGENTS/">Rules for agent-assisted development »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Friday 13 February 2026 01:51">Friday 13 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
