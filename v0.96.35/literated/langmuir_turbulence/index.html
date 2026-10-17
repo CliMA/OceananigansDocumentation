@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Langmuir turbulence · Oceananigans.jl</title><meta name="title" content="Langmuir turbulence · Oceananigans.jl"/><meta property="og:title" content="Langmuir turbulence · Oceananigans.jl"/><meta property="twitter:title" content="Langmuir turbulence · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/langmuir_turbulence/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/langmuir_turbulence/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/literated/langmuir_turbulence/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li class="is-active"><a class="tocitem" href>Langmuir turbulence</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#Model-set-up"><span>Model set-up</span></a></li><li><a class="tocitem" href="#Model-instantiation"><span>Model instantiation</span></a></li><li><a class="tocitem" href="#Initial-conditions"><span>Initial conditions</span></a></li><li><a class="tocitem" href="#Setting-up-the-simulation"><span>Setting up the simulation</span></a></li><li><a class="tocitem" href="#Output"><span>Output</span></a></li><li><a class="tocitem" href="#Running-the-simulation"><span>Running the simulation</span></a></li><li class="toplevel"><a class="tocitem" href="#Making-a-neat-movie"><span>Making a neat movie</span></a></li></ul></li><li><a class="tocitem" href="../baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Model setup (legacy)</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../model_setup/overview/">Overview</a></li><li><a class="tocitem" href="../../model_setup/setting_initial_conditions/">Setting initial conditions</a></li><li><a class="tocitem" href="../../model_setup/architecture/">Architecture</a></li><li><a class="tocitem" href="../../model_setup/number_type/">Number type</a></li><li><a class="tocitem" href="../../model_setup/legacy_grids/">Grid</a></li><li><a class="tocitem" href="../../model_setup/clock/">Clock</a></li><li><a class="tocitem" href="../../model_setup/coriolis/">Coriolis (rotation)</a></li><li><a class="tocitem" href="../../model_setup/tracers/">Tracers</a></li><li><a class="tocitem" href="../../model_setup/buoyancy_and_equation_of_state/">Buoyancy models and equation of state</a></li><li><a class="tocitem" href="../../model_setup/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../model_setup/forcing_functions/">Forcing functions</a></li><li><a class="tocitem" href="../../model_setup/background_fields/">Background fields</a></li><li><a class="tocitem" href="../../model_setup/turbulent_diffusivity_closures_and_les_models/">Turbulent diffusivity closures and LES models</a></li><li><a class="tocitem" href="../../model_setup/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../model_setup/diagnostics/">Diagnostics</a></li><li><a class="tocitem" href="../../model_setup/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../../model_setup/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../model_setup/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/notation/">Coordinate system and notation</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-8-3" type="checkbox"/><label class="tocitem" for="menuitem-8-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-4" type="checkbox"/><label class="tocitem" for="menuitem-8-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8-5" type="checkbox"/><label class="tocitem" for="menuitem-8-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><a class="tocitem" href="../../contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Langmuir turbulence</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Langmuir turbulence</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/examples/langmuir_turbulence.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Langmuir-turbulence-example"><a class="docs-heading-anchor" href="#Langmuir-turbulence-example">Langmuir turbulence example</a><a id="Langmuir-turbulence-example-1"></a><a class="docs-heading-anchor-permalink" href="#Langmuir-turbulence-example" title="Permalink"></a></h1><p>This example implements a Langmuir turbulence simulation similar to the one reported in section 4 of</p><blockquote><p><a href="https://journals.ametsoc.org/view/journals/phoc/51/5/JPO-D-20-0178.1.xml">Wagner et al., &quot;Near-inertial waves and turbulence driven by the growth of swell&quot;, Journal of Physical Oceanography (2021)</a></p></blockquote><p>This example demonstrates</p><ul><li><p>How to run large eddy simulations with surface wave effects via the Craik-Leibovich approximation.</p></li><li><p>How to specify time- and horizontally-averaged output.</p></li></ul><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie&quot;</code></pre><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units: minute, minutes, hours</code></pre><h2 id="Model-set-up"><a class="docs-heading-anchor" href="#Model-set-up">Model set-up</a><a id="Model-set-up-1"></a><a class="docs-heading-anchor-permalink" href="#Model-set-up" title="Permalink"></a></h2><p>To build the model, we specify the grid, Stokes drift, boundary conditions, and Coriolis parameter.</p><h3 id="Domain-and-numerical-grid-specification"><a class="docs-heading-anchor" href="#Domain-and-numerical-grid-specification">Domain and numerical grid specification</a><a id="Domain-and-numerical-grid-specification-1"></a><a class="docs-heading-anchor-permalink" href="#Domain-and-numerical-grid-specification" title="Permalink"></a></h3><p>We use a modest resolution and the same total extent as Wagner et al. (2021),</p><pre><code class="language-julia hljs">grid = RectilinearGrid(GPU(), size=(128, 128, 64), extent=(128, 128, 64))</code></pre><pre><code class="nohighlight hljs">128×128×64 RectilinearGrid{Float64, Periodic, Periodic, Bounded} on CUDAGPU with 3×3×3 halo
+├── Periodic x ∈ [0.0, 128.0) regularly spaced with Δx=1.0
+├── Periodic y ∈ [0.0, 128.0) regularly spaced with Δy=1.0
+└── Bounded  z ∈ [-64.0, 0.0] regularly spaced with Δz=1.0</code></pre><h3 id="The-Stokes-Drift-profile"><a class="docs-heading-anchor" href="#The-Stokes-Drift-profile">The Stokes Drift profile</a><a id="The-Stokes-Drift-profile-1"></a><a class="docs-heading-anchor-permalink" href="#The-Stokes-Drift-profile" title="Permalink"></a></h3><p>The surface wave Stokes drift profile prescribed in Wagner et al. (2021), corresponds to a &#39;monochromatic&#39; (that is, single-frequency) wave field.</p><p>A monochromatic wave field is characterized by its wavelength and amplitude (half the distance from wave crest to wave trough), which determine the wave frequency and the vertical scale of the Stokes drift profile.</p><pre><code class="language-julia hljs">using Oceananigans.BuoyancyFormulations: g_Earth
+
+ amplitude = 0.8 # m
+wavelength = 60  # m
+wavenumber = 2π / wavelength # m⁻¹
+ frequency = sqrt(g_Earth * wavenumber) # s⁻¹
+
+# The vertical scale over which the Stokes drift of a monochromatic surface wave
+# decays away from the surface is `1/2wavenumber`, or
+const vertical_scale = wavelength / 4π
+
+# Stokes drift velocity at the surface
+const Uˢ = amplitude^2 * wavenumber * frequency # m s⁻¹</code></pre><pre><code class="nohighlight hljs">0.06791774197745354</code></pre><p>The <code>const</code> declarations ensure that Stokes drift functions compile on the GPU. To run this example on the GPU, include <code>GPU()</code> in the <code>RectilinearGrid</code> constructor above.</p><p>The Stokes drift profile is</p><pre><code class="language-julia hljs">uˢ(z) = Uˢ * exp(z / vertical_scale)</code></pre><pre><code class="nohighlight hljs">uˢ (generic function with 1 method)</code></pre><p>and its <code>z</code>-derivative is</p><pre><code class="language-julia hljs">∂z_uˢ(z, t) = 1 / vertical_scale * Uˢ * exp(z / vertical_scale)</code></pre><pre><code class="nohighlight hljs">∂z_uˢ (generic function with 1 method)</code></pre><div class="admonition is-info" id="The-Craik-Leibovich-equations-in-Oceananigans-375eaa250fe265ac"><header class="admonition-header">The Craik-Leibovich equations in Oceananigans<a class="admonition-anchor" href="#The-Craik-Leibovich-equations-in-Oceananigans-375eaa250fe265ac" title="Permalink"></a></header><div class="admonition-body"><p>Oceananigans implements the Craik-Leibovich approximation for surface wave effects using the <em>Lagrangian-mean</em> velocity field as its prognostic momentum variable. In other words, <code>model.velocities.u</code> is the Lagrangian-mean <span>$x$</span>-velocity beneath surface waves. This differs from models that use the <em>Eulerian-mean</em> velocity field as a prognostic variable, but has the advantage that <span>$u$</span> accounts for the total advection of tracers and momentum, and that <span>$u = v = w = 0$</span> is a steady solution even when Coriolis forces are present. See the <a href="https://clima.github.io/OceananigansDocumentation/stable/physics/surface_gravity_waves/">physics documentation</a> for more information.</p></div></div><p>Finally, we note that the time-derivative of the Stokes drift must be provided if the Stokes drift and surface wave field undergoes <em>forced</em> changes in time. In this example, the Stokes drift is constant and thus the time-derivative of the Stokes drift is 0.</p><h3 id="Boundary-conditions"><a class="docs-heading-anchor" href="#Boundary-conditions">Boundary conditions</a><a id="Boundary-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Boundary-conditions" title="Permalink"></a></h3><p>At the surface <span>$z = 0$</span>, Wagner et al. (2021) impose</p><pre><code class="language-julia hljs">τx = -3.72e-5 # m² s⁻², surface kinematic momentum flux
+u_boundary_conditions = FieldBoundaryConditions(top = FluxBoundaryCondition(τx))</code></pre><pre><code class="nohighlight hljs">Oceananigans.FieldBoundaryConditions, with boundary conditions
+├── west: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── east: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── south: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── north: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── bottom: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── top: FluxBoundaryCondition: -3.72e-5
+└── immersed: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)</code></pre><p>Wagner et al. (2021) impose a linear buoyancy gradient <code>N²</code> at the bottom along with a weak, destabilizing flux of buoyancy at the surface to faciliate spin-up from rest.</p><pre><code class="language-julia hljs">Jᵇ = 2.307e-8 # m² s⁻³, surface buoyancy flux
+N² = 1.936e-5 # s⁻², initial and bottom buoyancy gradient
+
+b_boundary_conditions = FieldBoundaryConditions(top = FluxBoundaryCondition(Jᵇ),
+                                                bottom = GradientBoundaryCondition(N²))</code></pre><pre><code class="nohighlight hljs">Oceananigans.FieldBoundaryConditions, with boundary conditions
+├── west: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── east: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── south: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── north: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)
+├── bottom: GradientBoundaryCondition: 1.936e-5
+├── top: FluxBoundaryCondition: 2.307e-8
+└── immersed: DefaultBoundaryCondition (FluxBoundaryCondition: Nothing)</code></pre><div class="admonition is-info" id="The-flux-convention-in-Oceananigans-5a36a31f040f9486"><header class="admonition-header">The flux convention in Oceananigans<a class="admonition-anchor" href="#The-flux-convention-in-Oceananigans-5a36a31f040f9486" title="Permalink"></a></header><div class="admonition-body"><p>Note that Oceananigans uses &quot;positive upward&quot; conventions for all fluxes. In consequence, a negative flux at the surface drives positive velocities, and a positive flux of buoyancy drives cooling.</p></div></div><h3 id="Coriolis-parameter"><a class="docs-heading-anchor" href="#Coriolis-parameter">Coriolis parameter</a><a id="Coriolis-parameter-1"></a><a class="docs-heading-anchor-permalink" href="#Coriolis-parameter" title="Permalink"></a></h3><p>Wagner et al. (2021) use</p><pre><code class="language-julia hljs">coriolis = FPlane(f=1e-4) # s⁻¹</code></pre><pre><code class="nohighlight hljs">FPlane{Float64}(f=0.0001)</code></pre><p>which is typical for mid-latitudes on Earth.</p><h2 id="Model-instantiation"><a class="docs-heading-anchor" href="#Model-instantiation">Model instantiation</a><a id="Model-instantiation-1"></a><a class="docs-heading-anchor-permalink" href="#Model-instantiation" title="Permalink"></a></h2><p>We are ready to build the model. We use a fifth-order Weighted Essentially Non-Oscillatory (WENO) advection scheme and the <code>AnisotropicMinimumDissipation</code> model for large eddy simulation. Because our Stokes drift does not vary in <span>$x, y$</span>, we use <code>UniformStokesDrift</code>, which expects Stokes drift functions of <span>$z, t$</span> only.</p><pre><code class="language-julia hljs">model = NonhydrostaticModel(; grid, coriolis,
+                            advection = WENO(order=9),
+                            tracers = :b,
+                            buoyancy = BuoyancyTracer(),
+                            stokes_drift = UniformStokesDrift(∂z_uˢ=∂z_uˢ),
+                            boundary_conditions = (u=u_boundary_conditions, b=b_boundary_conditions))</code></pre><pre><code class="nohighlight hljs">NonhydrostaticModel{GPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── grid: 128×128×64 RectilinearGrid{Float64, Periodic, Periodic, Bounded} on CUDAGPU with 5×5×5 halo
+├── timestepper: RungeKutta3TimeStepper
+├── advection scheme: WENO{5, Float64, Float32}(order=9)
+├── tracers: b
+├── closure: Nothing
+├── buoyancy: BuoyancyTracer with ĝ = NegativeZDirection()
+└── coriolis: FPlane{Float64}(f=0.0001)</code></pre><h2 id="Initial-conditions"><a class="docs-heading-anchor" href="#Initial-conditions">Initial conditions</a><a id="Initial-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Initial-conditions" title="Permalink"></a></h2><p>We make use of random noise concentrated in the upper 4 meters for buoyancy and velocity initial conditions,</p><pre><code class="language-julia hljs">Ξ(z) = randn() * exp(z / 4)</code></pre><p>Our initial condition for buoyancy consists of a surface mixed layer 33 m deep, a deep linear stratification, plus noise,</p><pre><code class="language-julia hljs">initial_mixed_layer_depth = 33 # m
+stratification(z) = z &lt; - initial_mixed_layer_depth ? N² * z : N² * (-initial_mixed_layer_depth)
+
+bᵢ(x, y, z) = stratification(z) + 1e-1 * Ξ(z) * N² * model.grid.Lz</code></pre><pre><code class="nohighlight hljs">bᵢ (generic function with 1 method)</code></pre><p>The simulation we reproduce from Wagner et al. (2021) is zero Lagrangian-mean velocity. This initial condition is consistent with a wavy, quiescent ocean suddenly impacted by winds. To this quiescent state we add noise scaled by the friction velocity to <span>$u$</span> and <span>$w$</span>.</p><pre><code class="language-julia hljs">u★ = sqrt(abs(τx))
+uᵢ(x, y, z) = u★ * 1e-1 * Ξ(z)
+wᵢ(x, y, z) = u★ * 1e-1 * Ξ(z)
+
+set!(model, u=uᵢ, w=wᵢ, b=bᵢ)</code></pre><h2 id="Setting-up-the-simulation"><a class="docs-heading-anchor" href="#Setting-up-the-simulation">Setting up the simulation</a><a id="Setting-up-the-simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Setting-up-the-simulation" title="Permalink"></a></h2><pre><code class="language-julia hljs">simulation = Simulation(model, Δt=45.0, stop_time=4hours)</code></pre><pre><code class="nohighlight hljs">Simulation of NonhydrostaticModel{GPU, RectilinearGrid}(time = 0 seconds, iteration = 0)
+├── Next time step: 45 seconds
+├── Elapsed wall time: 0 seconds
+├── Wall time per iteration: NaN days
+├── Stop time: 4 hours
+├── Stop iteration: Inf
+├── Wall time limit: Inf
+├── Minimum relative step: 0.0
+├── Callbacks: OrderedDict with 4 entries:
+│   ├── stop_time_exceeded =&gt; 4
+│   ├── stop_iteration_exceeded =&gt; -
+│   ├── wall_time_limit_exceeded =&gt; e
+│   └── nan_checker =&gt; }
+├── Output writers: OrderedDict with no entries
+└── Diagnostics: OrderedDict with no entries</code></pre><p>We use the <code>TimeStepWizard</code> for adaptive time-stepping with a Courant-Freidrichs-Lewy (CFL) number of 1.0,</p><pre><code class="language-julia hljs">conjure_time_step_wizard!(simulation, cfl=1.0, max_Δt=1minute)</code></pre><h3 id="Nice-progress-messaging"><a class="docs-heading-anchor" href="#Nice-progress-messaging">Nice progress messaging</a><a id="Nice-progress-messaging-1"></a><a class="docs-heading-anchor-permalink" href="#Nice-progress-messaging" title="Permalink"></a></h3><p>We define a function that prints a helpful message with maximum absolute value of <span>$u, v, w$</span> and the current wall clock time.</p><pre><code class="language-julia hljs">using Printf
+
+function progress(simulation)
+    u, v, w = simulation.model.velocities
+
+    # Print a progress message
+    msg = @sprintf(&quot;i: %04d, t: %s, Δt: %s, umax = (%.1e, %.1e, %.1e) ms⁻¹, wall time: %s\n&quot;,
+                   iteration(simulation),
+                   prettytime(time(simulation)),
+                   prettytime(simulation.Δt),
+                   maximum(abs, u), maximum(abs, v), maximum(abs, w),
+                   prettytime(simulation.run_wall_time))
+
+    @info msg
+
+    return nothing
+end
+
+simulation.callbacks[:progress] = Callback(progress, IterationInterval(20))</code></pre><pre><code class="nohighlight hljs">Callback of progress on IterationInterval(20)</code></pre><h2 id="Output"><a class="docs-heading-anchor" href="#Output">Output</a><a id="Output-1"></a><a class="docs-heading-anchor-permalink" href="#Output" title="Permalink"></a></h2><h3 id="A-field-writer"><a class="docs-heading-anchor" href="#A-field-writer">A field writer</a><a id="A-field-writer-1"></a><a class="docs-heading-anchor-permalink" href="#A-field-writer" title="Permalink"></a></h3><p>We set up an output writer for the simulation that saves all velocity fields, tracer fields, and the subgrid turbulent diffusivity.</p><pre><code class="language-julia hljs">output_interval = 5minutes
+
+fields_to_output = merge(model.velocities, model.tracers)
+
+simulation.output_writers[:fields] =
+    JLD2Writer(model, fields_to_output,
+               schedule = TimeInterval(output_interval),
+               filename = &quot;langmuir_turbulence_fields.jld2&quot;,
+               overwrite_existing = true)</code></pre><pre><code class="nohighlight hljs">JLD2Writer scheduled on TimeInterval(5 minutes):
+├── filepath: langmuir_turbulence_fields.jld2
+├── 4 outputs: (u, v, w, b)
+├── array type: Array{Float32}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+├── file_splitting: NoFileSplitting
+└── file size: 45.0 KiB</code></pre><h3 id="An-&quot;averages&quot;-writer"><a class="docs-heading-anchor" href="#An-&quot;averages&quot;-writer">An &quot;averages&quot; writer</a><a id="An-&quot;averages&quot;-writer-1"></a><a class="docs-heading-anchor-permalink" href="#An-&quot;averages&quot;-writer" title="Permalink"></a></h3><p>We also set up output of time- and horizontally-averaged velocity field and momentum fluxes.</p><pre><code class="language-julia hljs">u, v, w = model.velocities
+b = model.tracers.b
+
+ U = Average(u, dims=(1, 2))
+ V = Average(v, dims=(1, 2))
+ B = Average(b, dims=(1, 2))
+wu = Average(w * u, dims=(1, 2))
+wv = Average(w * v, dims=(1, 2))
+
+simulation.output_writers[:averages] =
+    JLD2Writer(model, (; U, V, B, wu, wv),
+               schedule = AveragedTimeInterval(output_interval, window=2minutes),
+               filename = &quot;langmuir_turbulence_averages.jld2&quot;,
+               overwrite_existing = true)</code></pre><pre><code class="nohighlight hljs">JLD2Writer scheduled on TimeInterval(5 minutes):
+├── filepath: langmuir_turbulence_averages.jld2
+├── 5 outputs: (U, V, B, wu, wv) averaged on AveragedTimeInterval(window=2 minutes, stride=1, interval=5 minutes)
+├── array type: Array{Float32}
+├── including: [:grid, :coriolis, :buoyancy, :closure]
+├── file_splitting: NoFileSplitting
+└── file size: 44.3 KiB</code></pre><h2 id="Running-the-simulation"><a class="docs-heading-anchor" href="#Running-the-simulation">Running the simulation</a><a id="Running-the-simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-simulation" title="Permalink"></a></h2><p>This part is easy,</p><pre><code class="language-julia hljs">run!(simulation)</code></pre><pre><code class="nohighlight hljs">[ Info: Initializing simulation...
+[ Info: i: 0000, t: 0 seconds, Δt: 49.500 seconds, umax = (1.7e-03, 8.9e-04, 1.4e-03) ms⁻¹, wall time: 0 seconds
+[ Info:     ... simulation initialization complete (37.310 seconds)
+[ Info: Executing initial time step...
+[ Info:     ... initial time step complete (5.371 seconds).
+[ Info: i: 0020, t: 11.914 minutes, Δt: 29.167 seconds, umax = (2.9e-02, 1.2e-02, 2.1e-02) ms⁻¹, wall time: 56.687 seconds
+[ Info: i: 0040, t: 20.408 minutes, Δt: 20.544 seconds, umax = (4.1e-02, 1.1e-02, 1.9e-02) ms⁻¹, wall time: 57.485 seconds
+[ Info: i: 0060, t: 26.423 minutes, Δt: 17.757 seconds, umax = (4.7e-02, 1.5e-02, 2.0e-02) ms⁻¹, wall time: 58.002 seconds
+[ Info: i: 0080, t: 31.892 minutes, Δt: 16.592 seconds, umax = (5.0e-02, 1.6e-02, 2.2e-02) ms⁻¹, wall time: 58.491 seconds
+[ Info: i: 0100, t: 36.923 minutes, Δt: 15.562 seconds, umax = (5.1e-02, 1.7e-02, 2.6e-02) ms⁻¹, wall time: 59.028 seconds
+[ Info: i: 0120, t: 42.015 minutes, Δt: 15.052 seconds, umax = (5.5e-02, 1.9e-02, 2.5e-02) ms⁻¹, wall time: 59.590 seconds
+[ Info: i: 0140, t: 46.956 minutes, Δt: 14.417 seconds, umax = (5.6e-02, 2.0e-02, 2.4e-02) ms⁻¹, wall time: 1.002 minutes
+[ Info: i: 0160, t: 51.682 minutes, Δt: 13.261 seconds, umax = (5.7e-02, 2.4e-02, 2.7e-02) ms⁻¹, wall time: 1.011 minutes
+[ Info: i: 0180, t: 56.108 minutes, Δt: 13.368 seconds, umax = (6.1e-02, 2.5e-02, 2.8e-02) ms⁻¹, wall time: 1.022 minutes
+[ Info: i: 0200, t: 1.007 hours, Δt: 13.002 seconds, umax = (6.6e-02, 2.8e-02, 3.0e-02) ms⁻¹, wall time: 1.031 minutes
+[ Info: i: 0220, t: 1.077 hours, Δt: 11.367 seconds, umax = (6.9e-02, 2.8e-02, 3.6e-02) ms⁻¹, wall time: 1.038 minutes
+[ Info: i: 0240, t: 1.141 hours, Δt: 12.244 seconds, umax = (6.2e-02, 2.9e-02, 3.6e-02) ms⁻¹, wall time: 1.046 minutes
+[ Info: i: 0260, t: 1.206 hours, Δt: 11.930 seconds, umax = (6.4e-02, 3.2e-02, 3.6e-02) ms⁻¹, wall time: 1.057 minutes
+[ Info: i: 0280, t: 1.270 hours, Δt: 11.573 seconds, umax = (7.1e-02, 2.9e-02, 3.4e-02) ms⁻¹, wall time: 1.069 minutes
+[ Info: i: 0300, t: 1.333 hours, Δt: 11.157 seconds, umax = (6.9e-02, 3.1e-02, 3.7e-02) ms⁻¹, wall time: 1.076 minutes
+[ Info: i: 0320, t: 1.394 hours, Δt: 10.924 seconds, umax = (6.9e-02, 3.4e-02, 3.6e-02) ms⁻¹, wall time: 1.084 minutes
+[ Info: i: 0340, t: 1.453 hours, Δt: 10.962 seconds, umax = (6.8e-02, 3.4e-02, 3.7e-02) ms⁻¹, wall time: 1.093 minutes
+[ Info: i: 0360, t: 1.512 hours, Δt: 10.314 seconds, umax = (7.1e-02, 3.6e-02, 3.8e-02) ms⁻¹, wall time: 1.104 minutes
+[ Info: i: 0380, t: 1.567 hours, Δt: 9.105 seconds, umax = (7.4e-02, 3.6e-02, 3.5e-02) ms⁻¹, wall time: 1.111 minutes
+[ Info: i: 0400, t: 1.618 hours, Δt: 10.565 seconds, umax = (7.7e-02, 3.7e-02, 3.7e-02) ms⁻¹, wall time: 1.120 minutes
+[ Info: i: 0420, t: 1.675 hours, Δt: 10.356 seconds, umax = (7.4e-02, 3.9e-02, 3.9e-02) ms⁻¹, wall time: 1.131 minutes
+[ Info: i: 0440, t: 1.733 hours, Δt: 10.199 seconds, umax = (7.4e-02, 4.0e-02, 4.0e-02) ms⁻¹, wall time: 1.138 minutes
+[ Info: i: 0460, t: 1.787 hours, Δt: 10.066 seconds, umax = (7.8e-02, 4.0e-02, 3.8e-02) ms⁻¹, wall time: 1.146 minutes
+[ Info: i: 0480, t: 1.841 hours, Δt: 9.750 seconds, umax = (7.9e-02, 4.2e-02, 4.2e-02) ms⁻¹, wall time: 1.158 minutes
+[ Info: i: 0500, t: 1.896 hours, Δt: 9.528 seconds, umax = (7.8e-02, 4.5e-02, 3.7e-02) ms⁻¹, wall time: 1.164 minutes
+[ Info: i: 0520, t: 1.946 hours, Δt: 9.639 seconds, umax = (7.8e-02, 4.3e-02, 3.9e-02) ms⁻¹, wall time: 1.173 minutes
+[ Info: i: 0540, t: 1.998 hours, Δt: 9.188 seconds, umax = (7.8e-02, 4.2e-02, 4.0e-02) ms⁻¹, wall time: 1.184 minutes
+[ Info: i: 0560, t: 2.050 hours, Δt: 9.608 seconds, umax = (7.8e-02, 4.3e-02, 3.8e-02) ms⁻¹, wall time: 1.193 minutes
+[ Info: i: 0580, t: 2.102 hours, Δt: 8.942 seconds, umax = (7.9e-02, 4.3e-02, 4.3e-02) ms⁻¹, wall time: 1.204 minutes
+[ Info: i: 0600, t: 2.151 hours, Δt: 9.108 seconds, umax = (8.2e-02, 4.4e-02, 4.3e-02) ms⁻¹, wall time: 1.212 minutes
+[ Info: i: 0620, t: 2.200 hours, Δt: 9.014 seconds, umax = (8.1e-02, 4.8e-02, 4.0e-02) ms⁻¹, wall time: 1.221 minutes
+[ Info: i: 0640, t: 2.250 hours, Δt: 8.954 seconds, umax = (8.0e-02, 4.6e-02, 4.1e-02) ms⁻¹, wall time: 1.230 minutes
+[ Info: i: 0660, t: 2.297 hours, Δt: 9.141 seconds, umax = (7.9e-02, 4.6e-02, 4.3e-02) ms⁻¹, wall time: 1.239 minutes
+[ Info: i: 0680, t: 2.346 hours, Δt: 9.129 seconds, umax = (8.2e-02, 5.1e-02, 4.2e-02) ms⁻¹, wall time: 1.250 minutes
+[ Info: i: 0700, t: 2.396 hours, Δt: 8.817 seconds, umax = (7.9e-02, 5.6e-02, 4.5e-02) ms⁻¹, wall time: 1.257 minutes
+[ Info: i: 0720, t: 2.444 hours, Δt: 8.704 seconds, umax = (8.1e-02, 5.7e-02, 4.3e-02) ms⁻¹, wall time: 1.267 minutes
+[ Info: i: 0740, t: 2.491 hours, Δt: 8.168 seconds, umax = (8.2e-02, 5.2e-02, 4.4e-02) ms⁻¹, wall time: 1.276 minutes
+[ Info: i: 0760, t: 2.533 hours, Δt: 7.941 seconds, umax = (8.4e-02, 5.3e-02, 4.5e-02) ms⁻¹, wall time: 1.286 minutes
+[ Info: i: 0780, t: 2.579 hours, Δt: 8.869 seconds, umax = (8.4e-02, 5.0e-02, 4.4e-02) ms⁻¹, wall time: 1.297 minutes
+[ Info: i: 0800, t: 2.628 hours, Δt: 8.526 seconds, umax = (8.6e-02, 5.5e-02, 4.3e-02) ms⁻¹, wall time: 1.306 minutes
+[ Info: i: 0820, t: 2.673 hours, Δt: 8.448 seconds, umax = (8.2e-02, 5.9e-02, 4.5e-02) ms⁻¹, wall time: 1.317 minutes
+[ Info: i: 0840, t: 2.720 hours, Δt: 8.900 seconds, umax = (8.0e-02, 5.3e-02, 5.0e-02) ms⁻¹, wall time: 1.324 minutes
+[ Info: i: 0860, t: 2.767 hours, Δt: 8.350 seconds, umax = (8.2e-02, 5.6e-02, 5.0e-02) ms⁻¹, wall time: 1.334 minutes
+[ Info: i: 0880, t: 2.813 hours, Δt: 8.694 seconds, umax = (8.2e-02, 5.3e-02, 5.3e-02) ms⁻¹, wall time: 1.343 minutes
+[ Info: i: 0900, t: 2.860 hours, Δt: 8.324 seconds, umax = (8.3e-02, 5.3e-02, 5.1e-02) ms⁻¹, wall time: 1.351 minutes
+[ Info: i: 0920, t: 2.907 hours, Δt: 8.567 seconds, umax = (8.8e-02, 5.3e-02, 4.8e-02) ms⁻¹, wall time: 1.360 minutes
+[ Info: i: 0940, t: 2.952 hours, Δt: 8.798 seconds, umax = (8.9e-02, 5.3e-02, 5.1e-02) ms⁻¹, wall time: 1.369 minutes
+[ Info: i: 0960, t: 3 hours, Δt: 8.648 seconds, umax = (8.7e-02, 5.1e-02, 4.6e-02) ms⁻¹, wall time: 1.378 minutes
+[ Info: i: 0980, t: 3.048 hours, Δt: 8.603 seconds, umax = (8.9e-02, 5.5e-02, 4.1e-02) ms⁻¹, wall time: 1.386 minutes
+[ Info: i: 1000, t: 3.093 hours, Δt: 8.397 seconds, umax = (8.5e-02, 5.4e-02, 4.5e-02) ms⁻¹, wall time: 1.398 minutes
+[ Info: i: 1020, t: 3.140 hours, Δt: 8.384 seconds, umax = (8.6e-02, 5.6e-02, 4.5e-02) ms⁻¹, wall time: 1.405 minutes
+[ Info: i: 1040, t: 3.185 hours, Δt: 8.121 seconds, umax = (8.5e-02, 5.7e-02, 4.6e-02) ms⁻¹, wall time: 1.415 minutes
+[ Info: i: 1060, t: 3.231 hours, Δt: 8.209 seconds, umax = (8.3e-02, 5.5e-02, 4.3e-02) ms⁻¹, wall time: 1.423 minutes
+[ Info: i: 1080, t: 3.275 hours, Δt: 8.269 seconds, umax = (8.6e-02, 5.3e-02, 4.2e-02) ms⁻¹, wall time: 1.432 minutes
+[ Info: i: 1100, t: 3.322 hours, Δt: 8.155 seconds, umax = (8.4e-02, 5.6e-02, 4.4e-02) ms⁻¹, wall time: 1.442 minutes
+[ Info: i: 1120, t: 3.366 hours, Δt: 8.403 seconds, umax = (8.2e-02, 5.8e-02, 4.4e-02) ms⁻¹, wall time: 1.451 minutes
+[ Info: i: 1140, t: 3.412 hours, Δt: 8.061 seconds, umax = (8.7e-02, 6.0e-02, 5.1e-02) ms⁻¹, wall time: 1.462 minutes
+[ Info: i: 1160, t: 3.455 hours, Δt: 8.224 seconds, umax = (8.6e-02, 6.3e-02, 4.8e-02) ms⁻¹, wall time: 1.471 minutes
+[ Info: i: 1180, t: 3.500 hours, Δt: 8.261 seconds, umax = (8.6e-02, 6.0e-02, 5.1e-02) ms⁻¹, wall time: 1.481 minutes
+[ Info: i: 1200, t: 3.546 hours, Δt: 8.230 seconds, umax = (8.4e-02, 5.9e-02, 5.1e-02) ms⁻¹, wall time: 1.492 minutes
+[ Info: i: 1220, t: 3.590 hours, Δt: 8.272 seconds, umax = (8.2e-02, 5.8e-02, 4.8e-02) ms⁻¹, wall time: 1.506 minutes
+[ Info: i: 1240, t: 3.637 hours, Δt: 8.361 seconds, umax = (8.3e-02, 5.9e-02, 5.2e-02) ms⁻¹, wall time: 1.512 minutes
+[ Info: i: 1260, t: 3.682 hours, Δt: 8.337 seconds, umax = (8.5e-02, 6.2e-02, 4.9e-02) ms⁻¹, wall time: 1.523 minutes
+[ Info: i: 1280, t: 3.728 hours, Δt: 7.904 seconds, umax = (8.6e-02, 6.1e-02, 4.9e-02) ms⁻¹, wall time: 1.531 minutes
+[ Info: i: 1300, t: 3.770 hours, Δt: 7.944 seconds, umax = (8.7e-02, 6.1e-02, 4.9e-02) ms⁻¹, wall time: 1.540 minutes
+[ Info: i: 1320, t: 3.814 hours, Δt: 7.838 seconds, umax = (8.6e-02, 5.8e-02, 4.6e-02) ms⁻¹, wall time: 1.549 minutes
+[ Info: i: 1340, t: 3.858 hours, Δt: 8.107 seconds, umax = (8.9e-02, 6.1e-02, 4.7e-02) ms⁻¹, wall time: 1.559 minutes
+[ Info: i: 1360, t: 3.903 hours, Δt: 8.174 seconds, umax = (8.9e-02, 6.5e-02, 5.0e-02) ms⁻¹, wall time: 1.567 minutes
+[ Info: i: 1380, t: 3.947 hours, Δt: 8.284 seconds, umax = (8.5e-02, 6.2e-02, 5.0e-02) ms⁻¹, wall time: 1.577 minutes
+[ Info: i: 1400, t: 3.991 hours, Δt: 7.835 seconds, umax = (8.6e-02, 6.0e-02, 5.6e-02) ms⁻¹, wall time: 1.586 minutes
+[ Info: Simulation is stopping after running for 1.589 minutes.
+[ Info: Simulation time 4.000 hours equals or exceeds stop time 4 hours.
+</code></pre><h1 id="Making-a-neat-movie"><a class="docs-heading-anchor" href="#Making-a-neat-movie">Making a neat movie</a><a id="Making-a-neat-movie-1"></a><a class="docs-heading-anchor-permalink" href="#Making-a-neat-movie" title="Permalink"></a></h1><p>We look at the results by loading data from file with <code>FieldTimeSeries</code>, and plotting vertical slices of <span>$u$</span> and <span>$w$</span>, and a horizontal slice of <span>$w$</span> to look for Langmuir cells.</p><pre><code class="language-julia hljs">using CairoMakie
+
+time_series = (;
+     w = FieldTimeSeries(&quot;langmuir_turbulence_fields.jld2&quot;, &quot;w&quot;),
+     u = FieldTimeSeries(&quot;langmuir_turbulence_fields.jld2&quot;, &quot;u&quot;),
+     B = FieldTimeSeries(&quot;langmuir_turbulence_averages.jld2&quot;, &quot;B&quot;),
+     U = FieldTimeSeries(&quot;langmuir_turbulence_averages.jld2&quot;, &quot;U&quot;),
+     V = FieldTimeSeries(&quot;langmuir_turbulence_averages.jld2&quot;, &quot;V&quot;),
+    wu = FieldTimeSeries(&quot;langmuir_turbulence_averages.jld2&quot;, &quot;wu&quot;),
+    wv = FieldTimeSeries(&quot;langmuir_turbulence_averages.jld2&quot;, &quot;wv&quot;))
+
+times = time_series.w.times</code></pre><p>We are now ready to animate using Makie. We use Makie&#39;s <code>Observable</code> to animate the data. To dive into how <code>Observable</code>s work we refer to <a href="https://docs.makie.org/stable/explanations/observables">Makie.jl&#39;s Documentation</a>.</p><pre><code class="language-julia hljs">n = Observable(1)
+
+wxy_title = @lift string(&quot;w(x, y, t) at z=-8 m and t = &quot;, prettytime(times[$n]))
+wxz_title = @lift string(&quot;w(x, z, t) at y=0 m and t = &quot;, prettytime(times[$n]))
+uxz_title = @lift string(&quot;u(x, z, t) at y=0 m and t = &quot;, prettytime(times[$n]))
+
+fig = Figure(size = (850, 850))
+
+ax_B = Axis(fig[1, 4];
+            xlabel = &quot;Buoyancy (m s⁻²)&quot;,
+            ylabel = &quot;z (m)&quot;)
+
+ax_U = Axis(fig[2, 4];
+            xlabel = &quot;Velocities (m s⁻¹)&quot;,
+            ylabel = &quot;z (m)&quot;,
+            limits = ((-0.07, 0.07), nothing))
+
+ax_fluxes = Axis(fig[3, 4];
+                 xlabel = &quot;Momentum fluxes (m² s⁻²)&quot;,
+                 ylabel = &quot;z (m)&quot;,
+                 limits = ((-3.5e-5, 3.5e-5), nothing))
+
+ax_wxy = Axis(fig[1, 1:2];
+              xlabel = &quot;x (m)&quot;,
+              ylabel = &quot;y (m)&quot;,
+              aspect = DataAspect(),
+              limits = ((0, grid.Lx), (0, grid.Ly)),
+              title = wxy_title)
+
+ax_wxz = Axis(fig[2, 1:2];
+              xlabel = &quot;x (m)&quot;,
+              ylabel = &quot;z (m)&quot;,
+              aspect = AxisAspect(2),
+              limits = ((0, grid.Lx), (-grid.Lz, 0)),
+              title = wxz_title)
+
+ax_uxz = Axis(fig[3, 1:2];
+              xlabel = &quot;x (m)&quot;,
+              ylabel = &quot;z (m)&quot;,
+              aspect = AxisAspect(2),
+              limits = ((0, grid.Lx), (-grid.Lz, 0)),
+              title = uxz_title)
+
+
+wₙ = @lift time_series.w[$n]
+uₙ = @lift time_series.u[$n]
+Bₙ = @lift view(time_series.B[$n], 1, 1, :)
+Uₙ = @lift view(time_series.U[$n], 1, 1, :)
+Vₙ = @lift view(time_series.V[$n], 1, 1, :)
+wuₙ = @lift view(time_series.wu[$n], 1, 1, :)
+wvₙ = @lift view(time_series.wv[$n], 1, 1, :)
+
+k = searchsortedfirst(znodes(grid, Face(); with_halos=true), -8)
+wxyₙ = @lift view(time_series.w[$n], :, :, k)
+wxzₙ = @lift view(time_series.w[$n], :, 1, :)
+uxzₙ = @lift view(time_series.u[$n], :, 1, :)
+
+wlims = (-0.03, 0.03)
+ulims = (-0.05, 0.05)
+
+lines!(ax_B, Bₙ)
+
+lines!(ax_U, Uₙ; label = L&quot;\bar{u}&quot;)
+lines!(ax_U, Vₙ; label = L&quot;\bar{v}&quot;)
+axislegend(ax_U; position = :rb)
+
+lines!(ax_fluxes, wuₙ; label = L&quot;mean $wu$&quot;)
+lines!(ax_fluxes, wvₙ; label = L&quot;mean $wv$&quot;)
+axislegend(ax_fluxes; position = :rb)
+
+hm_wxy = heatmap!(ax_wxy, wxyₙ;
+                  colorrange = wlims,
+                  colormap = :balance)
+
+Colorbar(fig[1, 3], hm_wxy; label = &quot;m s⁻¹&quot;)
+
+hm_wxz = heatmap!(ax_wxz, wxzₙ;
+                  colorrange = wlims,
+                  colormap = :balance)
+
+Colorbar(fig[2, 3], hm_wxz; label = &quot;m s⁻¹&quot;)
+
+ax_uxz = heatmap!(ax_uxz, uxzₙ;
+                  colorrange = ulims,
+                  colormap = :balance)
+
+Colorbar(fig[3, 3], ax_uxz; label = &quot;m s⁻¹&quot;)
+
+fig</code></pre><p><img src="../langmuir_turbulence-46.png" alt/></p><p>And, finally, we record a movie.</p><pre><code class="language-julia hljs">frames = 1:length(times)
+
+record(fig, &quot;langmuir_turbulence.mp4&quot;, frames, framerate=8) do i
+    n[] = i
+end</code></pre><p><video src="../langmuir_turbulence.mp4" controls="true" title><a href="../langmuir_turbulence.mp4"></a></video></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ocean_wind_mixing_and_convection/">« Ocean wind mixing and convection</a><a class="docs-footer-nextpage" href="../baroclinic_adjustment/">Baroclinic adjustment »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.13.0 on <span class="colophon-date" title="Thursday 3 July 2025 16:56">Thursday 3 July 2025</span>. Using Julia version 1.10.9.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
