@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Model interface · Oceananigans.jl</title><meta name="title" content="Model interface · Oceananigans.jl"/><meta property="og:title" content="Model interface · Oceananigans.jl"/><meta property="twitter:title" content="Model interface · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/developer_docs/model_interface/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/developer_docs/model_interface/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/developer_docs/model_interface/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../literated/one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../../literated/two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../../literated/internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../../literated/internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../../literated/convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../../literated/ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../../literated/langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../../literated/baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../../literated/kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../../literated/hydrostatic_lock_exchange/">Hydrostatic lock exchange with CATKE</a></li><li><a class="tocitem" href="../../literated/shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../../literated/horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../../literated/tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li><li><a class="tocitem" href="../../literated/spherical_baroclinic_instability/">Spherical baroclinic instability</a></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../models/models_overview/">Overview</a></li><li><a class="tocitem" href="../../models/coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../../models/buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../../models/stokes_drift/">Stokes drift</a></li><li><a class="tocitem" href="../../models/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../models/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../models/forcing_functions/">Forcings</a></li><li><a class="tocitem" href="../../models/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../models/background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../simulations/simulations_overview/">Overview</a></li><li><a class="tocitem" href="../../simulations/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../../simulations/schedules/">Schedules</a></li><li><a class="tocitem" href="../../simulations/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../simulations/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/coordinate_systems/">Coordinate systems</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox" checked/><label class="tocitem" for="menuitem-12"><span class="docs-label">For developers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../contributing/">Contributor&#39;s guide</a></li><li class="is-active"><a class="tocitem" href>Model interface</a><ul class="internal"><li><a class="tocitem" href="#The-AbstractModel-type"><span>The <code>AbstractModel</code> type</span></a></li><li><a class="tocitem" href="#Lifecycle-overview"><span>Lifecycle overview</span></a></li><li><a class="tocitem" href="#Structure-and-extensions-of-an-AbstractModel"><span>Structure and extensions of an <code>AbstractModel</code></span></a></li><li><a class="tocitem" href="#Models-that-implement-this-interface"><span>Models that implement this interface</span></a></li><li><a class="tocitem" href="#Example:-a-zero-dimensional-LorenzModel"><span>Example: a zero-dimensional <code>LorenzModel</code></span></a></li><li><a class="tocitem" href="#Example:-a-one-dimensional-KuramotoSivashinskyModel"><span>Example: a one-dimensional <code>KuramotoSivashinskyModel</code></span></a></li></ul></li><li><a class="tocitem" href="../turbulence_closures/">Implementing turbulence closures</a></li><li><a class="tocitem" href="../AGENTS/">Rules for agent-assisted development</a></li></ul></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">For developers</a></li><li class="is-active"><a href>Model interface</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Model interface</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/docs/src/developer_docs/model_interface.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Model-interface"><a class="docs-heading-anchor" href="#Model-interface">Model interface</a><a id="Model-interface-1"></a><a class="docs-heading-anchor-permalink" href="#Model-interface" title="Permalink"></a></h1><p>Oceananigans models are concrete subtypes of <code>AbstractModel</code> that can be advanced by <a href="../../literated/baroclinic_adjustment/#Simulation"><code>Simulation</code></a>. This page documents the <em>model interface</em>: the handful of functions and data that a model must provide so that Simulation can initialize it, march it forward, and coordinate callbacks, diagnostics, and output writers.</p><p>The interface lives primarily inside <code>src/Simulations/</code> and is intentionally minimal so that new models (or pedagogical toy models) can be written without depending on the full ocean model infrastructure.</p><h2 id="The-AbstractModel-type"><a class="docs-heading-anchor" href="#The-AbstractModel-type">The <code>AbstractModel</code> type</a><a id="The-AbstractModel-type-1"></a><a class="docs-heading-anchor-permalink" href="#The-AbstractModel-type" title="Permalink"></a></h2><p><code>AbstractModel{TS, A}</code> is parameterized by two type parameters:</p><ul><li><p><code>TS</code>: The time-stepper type. This enables dispatch on models with specific time-stepping schemes. For example, <code>AbstractModel{&lt;:QuasiAdamsBashforth2TimeStepper}</code> matches any model using the quasi-Adams-Bashforth second-order scheme. Models without a conventional time-stepper (e.g., the <code>LorenzModel</code> example below) can use <code>Nothing</code> for this parameter.</p></li><li><p><code>A</code>: The architecture type (e.g., <code>CPU</code>, <code>GPU</code>). This allows dispatch based on the computational backend.</p></li></ul><p>Models that don&#39;t fit the conventional time-stepper pattern can use <code>AbstractModel{Nothing, Nothing}</code> as their supertype.</p><h2 id="Lifecycle-overview"><a class="docs-heading-anchor" href="#Lifecycle-overview">Lifecycle overview</a><a id="Lifecycle-overview-1"></a><a class="docs-heading-anchor-permalink" href="#Lifecycle-overview" title="Permalink"></a></h2><p>When <code>run!(sim::Simulation)</code> is called the following high-level sequence occurs:</p><ol><li><p><code>initialize!(sim.model)</code> prepares the model state, etc.) and <code>update_state!(sim.model)</code> computes any auxiliary tendencies.</p></li><li><p>Time-stepping begins. For every time step, Simulation computes an aligned <code>Δt</code>, gathers callbacks that should run inside the model (<code>ModelCallsite</code>s), and calls <code>time_step!(sim.model, Δt; callbacks=model_callbacks)</code>. Most models will also call <code>update_state!</code> at the end of <code>time_step!</code>. This ensures that the auxiliary state (including halo regions, closure auxiliary fields, etc) is current with the prognostic state so that output and callbacks can execute correctly on a fully consistent model state.</p></li><li><p>After <code>time_step!(model, Δt)</code>, <code>Simulation</code> executes its diagnostics, output writers, and callbacks scheduled on the <code>TimeStepCallsite</code>.</p></li></ol><p>Because <code>Simulation</code> assumes this protocol, any custom <code>AbstractModel</code> should implement (or inherit sane fallbacks for) the items listed below.</p><h2 id="Structure-and-extensions-of-an-AbstractModel"><a class="docs-heading-anchor" href="#Structure-and-extensions-of-an-AbstractModel">Structure and extensions of an <code>AbstractModel</code></a><a id="Structure-and-extensions-of-an-AbstractModel-1"></a><a class="docs-heading-anchor-permalink" href="#Structure-and-extensions-of-an-AbstractModel" title="Permalink"></a></h2><h3 id="Required-properties"><a class="docs-heading-anchor" href="#Required-properties">Required properties</a><a id="Required-properties-1"></a><a class="docs-heading-anchor-permalink" href="#Required-properties" title="Permalink"></a></h3><ul><li><code>model.clock :: Clock</code>: the source of truth for <code>time(model)</code> and <code>iteration(model)</code>. Simulation uses it for stop criteria and logging, and resets it via <code>reset_clock!(model)</code> when <code>reset!(sim)</code> is called.</li></ul><h3 id="Required-methods"><a class="docs-heading-anchor" href="#Required-methods">Required methods</a><a id="Required-methods-1"></a><a class="docs-heading-anchor-permalink" href="#Required-methods" title="Permalink"></a></h3><ul><li><code>eltype(model)</code>: return the floating-point type used by the model. Simulation uses this for time step conversion. The default fallback returns <code>Float64</code>. Models with a <code>grid</code> property typically override this as <code>eltype(model::MyModel) = eltype(model.grid)</code>.</li></ul><h3 id="Lifecycle-hooks"><a class="docs-heading-anchor" href="#Lifecycle-hooks">Lifecycle hooks</a><a id="Lifecycle-hooks-1"></a><a class="docs-heading-anchor-permalink" href="#Lifecycle-hooks" title="Permalink"></a></h3><ul><li><p><code>update_state!(model, callbacks=[]; compute_tendencies=true)</code>: invoked by Simulation right after <code>initialize!</code> and inside most time steppers. This is where models fill halos, update boundary conditions, recompute auxiliary fields, and run <a href="../../simulations/callbacks/#callbacks"><code>Callback</code></a>s with an <code>UpdateStateCallsite</code>. PDE-based models typically finish by calling <code>compute_tendencies!(model, callbacks)</code> so that any <code>TendencyCallsite</code> callbacks can modify tendencies before integration. Note that <code>compute_tendencies!</code> is not part of the required interface—it is simply a useful pattern for models that integrate differential equations.</p></li><li><p><code>time_step!(model, Δt; callbacks=[])</code>: advances the model clock and its prognostic variables by one step. Simulation hands in the tuple of <code>ModelCallsite</code> <a href="../../simulations/callbacks/#callbacks"><code>Callback</code></a>s so the model can execute <code>TendencyCallsite</code> (before tendencies are applied) and <code>UpdateStateCallsite</code> callbacks (after auxiliary updates). The method must call <code>tick!(model.clock, Δt)</code> (or equivalent) so that <code>time(model)</code> and <code>iteration(model)</code> remain consistent.</p></li><li><p><code>set!(model, kw...)</code>: not strictly required, but strongly recommended as an interface for users to modify the model&#39;s prognostic state.</p></li><li><p><code>initialize!(model::AbstractModel)</code>: called exactly once per <code>run!</code> before the first time step.</p></li></ul><h3 id="Optional-integrations"><a class="docs-heading-anchor" href="#Optional-integrations">Optional integrations</a><a id="Optional-integrations-1"></a><a class="docs-heading-anchor-permalink" href="#Optional-integrations" title="Permalink"></a></h3><p>While not required for Simulation itself, the following methods enable additional functionality:</p><ul><li><p><code>architecture(model)</code>: return the computational architecture (e.g., <code>CPU()</code>, <code>GPU()</code>, or a <code>Distributed</code> architecture). Simulation uses this to ensure that the time step is identical across all processes when running with a <code>Distributed</code> architecture. The default fallback returns <code>nothing</code>, which skips distributed synchronization. Models with a <code>grid</code> property typically override this as <code>architecture(model::MyModel) = model.grid.architecture</code>.</p></li><li><p><code>timestepper(model)</code>: return the model&#39;s time-stepper object (or <code>nothing</code> if the model does not use a time-stepper). Simulation uses this to reset the time-stepper state when <code>reset!(sim)</code> is called. The default fallback returns <code>nothing</code>, so models without a time-stepper need not implement this method. Models with a time-stepper should implement this as <code>timestepper(model::MyModel) = model.timestepper</code>.</p></li><li><p><code>fields(model)</code> and <code>prognostic_fields(model)</code>: return <code>NamedTuple</code>s of fields. These are not used by Simulation itself, but are conventions used elsewhere in the ecosystem. <code>prognostic_fields(model)</code> should return the fields that are time-stepped (used by NaN checkers and some diagnostics). <code>fields(model)</code> should return a <code>NamedTuple</code> that includes both prognostic fields and other fields that users might want to access or output, such as pressure or diagnostic fields computed during <code>update_state!</code>.</p></li><li><p><code>default_nan_checker(model)</code>: customize the <code>NaNChecker</code> that Simulation adds by default.</p></li></ul><h2 id="Models-that-implement-this-interface"><a class="docs-heading-anchor" href="#Models-that-implement-this-interface">Models that implement this interface</a><a id="Models-that-implement-this-interface-1"></a><a class="docs-heading-anchor-permalink" href="#Models-that-implement-this-interface" title="Permalink"></a></h2><p>Several models across the CliMA ecosystem implement this interface:</p><p><strong>Oceananigans.jl</strong></p><ul><li><code>NonhydrostaticModel</code>: solves the incompressible Navier-Stokes equations</li><li><code>HydrostaticFreeSurfaceModel</code>: solves the hydrostatic Boussinesq equations with a free surface</li><li><code>ShallowWaterModel</code>: solves the shallow water equations</li></ul><p><strong>ClimaOcean.jl</strong></p><ul><li><code>OceanSeaIceModel</code>: couples ocean, sea ice, and atmosphere components for Earth system modeling.                     The components themselves may be <code>Simulation</code> that contain <code>AbstractModel</code>,                     generating a nested structure.</li></ul><p><strong>ClimaSeaIce.jl</strong></p><ul><li><code>SeaIceModel</code>: simulates sea ice thermodynamics and dynamics</li></ul><p><strong>Breeze.jl</strong></p><ul><li><code>AtmosphereModel</code>: simulates atmospheric dynamics</li></ul><h2 id="Example:-a-zero-dimensional-LorenzModel"><a class="docs-heading-anchor" href="#Example:-a-zero-dimensional-LorenzModel">Example: a zero-dimensional <code>LorenzModel</code></a><a id="Example:-a-zero-dimensional-LorenzModel-1"></a><a class="docs-heading-anchor-permalink" href="#Example:-a-zero-dimensional-LorenzModel" title="Permalink"></a></h2><p>The example below shows a deliberately tiny model that integrates the Lorenz system. The implementation demonstrates how little is required: store a <code>clock</code>, provide <code>time_step!</code> and <code>update_state!</code> implementations, and rely on fallbacks for the rest. Note that this model has no grid and no fields—just simple scalar state variables <code>x</code>, <code>y</code>, and <code>z</code>.</p><h3 id="Implementing-the-interface"><a class="docs-heading-anchor" href="#Implementing-the-interface">Implementing the interface</a><a id="Implementing-the-interface-1"></a><a class="docs-heading-anchor-permalink" href="#Implementing-the-interface" title="Permalink"></a></h3><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Models: AbstractModel
+using Oceananigans.Simulations: Simulation, run!
+using Oceananigans.TimeSteppers: Clock, tick!
+using Oceananigans: TendencyCallsite, UpdateStateCallsite
+
+import Oceananigans.TimeSteppers: update_state!, time_step!
+import Oceananigans.Fields: set!
+
+mutable struct LorenzModel{FT, P, S} &lt;: AbstractModel{Nothing, Nothing}
+    clock :: Clock{FT}
+    parameters :: P
+    state :: S
+end
+
+function LorenzModel(FT = Float64; σ = 10, ρ = 28, β = 8/3)
+    clock = Clock{FT}(time = zero(FT))
+    parameters = (; σ=FT(σ), ρ=FT(ρ), β=FT(β))
+    state = (; x=zero(FT), y=zero(FT), z=zero(FT))
+    return LorenzModel(clock, parameters, state)
+end
+
+function set!(model::LorenzModel{FT}; kw...) where FT
+    x = :x ∈ keys(kw) ? FT(kw[:x]) : model.state.x
+    y = :y ∈ keys(kw) ? FT(kw[:y]) : model.state.y
+    z = :z ∈ keys(kw) ? FT(kw[:z]) : model.state.z
+    model.state = (; x, y, z)
+    return nothing
+end
+
+Base.eltype(::LorenzModel{FT}) where FT = FT
+Base.summary(::LorenzModel) = &quot;LorenzModel&quot;
+update_state!(model::LorenzModel, cb=nothing; compute_tendencies=true) = nothing
+
+function time_step!(model::LorenzModel, Δt; callbacks = ())
+    model.clock.iteration == 0 &amp;&amp; update_state!(model, callbacks; compute_tendencies = false)
+
+    (; σ, ρ, β) = model.parameters
+    (; x, y, z) = model.state
+
+    dx = σ * (y - x)
+    dy = x * (ρ - z) - y
+    dz = x * y - β * z
+
+    state = (x = x + Δt * dx,
+             y = y + Δt * dy,
+             z = z + Δt * dz)
+
+    model.state = state
+    tick!(model.clock, Δt)
+    update_state!(model, callbacks)
+
+    return nothing
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">time_step! (generic function with 7 methods)</code></pre><h3 id="Using-the-model-inside-Simulation"><a class="docs-heading-anchor" href="#Using-the-model-inside-Simulation">Using the model inside Simulation</a><a id="Using-the-model-inside-Simulation-1"></a><a class="docs-heading-anchor-permalink" href="#Using-the-model-inside-Simulation" title="Permalink"></a></h3><p>We set up a <a href="../../simulations/callbacks/#callbacks"><code>Callback</code></a> to record the trajectory at each time step:</p><pre><code class="language-julia hljs">lorenz = LorenzModel()
+set!(lorenz, x=1)
+simulation = Simulation(lorenz; Δt=0.01, stop_time=100, verbose=false)
+trajectory = NTuple{3, Float64}[]
+
+function record_trajectory!(sim)
+    push!(trajectory, values(sim.model.state))
+end
+
+add_callback!(simulation, record_trajectory!)
+run!(simulation)</code></pre><p>Finally, we visualize the famous Lorenz attractor with a 3D line plot:</p><pre><code class="language-julia hljs">using CairoMakie
+
+fig = Figure(size=(600, 500))
+
+ax = Axis3(fig[1, 1]; xlabel=&quot;x&quot;, ylabel=&quot;y&quot;, zlabel=&quot;z&quot;,
+           title=&quot;Lorenz attractor&quot;, azimuth=1.2π)
+
+xs = [p[1] for p in trajectory]
+ys = [p[2] for p in trajectory]
+zs = [p[3] for p in trajectory]
+
+lines!(ax, xs, ys, zs; linewidth=0.5, color=zs, colormap=:magma)
+
+fig</code></pre><img src="d69fb56d.png" alt="Example block output"/><p>This minimal implementation inherits all other behavior from the generic <code>AbstractModel</code> fallbacks: Simulation can query <code>time(sim.model)</code>, diagnostics can read <code>sim.model.clock</code>, and <a href="../../simulations/callbacks/#callbacks"><code>Callback</code></a>s scheduled on <code>ModelCallsite</code>s execute because <code>time_step!</code> forwards the tuple that Simulation hands to it. Note that this model has no grid, no fields, and no time-stepper object—just the essentials. Larger models can follow the same recipe while adding grids, fields, closures, and time steppers as needed.</p><h2 id="Example:-a-one-dimensional-KuramotoSivashinskyModel"><a class="docs-heading-anchor" href="#Example:-a-one-dimensional-KuramotoSivashinskyModel">Example: a one-dimensional <code>KuramotoSivashinskyModel</code></a><a id="Example:-a-one-dimensional-KuramotoSivashinskyModel-1"></a><a class="docs-heading-anchor-permalink" href="#Example:-a-one-dimensional-KuramotoSivashinskyModel" title="Permalink"></a></h2><p>The <a href="https://en.wikipedia.org/wiki/Kuramoto–Sivashinsky_equation">Kuramoto-Sivashinsky equation</a> is a fourth-order PDE known for exhibiting chaotic behavior:</p><p class="math-container">\[\partial_t u + \partial_x^2 u + \partial_x^4 u + \frac{1}{2} \partial_x (u^2) = 0\]</p><p>This example demonstrates a model that uses Oceananigans grids and fields, showing how to leverage <code>AbstractOperations</code> for computing spatial derivatives.</p><h3 id="Implementing-the-model"><a class="docs-heading-anchor" href="#Implementing-the-model">Implementing the model</a><a id="Implementing-the-model-1"></a><a class="docs-heading-anchor-permalink" href="#Implementing-the-model" title="Permalink"></a></h3><pre><code class="language-julia hljs">using Oceananigans.BoundaryConditions: fill_halo_regions!
+
+mutable struct KuramotoSivashinskyModel{G, C, U, T} &lt;: AbstractModel{Nothing, Nothing}
+    grid :: G
+    clock :: C
+    solution :: U
+    tendencies :: T  # Gⁿ and G⁻ for RK3 time-stepping
+end
+
+function KuramotoSivashinskyModel(grid)
+    # Validate that the grid is 1D in x
+    size(grid, 2) == 1 &amp;&amp; size(grid, 3) == 1 ||
+        throw(ArgumentError(&quot;KuramotoSivashinskyModel requires a 1D grid in x&quot;))
+
+    clock = Clock{eltype(grid)}(time = zero(eltype(grid)))
+    solution = CenterField(grid)
+    tendencies = (Gⁿ = CenterField(grid), G⁻ = CenterField(grid))
+
+    return KuramotoSivashinskyModel(grid, clock, solution, tendencies)
+end
+
+function Base.summary(model::KuramotoSivashinskyModel)
+    grid_str = summary(model.grid)
+    return &quot;KuramotoSivashinskyModel on $grid_str&quot;
+  end
+
+# Override architecture and eltype to use the grid
+import Oceananigans.Architectures: architecture
+architecture(model::KuramotoSivashinskyModel) = model.grid.architecture
+Base.eltype(model::KuramotoSivashinskyModel) = eltype(model.grid)
+
+&quot;&quot;&quot;Compute the right-hand side of the KS equation: -∂²u - ∂⁴u - ½∂ₓ(u²)&quot;&quot;&quot;
+function compute_tendencies!(model::KuramotoSivashinskyModel)
+    u = model.solution
+    Gⁿ = model.tendencies.Gⁿ
+
+    ∂²u = ∂x(∂x(u))
+    ∂⁴u = ∂x(∂x(∂²u))
+    ∂u² = @at (Center, Center, Center) ∂x(u^2) / 2
+    Gⁿ .= -∂²u .- ∂⁴u .- ∂u²
+
+    return nothing
+end
+
+function update_state!(model::KuramotoSivashinskyModel, callbacks = []; compute_tendencies=true)
+    fill_halo_regions!(model.solution)
+    [callback(model) for callback in callbacks if callback.callsite isa UpdateStateCallsite]
+    compute_tendencies &amp;&amp; compute_tendencies!(model)
+    return nothing
+end
+
+function time_step!(model::KuramotoSivashinskyModel, Δt; callbacks = [])
+    # First stage: initialize
+    model.clock.iteration == 0 &amp;&amp; update_state!(model, callbacks)
+    [callback(model) for callback in callbacks if callback.callsite isa TendencyCallsite]
+
+    # RK3 coefficients (Williamson&#39;s low-storage scheme)
+    FT = eltype(model)
+    γ¹, γ², γ³ = FT(8/15), FT(5/12), FT(3/4)
+    ζ², ζ³ = -FT(17/60), -FT(5/12)
+
+    u = parent(model.solution)
+    Gⁿ = parent(model.tendencies.Gⁿ)
+    G⁻ = parent(model.tendencies.G⁻)
+
+    # Stage 1: u = u + Δt * γ¹ * Gⁿ
+    u .+= Δt * γ¹ .* Gⁿ
+    G⁻ .= Gⁿ
+    tick!(model.clock, Δt * γ¹; stage=true)
+    update_state!(model, callbacks)
+
+    # Stage 2: u = u + Δt * (γ² * Gⁿ + ζ² * G⁻)
+    u .+= Δt * γ² .* Gⁿ .+ Δt * ζ² .* G⁻
+    G⁻ .= Gⁿ
+    tick!(model.clock, Δt * (γ² + ζ²); stage=true)
+    update_state!(model, callbacks)
+
+    # Stage 3: u = u + Δt * (γ³ * Gⁿ + ζ³ * G⁻)
+    u .+= Δt * γ³ .* Gⁿ .+ Δt * ζ³ .* G⁻
+    tick!(model.clock, Δt * (γ³ + ζ³))  # final tick increments iteration, resets stage
+    update_state!(model, callbacks)
+
+    return nothing
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">time_step! (generic function with 8 methods)</code></pre><h3 id="Running-a-simulation-with-output"><a class="docs-heading-anchor" href="#Running-a-simulation-with-output">Running a simulation with output</a><a id="Running-a-simulation-with-output-1"></a><a class="docs-heading-anchor-permalink" href="#Running-a-simulation-with-output" title="Permalink"></a></h3><p>We initialize the model with a perturbed state and use a <code>JLD2Writer</code> to save the solution at regular intervals:</p><pre><code class="language-julia hljs">grid = RectilinearGrid(size=256, x=(0, 32π), topology=(Periodic, Flat, Flat), halo=4)
+ks_model = KuramotoSivashinskyModel(grid)
+
+# Initialize with a combination of sinusoidal modes
+set!(ks_model.solution, x -&gt; cos(x/16) * (1 + sin(x/16)))
+simulation = Simulation(ks_model; Δt=0.002, stop_time=60)
+
+simulation.output_writers[:solution] = JLD2Writer(ks_model, (; u=ks_model.solution),
+                                                  filename = &quot;ks_solution.jld2&quot;,
+                                                  schedule = TimeInterval(1),
+                                                  overwrite_existing = true,
+                                                  including = [:grid])
+
+run!(simulation)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Initializing simulation...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... simulation initialization complete (2.778 seconds)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Executing initial time step...
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>    ... initial time step complete (7.308 seconds).
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation is stopping after running for 18.407 seconds.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Simulation time 1 minute equals or exceeds stop time 1 minute.</code></pre><h3 id="Animating-the-chaotic-dynamics"><a class="docs-heading-anchor" href="#Animating-the-chaotic-dynamics">Animating the chaotic dynamics</a><a id="Animating-the-chaotic-dynamics-1"></a><a class="docs-heading-anchor-permalink" href="#Animating-the-chaotic-dynamics" title="Permalink"></a></h3><p>The Kuramoto-Sivashinsky equation produces complex spatiotemporal patterns. We use <code>Observable</code> to efficiently update the plot data during animation:</p><pre><code class="language-julia hljs">u_ts = FieldTimeSeries(&quot;ks_solution.jld2&quot;, &quot;u&quot;)
+times = u_ts.times
+
+fig = Figure(size=(800, 400))
+
+# Create Observables for reactive updates
+n = Observable(1)
+u_n = @lift u_ts[$n]
+title = @lift &quot;Kuramoto-Sivashinsky equation, t = $(round(times[$n], digits=1))&quot;
+
+ax = Axis(fig[1, 1]; xlabel=&quot;x&quot;, ylabel=&quot;u&quot;, title=title)
+ylims!(ax, -4, 4)
+
+# lines! works directly with Field
+lines!(ax, u_n; linewidth=2, color=:royalblue)
+
+record(fig, &quot;ks_animation.mp4&quot;, eachindex(times); framerate=12) do nn
+    n[] = nn
+end</code></pre><p><video src="../ks_animation.mp4" controls="true" title="Kuramoto-Sivashinsky animation"><a href="../ks_animation.mp4">Kuramoto-Sivashinsky animation</a></video></p><p>This PDE-based model demonstrates how to use Oceananigans grids, fields, and operators within a custom <code>AbstractModel</code>. The key additions compared to the <code>LorenzModel</code> are:</p><ul><li>A <code>grid</code> property with overridden <code>architecture</code> and <code>eltype</code> methods</li><li>A <code>tendencies</code> property containing <code>Gⁿ</code> and <code>G⁻</code> fields for multi-stage time-stepping</li><li>A separate <code>compute_tendencies!</code> function called from <code>update_state!</code></li><li>Third-order Runge-Kutta (RK3) time-stepping using Williamson&#39;s low-storage scheme</li><li>Using <code>fill_halo_regions!</code> in <code>update_state!</code> to maintain periodic boundary conditions</li><li>Leveraging <code>AbstractOperations</code> (<code>∂x</code>) for computing spatial derivatives via broadcasting</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../contributing/">« Contributor&#39;s guide</a><a class="docs-footer-nextpage" href="../turbulence_closures/">Implementing turbulence closures »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Friday 13 February 2026 01:51">Friday 13 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
