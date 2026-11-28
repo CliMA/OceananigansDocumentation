@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Spherical baroclinic instability · Oceananigans.jl</title><meta name="title" content="Spherical baroclinic instability · Oceananigans.jl"/><meta property="og:title" content="Spherical baroclinic instability · Oceananigans.jl"/><meta property="twitter:title" content="Spherical baroclinic instability · Oceananigans.jl"/><meta name="description" content="Documentation for Oceananigans.jl."/><meta property="og:description" content="Documentation for Oceananigans.jl."/><meta property="twitter:description" content="Documentation for Oceananigans.jl."/><meta property="og:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/spherical_baroclinic_instability/"/><meta property="twitter:url" content="https://clima.github.io/OceananigansDocumentation/stable/literated/spherical_baroclinic_instability/"/><link rel="canonical" href="https://clima.github.io/OceananigansDocumentation/stable/literated/spherical_baroclinic_instability/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/citations.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Oceananigans.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../quick_start/">Quick start</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Examples</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../one_dimensional_diffusion/">One-dimensional diffusion</a></li><li><a class="tocitem" href="../two_dimensional_turbulence/">Two-dimensional turbulence</a></li><li><a class="tocitem" href="../internal_wave/">Internal wave</a></li><li><a class="tocitem" href="../internal_tide/">Internal tide by a seamount</a></li><li><a class="tocitem" href="../convecting_plankton/">Convecting plankton</a></li><li><a class="tocitem" href="../ocean_wind_mixing_and_convection/">Ocean wind mixing and convection</a></li><li><a class="tocitem" href="../langmuir_turbulence/">Langmuir turbulence</a></li><li><a class="tocitem" href="../baroclinic_adjustment/">Baroclinic adjustment</a></li><li><a class="tocitem" href="../kelvin_helmholtz_instability/">Kelvin-Helmholtz instability</a></li><li><a class="tocitem" href="../hydrostatic_lock_exchange/">Hydrostatic lock exchange with CATKE</a></li><li><a class="tocitem" href="../shallow_water_Bickley_jet/">Shallow water Bickley jet</a></li><li><a class="tocitem" href="../horizontal_convection/">Horizontal convection</a></li><li><a class="tocitem" href="../tilted_bottom_boundary_layer/">Tilted bottom boundary layer</a></li><li class="is-active"><a class="tocitem" href>Spherical baroclinic instability</a><ul class="internal"><li><a class="tocitem" href="#Install-dependencies"><span>Install dependencies</span></a></li><li><a class="tocitem" href="#Grid-configurations"><span>Grid configurations</span></a></li><li><a class="tocitem" href="#Model-setup"><span>Model setup</span></a></li><li><a class="tocitem" href="#Simulation-runner"><span>Simulation runner</span></a></li><li><a class="tocitem" href="#Run-the-simulations"><span>Run the simulations</span></a></li><li><a class="tocitem" href="#Visualization"><span>Visualization</span></a></li><li><a class="tocitem" href="#References"><span>References</span></a></li></ul></li></ul></li><li><a class="tocitem" href="../../grids/">Grids</a></li><li><a class="tocitem" href="../../fields/">Fields</a></li><li><a class="tocitem" href="../../operations/">Operations</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Models</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../models/models_overview/">Overview</a></li><li><a class="tocitem" href="../../models/coriolis/">Coriolis forces</a></li><li><a class="tocitem" href="../../models/buoyancy_and_equation_of_state/">Buoyancy and equations of state</a></li><li><a class="tocitem" href="../../models/stokes_drift/">Stokes drift</a></li><li><a class="tocitem" href="../../models/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../models/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../models/forcing_functions/">Forcings</a></li><li><a class="tocitem" href="../../models/lagrangian_particles/">Lagrangian particles</a></li><li><a class="tocitem" href="../../models/background_fields/">Background fields</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Simulations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../simulations/simulations_overview/">Overview</a></li><li><a class="tocitem" href="../../simulations/callbacks/">Callbacks</a></li><li><a class="tocitem" href="../../simulations/schedules/">Schedules</a></li><li><a class="tocitem" href="../../simulations/output_writers/">Output writers</a></li><li><a class="tocitem" href="../../simulations/checkpointing/">Checkpointing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">Physics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/coordinate_systems/">Coordinate systems</a></li><li><a class="tocitem" href="../../physics/boussinesq/">Boussinesq approximation</a></li><li><input class="collapse-toggle" id="menuitem-9-3" type="checkbox"/><label class="tocitem" for="menuitem-9-3"><span class="docs-label"><code>NonhydrostaticModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/nonhydrostatic_model/">Nonhydrostatic model</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-4" type="checkbox"/><label class="tocitem" for="menuitem-9-4"><span class="docs-label"><code>HydrostaticFreeSurfaceModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/hydrostatic_free_surface_model/">Hydrostatic model with a free surface</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9-5" type="checkbox"/><label class="tocitem" for="menuitem-9-5"><span class="docs-label"><code>ShallowWaterModel</code></span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../physics/shallow_water_model/">Shallow water model</a></li></ul></li><li><a class="tocitem" href="../../physics/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../physics/buoyancy_and_equations_of_state/">Buoyancy models and equations of state</a></li><li><a class="tocitem" href="../../physics/coriolis_forces/">Coriolis forces</a></li><li><a class="tocitem" href="../../physics/turbulence_closures/">Turbulence closures</a></li><li><a class="tocitem" href="../../physics/surface_gravity_waves/">Surface gravity waves and the Craik-Leibovich approximation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Numerical implementation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../numerical_implementation/finite_volume/">Finite volume method</a></li><li><a class="tocitem" href="../../numerical_implementation/spatial_operators/">Spatial operators</a></li><li><a class="tocitem" href="../../numerical_implementation/generalized_vertical_coordinates/">Generalized vertical coordinates</a></li><li><a class="tocitem" href="../../numerical_implementation/pressure_decomposition/">Pressure decomposition</a></li><li><a class="tocitem" href="../../numerical_implementation/time_stepping/">Time stepping</a></li><li><a class="tocitem" href="../../numerical_implementation/boundary_conditions/">Boundary conditions</a></li><li><a class="tocitem" href="../../numerical_implementation/elliptic_solvers/">Elliptic solvers</a></li><li><a class="tocitem" href="../../numerical_implementation/large_eddy_simulation/">Large eddy simulation</a></li></ul></li><li><a class="tocitem" href="../../simulation_tips/">Simulation tips</a></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">For developers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../developer_docs/contributing/">Contributor&#39;s guide</a></li><li><a class="tocitem" href="../../developer_docs/model_interface/">Model interface</a></li><li><a class="tocitem" href="../../developer_docs/turbulence_closures/">Implementing turbulence closures</a></li><li><a class="tocitem" href="../../developer_docs/AGENTS/">Rules for agent-assisted development</a></li></ul></li><li><a class="tocitem" href="../../gallery/">Gallery</a></li><li><a class="tocitem" href="../../references/">References</a></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">Appendix</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../appendix/staggered_grid/">Staggered grid</a></li><li><a class="tocitem" href="../../appendix/fractional_step/">Fractional step method</a></li><li><a class="tocitem" href="../../appendix/convergence_tests/">Convergence tests</a></li><li><a class="tocitem" href="../../appendix/benchmarks/">Performance benchmarks</a></li><li><a class="tocitem" href="../../appendix/library/">Library</a></li><li><a class="tocitem" href="../../appendix/function_index/">Function index</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Spherical baroclinic instability</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Spherical baroclinic instability</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/CliMA/Oceananigans.jl/blob/main/examples/spherical_baroclinic_instability.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Baroclinic-instability-on-the-sphere"><a class="docs-heading-anchor" href="#Baroclinic-instability-on-the-sphere">Baroclinic instability on the sphere</a><a id="Baroclinic-instability-on-the-sphere-1"></a><a class="docs-heading-anchor-permalink" href="#Baroclinic-instability-on-the-sphere" title="Permalink"></a></h1><p>This example illustrates how to set up and run simulations of baroclinic instability on a spherical domain using three different spherical grid configurations: a standard latitude-longitude grid, a tripolar grid, and a rotated latitude-longitude grid.</p><p>Baroclinic instability is a fundamental mechanism for generating mesoscale eddies in the ocean and synoptic-scale weather systems in the atmosphere. The instability arises when horizontal density gradients (fronts) are tilted by the combined effects of Earth&#39;s rotation and stratification, converting available potential energy into kinetic energy.</p><p>In this example, we initialize a meridional temperature front that is baroclinically unstable, and watch eddies grow and equilibrate the front. We demonstrate this phenomenon on three different spherical grid types to illustrate the flexibility of Oceananigans for global ocean modeling.</p><p>This example also demonstrates:</p><ul><li>Using <a href="../../appendix/library/#Oceananigans.Models.BulkDragBoundaryConditions.BulkDrag"><code>BulkDrag</code></a> for quadratic bottom drag boundary conditions</li><li>Applying drag only to the bottom facet of immersed boundaries</li></ul><h2 id="Install-dependencies"><a class="docs-heading-anchor" href="#Install-dependencies">Install dependencies</a><a id="Install-dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Install-dependencies" title="Permalink"></a></h2><p>First let&#39;s make sure we have all required packages installed.</p><pre><code class="language-julia hljs">using Pkg
+pkg&quot;add Oceananigans, CairoMakie, SeawaterPolynomials&quot;</code></pre><h2 id="Grid-configurations"><a class="docs-heading-anchor" href="#Grid-configurations">Grid configurations</a><a id="Grid-configurations-1"></a><a class="docs-heading-anchor-permalink" href="#Grid-configurations" title="Permalink"></a></h2><p>We set up three different spherical grids at 1.5-degree resolution. Each grid type has different advantages:</p><ul><li><p><a href="../../appendix/library/#Oceananigans.Grids.LatitudeLongitudeGrid"><code>LatitudeLongitudeGrid</code></a>: Straightforward, but suffers from converging meridians at the poles, and thus cannot cover a sphere without filtering.</p></li><li><p><a href="../../appendix/library/#Oceananigans.OrthogonalSphericalShellGrids.TripolarGrid"><code>TripolarGrid</code></a>: Avoids the North Pole singularity by introducing two computational poles over land (typically over North America and Eurasia). This grid was first introduced by <a href="../../references/#Murray1996">Murray (1996)</a> and is widely used in global ocean models.</p></li><li><p><a href="../../appendix/library/#Oceananigans.OrthogonalSphericalShellGrids.RotatedLatitudeLongitudeGrid"><code>RotatedLatitudeLongitudeGrid</code></a>: Rotates the grid&#39;s north pole to an arbitrary location, allowing finer resolution in a region of interest while avoiding the geographic poles.</p></li></ul><pre><code class="language-julia hljs">using Oceananigans
+using Oceananigans.Units
+using SeawaterPolynomials.TEOS10: TEOS10EquationOfState
+using CUDA
+using Printf
+using CairoMakie</code></pre><p>We start by setting up grid parameters. We use 1.5-degree resolution to produce reasonable runtimes while still resolving the instability.</p><pre><code class="language-julia hljs">arch = GPU()
+resolution = 3 // 2        # degrees
+Nx = 360 ÷ resolution      # number of longitude points
+Ny = 170 ÷ resolution      # number of latitude points (avoiding poles)
+Nz = 10                    # number of vertical levels
+size = (Nx, Ny, Nz)
+halo = (7, 7, 7)           # halo size for higher-order advection schemes
+H = 5000                   # domain depth [m]
+latitude = (-85, 85)       # latitude range (avoiding poles for lat-lon grid)
+longitude = (0, 360)       # longitude range
+z = (-H, 0)                # vertical extent</code></pre><pre><code class="nohighlight hljs">(-5000, 0)</code></pre><p>Next we build the three grids.</p><h3 id="Latitude-Longitude-grid"><a class="docs-heading-anchor" href="#Latitude-Longitude-grid">Latitude-Longitude grid</a><a id="Latitude-Longitude-grid-1"></a><a class="docs-heading-anchor-permalink" href="#Latitude-Longitude-grid" title="Permalink"></a></h3><pre><code class="language-julia hljs">lat_lon_grid = LatitudeLongitudeGrid(arch; size, halo, latitude, longitude, z)</code></pre><pre><code class="nohighlight hljs">240×113×10 LatitudeLongitudeGrid{Float64, Periodic, Bounded, Bounded} on CUDAGPU with 7×7×7 halo
+├── longitude: Periodic λ ∈ [0.0, 360.0)   regularly spaced with Δλ=1.5
+├── latitude:  Bounded  φ ∈ [-85.0, 85.0]  regularly spaced with Δφ=1.50442
+└── z:         Bounded  z ∈ [-5000.0, 0.0] regularly spaced with Δz=500.0</code></pre><h3 id="Tripolar-grid"><a class="docs-heading-anchor" href="#Tripolar-grid">Tripolar grid</a><a id="Tripolar-grid-1"></a><a class="docs-heading-anchor-permalink" href="#Tripolar-grid" title="Permalink"></a></h3><p>The tripolar grid has singularities (&quot;north poles&quot;) at 55°N latitude by default.</p><pre><code class="language-julia hljs">underlying_tripolar_grid = TripolarGrid(arch; size, halo, z)</code></pre><pre><code class="nohighlight hljs">240×113×10 OrthogonalSphericalShellGrid{Float64, Periodic, RightCenterFolded, Bounded} on CUDAGPU with 7×7×7 halo
+├── centered at (λ, φ) = (250.0, 1.8005)
+├── longitude: Periodic  extent 360.157 degrees          variably spaced with min(Δλ)=0.0180714, max(Δλ)=1.58055
+├── latitude:  RightCenterFolded  extent 171.504 degrees variably spaced with min(Δφ)=0.0289882, max(Δφ)=1.51786
+└── z:         Bounded  z ∈ [-5000.0, 0.0]               regularly spaced with Δz=500.0</code></pre><p>We also use an <code>ImmersedBoundaryGrid</code> to place Gaussian mountains over the singularities to ensure the simulation remains stable. The tripolar grid places singularities at longitude <code>first_pole_longitude</code> and <code>first_pole_longitude + 180°</code>, both at latitude <code>north_poles_latitude</code>. By default, the first pole is at 70°E longitude and 55°N latitude.</p><pre><code class="language-julia hljs">σφ, σλ = 4, 8       # mountain extent in latitude and longitude (degrees)
+λ₀, φ₀ = 70, 55     # first pole location
+h = H + 1000        # mountain height above the bottom (m)
+
+gaussian(λ, φ) = exp(-((λ - λ₀)^2 / 2σλ^2 + (φ - φ₀)^2 / 2σφ^2))
+gaussian_mountains(λ, φ) = -H + h * (gaussian(λ, φ) + gaussian(λ - 180, φ) + gaussian(λ - 360, φ))
+
+tripolar_grid = ImmersedBoundaryGrid(underlying_tripolar_grid, GridFittedBottom(gaussian_mountains))</code></pre><pre><code class="nohighlight hljs">240×113×10 ImmersedBoundaryGrid{Float64, Periodic, RightCenterFolded, Bounded} on CUDAGPU with 7×7×7 halo:
+├── immersed_boundary: GridFittedBottom(mean(z)=-4790.49, min(z)=-5000.0, max(z)=0.0)
+├── underlying_grid: 240×113×10 OrthogonalSphericalShellGrid{Float64, Periodic, RightCenterFolded, Bounded} on CUDAGPU with 7×7×7 halo
+├── centered at (λ, φ) = (250.0, 1.8005)
+├── longitude: Periodic  extent 360.157 degrees          variably spaced with min(Δλ)=0.0180714, max(Δλ)=1.58055
+├── latitude:  RightCenterFolded  extent 171.504 degrees variably spaced with min(Δφ)=0.0289882, max(Δφ)=1.51786
+└── z:         Bounded  z ∈ [-5000.0, 0.0]               regularly spaced with Δz=500.0</code></pre><h3 id="Rotated-latitude-longitude-grid"><a class="docs-heading-anchor" href="#Rotated-latitude-longitude-grid">Rotated latitude-longitude grid</a><a id="Rotated-latitude-longitude-grid-1"></a><a class="docs-heading-anchor-permalink" href="#Rotated-latitude-longitude-grid" title="Permalink"></a></h3><p>The rotated latitude-longitude grid rotates the north pole to an arbitrary location. Here we place the grid&#39;s north pole at (70°E, 55°N) to coincide with the default singularities of <a href="../../appendix/library/#Oceananigans.OrthogonalSphericalShellGrids.TripolarGrid"><code>TripolarGrid</code></a>.</p><pre><code class="language-julia hljs">rotated_lat_lon_grid = RotatedLatitudeLongitudeGrid(arch; size, halo, latitude, longitude, z,
+                                                    north_pole = (70, 55))</code></pre><pre><code class="nohighlight hljs">240×113×10 OrthogonalSphericalShellGrid{Float64, Periodic, Bounded, Bounded} on CUDAGPU with 7×7×7 halo
+├── centered at (λ, φ) = (-110.0, 35.0)
+├── longitude: Periodic  extent 360.0 degrees variably spaced with min(Δλ)=0.130734, max(Δλ)=1.49987
+├── latitude:  Bounded  extent 170.0 degrees  variably spaced with min(Δφ)=1.50442, max(Δφ)=1.50442
+└── z:         Bounded  z ∈ [-5000.0, 0.0]    regularly spaced with Δz=500.0</code></pre><h2 id="Model-setup"><a class="docs-heading-anchor" href="#Model-setup">Model setup</a><a id="Model-setup-1"></a><a class="docs-heading-anchor-permalink" href="#Model-setup" title="Permalink"></a></h2><p>We create a function that builds a <code>HydrostaticFreeSurfaceModel</code> for any of our grids. Each model is configured with:</p><ul><li>WENO advection for both momentum and tracers</li><li>Spherical Coriolis force appropriate for hydrostatic dynamics</li><li>Realistic seawater buoyancy using the TEOS-10 equation of state</li><li>Split-explicit free surface for fast external gravity wave dynamics</li><li>Quadratic bottom drag using <a href="../../appendix/library/#Oceananigans.Models.BulkDragBoundaryConditions.BulkDrag"><code>BulkDrag</code></a>, which computes a stress proportional to <code>Cᴰ |u| u</code> where <code>Cᴰ</code> is the drag coefficient.</li><li>An initial condition that involves<ul><li>A temperature front centered at ±45° latitude</li><li>Vertical salinity stratification</li><li>Random noise in both to seed instability</li></ul></li></ul><pre><code class="language-julia hljs">function build_model(grid)
+    momentum_advection = WENOVectorInvariant(order=5)
+    tracer_advection = WENO(order=5)
+    coriolis = HydrostaticSphericalCoriolis()
+    equation_of_state = TEOS10EquationOfState()
+    buoyancy = SeawaterBuoyancy(; equation_of_state)
+    free_surface = SplitExplicitFreeSurface(grid; substeps=80)
+
+    # Apply bottom drag to both domain boundaries and immersed boundaries.
+    # For immersed boundaries, use ImmersedBoundaryCondition to apply drag
+    # only to the bottom facet.
+    drag = BulkDrag(coefficient=2e-3)
+    u_bcs = FieldBoundaryConditions(bottom=drag, immersed=ImmersedBoundaryCondition(bottom=drag))
+    v_bcs = FieldBoundaryConditions(bottom=drag, immersed=ImmersedBoundaryCondition(bottom=drag))
+    boundary_conditions = (; u=u_bcs, v=v_bcs)
+
+    model = HydrostaticFreeSurfaceModel(grid; coriolis, free_surface, buoyancy,
+                                        tracers = (:T, :S),
+                                        momentum_advection, tracer_advection,
+                                        boundary_conditions)
+
+    # Initial conditions
+    Tᵢ(λ, φ, z) = 30 * (1 - tanh((abs(φ) - 45) / 8)) / 2 + rand()
+    Sᵢ(λ, φ, z) = 28 - 5e-3 * z + rand()
+    set!(model, T=Tᵢ, S=Sᵢ)
+
+    return model
+end</code></pre><pre><code class="nohighlight hljs">build_model (generic function with 1 method)</code></pre><h2 id="Simulation-runner"><a class="docs-heading-anchor" href="#Simulation-runner">Simulation runner</a><a id="Simulation-runner-1"></a><a class="docs-heading-anchor-permalink" href="#Simulation-runner" title="Permalink"></a></h2><p>We define a function that sets up and runs a simulation on a given grid, along with a progress callback that prints the velocity and temperature range as the simulation runs. We run for 60 days to observe the initial development of the instability while keeping computational costs reasonable.</p><pre><code class="language-julia hljs"># Simulation runner
+function run_baroclinic_instability(grid, name; stop_time=60days, save_interval=24hours)
+    model = build_model(grid)
+    simulation = Simulation(model; Δt=8minutes, stop_time)
+
+    # Progress callback
+    function progress(sim)
+        T = sim.model.tracers.T
+        u, v, w = sim.model.velocities
+
+        msg = @sprintf(&quot;%s grid, iter % 4d: % 10s, max|u|: (%.2e, %.2e, %.2e)&quot;,
+                       name, iteration(sim), prettytime(sim),
+                       maximum(abs, u), maximum(abs, v), maximum(abs, w))
+
+        msg *= @sprintf(&quot;, T ∈ (%.2f, %.2f)&quot;, minimum(T), maximum(T))
+
+        @info msg
+        return nothing
+    end
+
+    add_callback!(simulation, progress, IterationInterval(1000))
+
+    # Set up output: save vorticity and temperature at the surface
+    u, v, w = model.velocities
+    T = model.tracers.T
+    ζ = ∂x(v) - ∂y(u)
+    fields = (; ζ, T)
+    indices = (:, :, grid.Nz)
+    filename = &quot;spherical_baroclinic_instability_&quot; * name * &quot;.jld2&quot;
+
+    simulation.output_writers[:surface] = JLD2Writer(model, fields; indices, filename,
+                                                     schedule = TimeInterval(save_interval),
+                                                     overwrite_existing = true)
+    run!(simulation)
+    return filename
+end</code></pre><pre><code class="nohighlight hljs">run_baroclinic_instability (generic function with 1 method)</code></pre><h2 id="Run-the-simulations"><a class="docs-heading-anchor" href="#Run-the-simulations">Run the simulations</a><a id="Run-the-simulations-1"></a><a class="docs-heading-anchor-permalink" href="#Run-the-simulations" title="Permalink"></a></h2><p>Now we run simulations on all three grids.</p><pre><code class="language-julia hljs">names = (&quot;lat_lon&quot;, &quot;tripolar&quot;, &quot;rotated_lat_lon&quot;) # To fix ordering of plots
+
+results = Dict(
+    &quot;lat_lon&quot; =&gt; run_baroclinic_instability(lat_lon_grid, &quot;lat_lon&quot;),
+    &quot;tripolar&quot; =&gt; run_baroclinic_instability(tripolar_grid, &quot;tripolar&quot;),
+    &quot;rotated_lat_lon&quot; =&gt; run_baroclinic_instability(rotated_lat_lon_grid, &quot;rotated_lat_lon&quot;)
+)</code></pre><pre><code class="nohighlight hljs">Dict{String, String} with 3 entries:
+  &quot;rotated_lat_lon&quot; =&gt; &quot;spherical_baroclinic_instability_rotated_lat_lon.jld2&quot;
+  &quot;tripolar&quot; =&gt; &quot;spherical_baroclinic_instability_tripolar.jld2&quot;
+  &quot;lat_lon&quot; =&gt; &quot;spherical_baroclinic_instability_lat_lon.jld2&quot;</code></pre><h2 id="Visualization"><a class="docs-heading-anchor" href="#Visualization">Visualization</a><a id="Visualization-1"></a><a class="docs-heading-anchor-permalink" href="#Visualization" title="Permalink"></a></h2><p>We make a three-dimensional visualization of our results on the sphere with CairoMakie. First we load the output from each simulation,</p><pre><code class="language-julia hljs">T_ts = Dict()
+ζ_ts = Dict()
+
+for (name, filename) in results
+    T_ts[name] = FieldTimeSeries(filename, &quot;T&quot;)
+    ζ_ts[name] = FieldTimeSeries(filename, &quot;ζ&quot;)
+end
+
+times = T_ts[&quot;lat_lon&quot;].times
+Nt = length(times)</code></pre><pre><code class="nohighlight hljs">61</code></pre><p>Next we make a plot showing baroclinic instability on all three grids, visualized on 3D spheres. Each column shows a different grid type, with temperature on top and vorticity on the bottom.</p><pre><code class="language-julia hljs">fig = Figure(size = (700, 500))
+n = Nt
+title_str = @lift &quot;Baroclinic instability at t = &quot; * prettytime(times[$n])
+Label(fig[1, 1:4], title_str, fontsize = 16)
+
+labels = Dict(&quot;lat_lon&quot; =&gt; &quot;Latitude-Longitude&quot;,
+              &quot;tripolar&quot; =&gt; &quot;Tripolar&quot;,
+              &quot;rotated_lat_lon&quot; =&gt; &quot;Rotated Lat-Lon&quot;)
+
+axes_T = Dict()
+axes_ζ = Dict()
+kw = (elevation=deg2rad(50), azimuth=deg2rad(190), aspect=:equal)
+
+for (col, name) in enumerate(names)
+    Label(fig[2, col], labels[name], fontsize = 16, tellwidth=false)
+    axes_T[name] = Axis3(fig[3, col]; kw...)
+    axes_ζ[name] = Axis3(fig[4, col]; kw...)
+end</code></pre><p>We use <code>surface!</code>, which has a special extension for Oceananigans fields, to plot temperature and vorticity at the final time step on a three-dimensional representation of the sphere,</p><pre><code class="language-julia hljs">plots_T = Dict()
+plots_ζ = Dict()
+
+for name in keys(results)
+    Tn = T_ts[name][n]
+    ζn = ζ_ts[name][n]
+    plots_T[name] = surface!(axes_T[name], Tn; colormap = :thermal, colorrange = (5, 30))
+    plots_ζ[name] = surface!(axes_ζ[name], ζn; colormap = :balance, colorrange = (-2e-5, 2e-5))
+    hidedecorations!(axes_T[name])
+    hidedecorations!(axes_ζ[name])
+    hidespines!(axes_T[name])
+    hidespines!(axes_ζ[name])
+end
+
+colgap!(fig.layout, 1, Relative(-0.2))
+colgap!(fig.layout, 2, Relative(-0.2))
+rowgap!(fig.layout, 2, Relative(-0.1))
+rowgap!(fig.layout, 3, Relative(-0.3))
+
+Colorbar(fig[3, 4], plots_T[&quot;lat_lon&quot;], label=&quot;Temperature [°C]&quot;, height=Relative(0.5))
+
+ticks = ([-1e-5, 0, 1e-5], [&quot;-10⁻⁵&quot;, &quot;0&quot;, &quot;10⁻⁵&quot;])
+Colorbar(fig[4, 4], plots_ζ[&quot;lat_lon&quot;]; ticks, label=&quot;Vorticity [s⁻¹]&quot;, height=Relative(0.5))
+</code></pre><p><img src="../spherical_baroclinic_instability.png" alt/></p><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><ul><li>Murray, R. J. (1996). Explicit generation of orthogonal grids for ocean models. <em>Journal of Computational Physics</em>, 126(2), 251-273. doi:<a href="https://doi.org/10.1006/jcph.1996.0136">10.1006/jcph.1996.0136</a></li></ul><hr/><h3 id="Julia-version-and-environment-information"><a class="docs-heading-anchor" href="#Julia-version-and-environment-information">Julia version and environment information</a><a id="Julia-version-and-environment-information-1"></a><a class="docs-heading-anchor-permalink" href="#Julia-version-and-environment-information" title="Permalink"></a></h3><p>This example was executed with the following version of Julia:</p><pre><code class="language-julia hljs">using InteractiveUtils: versioninfo
+versioninfo()</code></pre><pre><code class="nohighlight hljs">Julia Version 1.12.4
+Commit 01a2eadb047 (2026-01-06 16:56 UTC)
+Build Info:
+  Official https://julialang.org release
+Platform Info:
+  OS: Linux (x86_64-linux-gnu)
+  CPU: 128 × AMD EPYC 9374F 32-Core Processor
+  WORD_SIZE: 64
+  LLVM: libLLVM-18.1.7 (ORCJIT, znver4)
+  GC: Built with stock GC
+Threads: 1 default, 1 interactive, 1 GC (on 128 virtual cores)
+Environment:
+  LD_LIBRARY_PATH = 
+  JULIA_PKG_SERVER_REGISTRY_PREFERENCE = eager
+  JULIA_DEPOT_PATH = /var/lib/buildkite-agent/.julia-oceananigans
+  JULIA_PROJECT = /var/lib/buildkite-agent/Oceananigans.jl-29413/docs/
+  JULIA_VERSION = 1.12.4
+  JULIA_LOAD_PATH = @:@v#.#:@stdlib
+  JULIA_VERSION_ENZYME = 1.10.10
+  JULIA_PYTHONCALL_EXE = /var/lib/buildkite-agent/Oceananigans.jl-29413/docs/.CondaPkg/.pixi/envs/default/bin/python
+  JULIA_DEBUG = Literate
+</code></pre><p>These were the top-level packages installed in the environment:</p><pre><code class="language-julia hljs">import Pkg
+Pkg.status()</code></pre><pre><code class="nohighlight hljs">Status `~/Oceananigans.jl-29413/docs/Project.toml`
+  [79e6a3ab] Adapt v4.4.0
+  [052768ef] CUDA v5.9.6
+  [13f3f980] CairoMakie v0.15.8
+  [e30172f5] Documenter v1.16.1
+  [daee34ce] DocumenterCitations v1.4.1
+  [033835bb] JLD2 v0.6.3
+  [63c18a36] KernelAbstractions v0.9.40
+  [98b081ad] Literate v2.21.0
+  [da04e1cc] MPI v0.20.23
+  [85f8d34a] NCDatasets v0.14.11
+  [9e8cae18] Oceananigans v0.104.5 `..`
+  [f27b6e38] Polynomials v4.1.0
+  [6038ab10] Rotations v1.7.1
+  [d496a93d] SeawaterPolynomials v0.3.10
+  [09ab397b] StructArrays v0.7.2
+  [bdfc003b] TimesDates v0.3.3
+  [2e0b0046] XESMF v0.1.6
+  [b77e0a4c] InteractiveUtils v1.11.0
+  [37e2e46d] LinearAlgebra v1.12.0
+  [44cfe95a] Pkg v1.12.1
+</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../tilted_bottom_boundary_layer/">« Tilted bottom boundary layer</a><a class="docs-footer-nextpage" href="../../grids/">Grids »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Friday 13 February 2026 01:51">Friday 13 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
